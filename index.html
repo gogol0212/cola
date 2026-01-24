@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>友邦湖北未来可乐团队 - AIA COLA TEAM</title>
+    
+    <link rel="icon" href="logo.png" type="image/png">
+    
+    <meta property="og:title" content="友邦湖北未来可乐团队 - 诚邀你的加入">
+    <meta property="og:description" content="如果你不想一个人走得很累，这里有一群人走得很远。AIA高素质精英团队，期待优秀的你。">
+    <meta property="og:image" content="https://www.fangzhongda.com/logo.png">
+    <meta property="og:url" content="https://www.fangzhongda.com/">
+    <meta property="og:type" content="website">
+    <style>
+        :root {
+            /* 核心品牌色 */
+            --aia-red: #D31145;
+            --aia-olive: #A5915C;      /* 橄榄金 */
+            --aia-charcoal: #333D47;   /* 炭灰 */
+            --aia-dark-green: #68655A; /* 深灰绿 */
+            --bg-light: #F9FAFC;       /* 极浅灰背景 */
+            --card-white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        
+        body { 
+            background-color: var(--bg-light);
+            color: var(--aia-charcoal); 
+            line-height: 1.6; 
+            padding-bottom: 90px;
+        }
+        img { max-width: 100%; display: block; }
+
+        /* --- 导航栏 --- */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--aia-olive);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 60px; width: auto; } 
+        .brand-text { font-weight: 900; font-size: 1.2rem; line-height: 1.2; color: var(--aia-charcoal); }
+        .brand-text span { color: var(--aia-red); }
+
+        /* --- Hero 区域 --- */
+        .hero {
+            background: linear-gradient(rgba(51, 61, 71, 0.8), rgba(51, 61, 71, 0.6)), url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 55vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; font-weight: 800; letter-spacing: 3px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .hero-sub { font-size: 1.5rem; font-weight: 300; margin-top: -5px; margin-bottom: 20px; opacity: 0.9; }
+        .hero-line { width: 80px; height: 5px; background: var(--aia-red); margin: 0 auto 25px; }
+        .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 1px; max-width: 800px; }
+
+        /* --- 团队介绍 & 数据 --- */
+        .team-intro {
+            background: white;
+            padding: 4rem 10%;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--aia-dark-green);
+            line-height: 1.9;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .team-stats {
+            display: flex;
+            justify-content: center;
+            gap: 5%; /* 拉大间距 */
+            padding: 4rem 5%;
+            background: #fff;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .stat-box { flex: 0 1 250px; }
+        .stat-box h3 {
+            font-size: 3.5rem; /* 放大数字 */
+            color: var(--aia-red);
+            font-weight: 900;
+            margin-bottom: 5px;
+            line-height: 1;
+            font-family: 'Arial', sans-serif;
+        }
+        .stat-box p { font-size: 1.1rem; font-weight: 800; color: var(--aia-charcoal); margin-bottom: 5px; }
+        .stat-box span { display: block; font-size: 0.9rem; color: #999; }
+
+        /* --- Leader 独立板块 (复刻+放大版) --- */
+        .leader-section-wrapper {
+            background: white;
+            padding: 5rem 5%;
+            margin-top: 2rem;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .leader-card-new {
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center;
+            gap: 80px; /* 图片和文字的间距 */
+            max-width: 1300px; /* 限制最大宽度，保持聚焦 */
+            margin: 0 auto;
+        }
+
+        /* 左侧图片区 (带画框设计) */
+        .leader-img-container {
+            position: relative;
+            flex: 0 0 380px; /* 固定宽度，放大图片 */
+        }
+        /* 金色边框衬底 */
+        .leader-img-container::before {
+            content: "";
+            position: absolute;
+            top: 20px; 
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid #D4C495; /* 淡金色边框 */
+            z-index: 0;
+        }
+        .leader-img-new {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: block;
+            box-shadow: 10px 15px 30px rgba(0,0,0,0.15);
+            aspect-ratio: 3/4; /* 保持竖向比例 */
+            object-fit: cover;
+        }
+
+        /* 右侧文字区 */
+        .leader-info-content {
+            flex: 1;
+            max-width: 700px;
+            text-align: left;
+        }
+        .leader-name-big {
+            font-size: 3.5rem; /* 名字极大 */
+            font-weight: 900;
+            color: var(--aia-charcoal);
+            margin-bottom: 15px;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+        .leader-title-tag {
+            background-color: var(--aia-olive);
+            color: white;
+            padding: 6px 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .leader-desc-text {
+            font-size: 1.15rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        /* 底部数据行 (参考图样式) */
+        .leader-stats-row {
+            display: flex;
+            gap: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+        }
+        .l-stat-item h4 {
+            font-size: 0.9rem;
+            color: #999;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        .l-stat-item strong {
+            display: block;
+            font-size: 1.8rem; /* 放大重点数据 */
+            font-weight: 800;
+            color: var(--aia-charcoal);
+        }
+        .l-stat-item .highlight-red {
+            color: var(--aia-red);
+            font-size: 2.2rem; /* 年份特大 */
+        }
+        
+        /* Leader 入司时长标签 */
+        .leader-tenure {
+            display: inline-block;
+            background: #f4f4f4;
+            color: #666;
+            padding: 4px 10px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            margin-left: 15px;
+            vertical-align: middle;
+            font-weight: normal;
+        }
+
+
+        /* --- 团队展示 Grid --- */
+        .section-header { text-align: center; margin-bottom: 4rem; padding-top: 2rem; }
+        .section-header h2 { font-size: 2.4rem; color: var(--aia-charcoal); margin-bottom: 15px; font-weight: 800; }
+        .section-header span { display: block; width: 60px; height: 5px; background: var(--aia-olive); margin: 0 auto; }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 0 5% 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+            transition: 0.3s;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+        }
+        .member-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: #eee; }
+        
+        .photo-area { 
+            width: 100%; padding-bottom: 125%; /* 4:5 比例 */
+            position: relative; background: #eef;
+        }
+        .photo-area img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        
+        .info-area { padding: 1.5rem 1rem; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .info-area h3 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 800; color: var(--aia-charcoal); }
+        
+        .edu-main { 
+            color: var(--aia-olive); 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            margin-bottom: 4px; 
+            display: block;
+        }
+        .edu-sub { 
+            color: #777; 
+            font-size: 0.85rem; 
+            line-height: 1.4;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        /* 新增：入司时长标签 */
+        .tenure-tag {
+            display: inline-block;
+            background-color: #F5F7FA;
+            color: #889;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 0 auto;
+            border: 1px solid #eef;
+        }
+
+
+        /* --- Be Best 计划 --- */
+        .recruit-section {
+            background: #fff;
+            padding: 5rem 5%;
+            margin-top: 2rem;
+            border-top: 10px solid var(--bg-light);
+        }
+        .be-best-header { text-align: center; margin-bottom: 4rem; }
+        .be-best-header h2 { font-size: 2.5rem; color: var(--aia-charcoal); font-weight: 900; }
+        .be-best-header p { color: var(--aia-olive); font-size: 1.2rem; letter-spacing: 2px; font-weight: bold; margin-top: 10px; }
+
+        .benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .benefit-box {
+            background: #fff;
+            border: 2px solid #eee;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .benefit-box:hover { border-color: var(--aia-red); transform: translateY(-5px); }
+        .benefit-title { color: #555; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;}
+        .benefit-highlight { font-size: 3rem; color: var(--aia-red); font-weight: 900; display: block; margin-bottom: 15px; line-height: 1; }
+        .benefit-highlight span { font-size: 1.2rem; color: #999; font-weight: normal; margin-left: 5px; }
+        .benefit-desc { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        /* --- 招募条件 --- */
+        .req-box { 
+            margin: 5rem auto 0; 
+            background: #FAFAFA; 
+            padding: 3rem; 
+            border-radius: 12px; 
+            text-align: center; 
+            max-width: 1000px;
+            border: 1px solid #eee;
+        }
+        .req-tags { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
+        .req-tag { 
+            background: white;
+            border: 2px solid var(--aia-olive); 
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            color: var(--aia-charcoal);
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .req-tag strong { color: var(--aia-red); font-weight: 900; font-size: 1.3rem; }
+
+        footer { background: #222; color: #777; text-align: center; padding: 4rem 0; font-size: 0.9rem; margin-top: 4rem; }
+
+        /* 悬浮栏 */
+        .sticky-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #eee;
+            padding: 15px 20px;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.08);
+            display: flex; justify-content: center; z-index: 999;
+            padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+        }
+        .sticky-btn {
+            background-color: var(--aia-red); color: white; text-decoration: none; width: 100%; max-width: 700px;
+            text-align: center; padding: 16px 0; border-radius: 50px; font-size: 1.2rem; font-weight: 800; letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(211, 17, 69, 0.3); transition: 0.3s;
+        }
+        .sticky-btn:hover { background-color: #b00d38; transform: scale(1.02); }
+
+        /* PC端适配 */
+        @media (min-width: 768px) {
+            .team-grid { grid-template-columns: repeat(4, 1fr); gap: 35px; }
+            .hero h1 { font-size: 4rem; }
+        }
+        /* 移动端适配 */
+        @media (max-width: 900px) {
+            .leader-card-new { flex-direction: column; gap: 40px; text-align: center; }
+            .leader-info-content { text-align: center; }
+            .leader-stats-row { justify-content: center; }
+            .leader-img-container { width: 80%; flex: auto; }
+            .leader-img-container::before { top: 15px; left: -15px; } /* 移动端边框稍微收一点 */
+            
+            .team-stats { flex-direction: column; gap: 40px; }
+            .hero { height: auto; padding: 100px 20px; }
+        }
+/* === 新增：强制手机端数据在一行显示 === */
+    @media screen and (max-width: 900px) {
+        /* 覆盖原有的 flex-direction: column 设置 */
+        .team-stats {
+            flex-direction: row !important; /* 强制横向排列 */
+            gap: 0 !important;              /* 去除大间距 */
+            padding: 3rem 0;                /* 调整上下内边距 */
+            justify-content: space-around;
+        }
+        
+        /* 确保每个格子平分宽度 */
+        .stat-box {
+            flex: 1;                        /* 三等分宽度 */
+            padding: 0 2px;                 /* 极小左右边距防止粘连 */
+            width: 33%;
+        }
+
+        /* 调整字体大小以适应窄屏幕 */
+        .stat-box h3 {
+            font-size: 1.8rem;              /* 数字稍微改小 */
+            margin-bottom: 0;
+        }
+        
+        .stat-box p {
+            font-size: 11px;                /* "本科及以上学历" 改小 */
+            line-height: 1.2;
+            margin: 5px 0 2px 0;
+            white-space: nowrap;            /* 尝试强制不换行 */
+        }
+        
+        /* 针对中间那个特别长的 "海归 | 985 | 211" 允许换行，否则会撑开 */
+        .stat-box:nth-child(2) p {
+            white-space: normal;
+            transform: scale(0.9);          /* 稍微缩放一下中间这行字 */
+        }
+
+        .stat-box span {
+            font-size: 10px;                /* 底部灰色小字改极小 */
+            display: block;
+            transform: scale(0.85);         /* 视觉上再缩小一点 */
+            opacity: 0.7;
+        }
+    }        
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <img src="logo.png" alt="COLA" class="logo-img">
+            <div class="brand-text">AIA HUBEI<br><span>未来可乐团队</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>AIA HUBEI</h1>
+        <div class="hero-sub">未来可乐团队</div>
+        <div class="hero-line"></div>
+        <p>如果你不想一个人走得很累，这里有一群人走得很远</p>
+    </section>
+
+    <section class="team-intro">
+        <p>我们致力于打造一支高素质、专业化、有温度的精英团队。汇聚跨行业顶尖人才，以客户需求为中心，提供全生命周期的财富管理与风险保障服务。在<strong>友邦人寿</strong>卓越平台上，我们不仅是保险专家，更是您值得信赖的人生伙伴。</p>
+    </section>
+
+    <section class="team-stats">
+        <div class="stat-box">
+            <h3>100%</h3>
+            <p>本科及以上学历</p>
+            <span>高知团队基石</span>
+        </div>
+        <div class="stat-box">
+            <h3>80%</h3>
+            <p>海归 | 985 | 211</p>
+            <span>卓越教育背景</span>
+        </div>
+        <div class="stat-box">
+            <h3>10+</h3>
+            <p>多元行业精英</p>
+            <span>跨界复合能力</span>
+        </div>
+    </section>
+
+    <section class="leader-section-wrapper">
+        <div class="leader-card-new">
+            <div class="leader-img-container">
+                <img src="方仲达.webp" alt="方仲达" class="leader-img-new">
+            </div>
+            <div class="leader-info-content">
+                <div>
+                    <span class="leader-name-big">方仲达</span>
+                    <span class="leader-tenure">入司 5 年</span>
+                </div>
+                <div class="leader-title-tag">澳洲格里菲斯大学 | 团队创始人</div>
+                
+                <p class="leader-desc-text">
+                    十年海外投资规划经验，深谙全球资产配置之道。<br><br>2021年跨赛道成为友邦人寿湖北分公司首批营销员。五年时间我们汇聚了来自各行各业的精英。在友邦的平台上，我们秉持长期主义，以专业致胜。在这里，你将与一群极其优秀的伙伴同行，重新定义保险企业家的标准。
+                </p>
+
+                <div class="leader-stats-row">
+                    <div class="l-stat-item">
+                        <h4>深耕行业</h4>
+                        <strong class="highlight-red">10年+</strong>
+                    </div>
+                    <div class="l-stat-item">
+                        <h4>专业领域</h4>
+                        <strong>医疗保险｜高净值家庭财产规划</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-header">
+        <h2>团队精英</h2>
+        <span></span>
+    </div>
+
+    <div class="team-grid">
+        
+        <div class="member-card">
+            <div class="photo-area"><img src="朱磊.webp" alt="朱磊"></div>
+            <div class="info-area">
+                <h3>朱磊</h3>
+                <span class="edu-main">中国地质大学 · 本科</span>
+                <span class="edu-sub">友邦荣誉讲师 / 上市教培公司骨干</span>
+                <span class="tenure-tag">入司 5 年</span>
+            </div>
+        </div>
+        
+        <div class="member-card">
+            <div class="photo-area"><img src="郝婷婷.webp" alt="郝婷婷"></div>
+            <div class="info-area">
+                <h3>郝婷婷</h3>
+                <span class="edu-main">英国莱斯特大学 · 本科</span>
+                <span class="edu-sub">MDRT / 财富管理</span>
+                <span class="tenure-tag">入司 4 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="刘双憧蓝.webp" alt="刘双憧蓝"></div>
+            <div class="info-area">
+                <h3>刘双憧蓝</h3>
+                <span class="edu-main">湖北科技学院 · 本科</span>
+                <span class="edu-sub">互联网大厂资深设计师</span>
+                <span class="tenure-tag">入司 3 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="张姜馨.webp" alt="张姜馨"></div>
+            <div class="info-area">
+                <h3>张姜馨</h3>
+                <span class="edu-main">武汉大学 · 硕士</span>
+                <span class="edu-sub">上市公司品牌策划</span>
+                <span class="tenure-tag">入司 3 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="邵凌鹏.webp" alt="邵凌鹏"></div>
+            <div class="info-area">
+                <h3>邵凌鹏</h3>
+                <span class="edu-main">武汉科技大学 · 本科</span>
+                <span class="edu-sub">十年金融支付行业</span>
+                <span class="tenure-tag">入司 3 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="常浩松.webp" alt="常浩松"></div>
+            <div class="info-area">
+                <h3>常浩松</h3>
+                <span class="edu-main">广西科技大学 · 本科</span>
+                <span class="edu-sub">美术公司合伙人</span>
+                <span class="tenure-tag">入司 3 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="林韵.webp" alt="林韵"></div>
+            <div class="info-area">
+                <h3>林韵</h3>
+                <span class="edu-main">武汉音乐学院 · 本科</span>
+                <span class="edu-sub">多年音乐教育背景</span>
+                <span class="tenure-tag">入司 2 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="谭静.webp" alt="谭静"></div>
+            <div class="info-area">
+                <h3>谭静</h3>
+                <span class="edu-main">湖北经济学院 · 本科</span>
+                <span class="edu-sub">CFP持证 / 银行背景</span>
+                <span class="tenure-tag">入司 2 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="朱月恒.webp" alt="朱月恒"></div>
+            <div class="info-area">
+                <h3>朱月恒</h3>
+                <span class="edu-main">武汉大学 · 硕士</span>
+                <span class="edu-sub">前IT数据管控认证</span>
+                <span class="tenure-tag">入司 1 年</span>
+            </div>
+        </div>
+
+        <div class="member-card">
+            <div class="photo-area"><img src="叶琴.webp" alt="叶琴"></div>
+            <div class="info-area">
+                <h3>叶琴</h3>
+                <span class="edu-main">华科同济医学院 · 硕士</span>
+                <span class="edu-sub">心理咨询师 / 企业主</span>
+                <span class="tenure-tag">入司 1 年</span>
+            </div>
+        </div>
+
+        <div class="member-card" style="border: 2px dashed var(--aia-olive); background: transparent; box-shadow: none;">
+            <div class="photo-area" style="background: rgba(165, 145, 92, 0.1); display:flex; align-items:center; justify-content:center;">
+                <div style="font-size: 5rem; color: var(--aia-olive); opacity: 0.5;">+</div> 
+            </div>
+            <div class="info-area">
+                <h3 style="color: var(--aia-olive);">虚位以待</h3>
+                <span class="edu-main">期待优秀的你</span>
+                <span class="edu-sub">加入我们</span>
+            </div>
+        </div>
+
+    </div>
+
+    <section id="recruit" class="recruit-section">
+        <div class="be-best-header">
+            <h2>Be Best 人才计划</h2>
+            <p>专业提升 · 创业扶持 · 晋级发展</p>
+        </div>
+
+        <div class="benefit-grid">
+            <div class="benefit-box">
+                <div class="benefit-title">专业提升期 (首月)</div>
+                <span class="benefit-highlight">5,000<span>元</span></span>
+                <p class="benefit-desc">完成期间所有培训及达成相应标准，即可获得首月津贴支持。</p>
+            </div>
+            <div class="benefit-box" style="border-color: var(--aia-red); box-shadow: 0 10px 30px rgba(211, 17, 69, 0.1);">
+                <div class="benefit-title">创业扶持期 (首年)</div>
+                <span class="benefit-highlight">20<span>万元+</span></span>
+                <p class="benefit-desc">首三月创无忧收入可达5万+，十二个月达标相称收入可达20万+。</p>
+            </div>
+            <div class="benefit-box">
+                <div class="benefit-title">超长津贴期</div>
+                <span class="benefit-highlight">75<span>万元</span></span>
+                <p class="benefit-desc">累计最高可获得75万元新人津贴。最高每月可达 4.8 万元。</p>
+            </div>
+        </div>
+
+        <div class="req-box">
+            <h3 style="font-size: 2rem; color: #333; margin-bottom: 30px; font-weight: 800;">招募条件</h3>
+            <div class="req-tags">
+                <div class="req-tag">年龄 <strong>28-45岁</strong> 优先</div>
+                <div class="req-tag">学历 <strong>本科</strong> 及以上</div>
+                <div class="req-tag">过往年收入 <strong>12万</strong> 以上</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 未来可乐团队 | 友邦人寿湖北分公司</p>
+        <p style="color: #555; margin-top:10px; font-size: 0.75rem;">注：以上收入数据基于特定假设，具体以公司相关基本法及津贴制度为准。</p>
+    </footer>
+
+    <div class="sticky-footer">
+        <a href="https://forms.office.com/r/E0M8pbtc7X" target="_blank" class="sticky-btn">立即申请加入</a>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
