@@ -367,6 +367,49 @@
             .team-stats { flex-direction: column; gap: 40px; }
             .hero { height: auto; padding: 100px 20px; }
         }
+/* === 新增：强制手机端数据在一行显示 === */
+    @media screen and (max-width: 900px) {
+        /* 覆盖原有的 flex-direction: column 设置 */
+        .team-stats {
+            flex-direction: row !important; /* 强制横向排列 */
+            gap: 0 !important;              /* 去除大间距 */
+            padding: 3rem 0;                /* 调整上下内边距 */
+            justify-content: space-around;
+        }
+        
+        /* 确保每个格子平分宽度 */
+        .stat-box {
+            flex: 1;                        /* 三等分宽度 */
+            padding: 0 2px;                 /* 极小左右边距防止粘连 */
+            width: 33%;
+        }
+
+        /* 调整字体大小以适应窄屏幕 */
+        .stat-box h3 {
+            font-size: 1.8rem;              /* 数字稍微改小 */
+            margin-bottom: 0;
+        }
+        
+        .stat-box p {
+            font-size: 11px;                /* "本科及以上学历" 改小 */
+            line-height: 1.2;
+            margin: 5px 0 2px 0;
+            white-space: nowrap;            /* 尝试强制不换行 */
+        }
+        
+        /* 针对中间那个特别长的 "海归 | 985 | 211" 允许换行，否则会撑开 */
+        .stat-box:nth-child(2) p {
+            white-space: normal;
+            transform: scale(0.9);          /* 稍微缩放一下中间这行字 */
+        }
+
+        .stat-box span {
+            font-size: 10px;                /* 底部灰色小字改极小 */
+            display: block;
+            transform: scale(0.85);         /* 视觉上再缩小一点 */
+            opacity: 0.7;
+        }
+    }        
     </style>
 </head>
 <body>
@@ -603,6 +646,7 @@
 </body>
 
 </html>
+
 
 
 
