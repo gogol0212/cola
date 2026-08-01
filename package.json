@@ -17,8 +17,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
-    "@astrojs/compiler-binding-win32-x64-msvc": "^0.3.2",
-    "@rolldown/binding-win32-x64-msvc": "^1.2.1",
     "typescript": "5.9.3"
+  },
+  "optionalDependencies": {
+    "@astrojs/compiler-binding-win32-x64-msvc": "0.3.2",
+    "@rolldown/binding-win32-x64-msvc": "1.2.1"
   }
 }
