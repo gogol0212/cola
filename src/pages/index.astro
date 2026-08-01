@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const team = [
+  ['朱磊','中国地质大学 · 本科','友邦荣誉讲师 / 上市教培公司骨干','朱磊.webp'],
+  ['郝婷婷','英国莱斯特大学 · 本科','MDRT / 财富管理','郝婷婷.webp'],
+  ['刘双憧蓝','湖北科技学院 · 本科','互联网大厂资深设计师','刘双憧蓝.webp'],
+  ['张姜馨','武汉大学 · 硕士','上市公司品牌策划','张姜馨.webp'],
+];
+---
+<BaseLayout title="方仲达｜专业保险顾问与未来可乐团队" description="方仲达个人品牌网站，依托友邦人寿平台，为中高净值家庭、儿童家庭与海外资产规划客户提供长期保险与风险管理服务。">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy"><p class="eyebrow">AIA HUBEI · COLA TEAM</p><h1>专业，是一种<br /><em>长期陪伴</em>的能力。</h1><p>我们不追求成为规模最大的团队，而是坚持成为最专业、最值得长期托付的团队。</p><div class="hero-actions"><a class="button" href="#founder">认识方仲达</a><a class="button secondary" href="/products/">探索保险知识</a></div></div>
+      <div class="portrait"><img src="/assets/images/方仲达.webp" width="817" height="1090" alt="方仲达，未来可乐团队创始人" /><span>方仲达<br /><small>未来可乐团队创始人</small></span></div>
+    </div>
+  </section>
+  <section class="metrics"><div class="container metric-grid"><div><b>100%</b><span>本科及以上学历</span></div><div><b>80%</b><span>海归 · 985 · 211</span></div><div><b>20+</b><span>跨行业专业伙伴</span></div></div></section>
+  <section class="section founder" id="founder"><div class="container split"><div><p class="eyebrow">About Fang</p><h2 class="section-title">十年海外经历，<br />五年保险实践。</h2></div><div class="story"><p>我拥有十年澳洲留学与工作经历，持续深耕海外投资与资产规划领域。这段跨周期的实践，让我对长期资产配置、风险管理与时间价值有着清醒而务实的理解。</p><p>2021 年友邦人寿进入湖北，我选择跨界加入，成为首批营销员之一。保险不是短期交易，而是陪伴客户穿越不同人生阶段的长期承诺。</p><div class="specialties"><span>医疗保险</span><span>家庭风险规划</span><span>海外资产视角</span></div></div></div></section>
+  <section class="section team"><div class="container"><p class="eyebrow">Selected Team</p><h2 class="section-title">专业背景各不相同，<br />长期主义始终一致。</h2><div class="team-grid">{team.map(([name,school,role,image]) => <article class="member card"><img src={`/assets/images/${image}`} loading="lazy" width="600" height="800" alt={`${name}，未来可乐团队成员`} /><div><h3>{name}</h3><p>{school}</p><small>{role}</small></div></article>)}</div><a class="team-link" href="/team/">查看完整团队介绍 →</a></div></section>
+  <section class="section promise"><div class="container"><div class="promise-card"><p class="eyebrow">Our Principle</p><blockquote>“不做最大，做最专业，长期陪伴客户。”</blockquote><p>以客户需求为中心，提供覆盖家庭不同阶段的风险保障与财富规划服务。</p></div></div></section>
+</BaseLayout>
+<style>
+  .hero { min-height: 760px; display: grid; align-items: center; overflow: hidden; background: radial-gradient(circle at 82% 20%, rgba(211,17,69,.13), transparent 32%), #fff; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr .8fr; align-items: center; gap: 7vw; padding-block: 70px; }
+  h1 { margin: 0; font-size: clamp(3.4rem, 7vw, 6.8rem); line-height: .98; letter-spacing: -.065em; }
+  h1 em { color: var(--color-brand); font-style: normal; }
+  .hero-copy>p:not(.eyebrow) { max-width: 610px; margin: 28px 0; color: var(--color-muted); font-size: 1.17rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .portrait { position: relative; align-self: end; }
+  .portrait img { max-height: 630px; width: 100%; object-fit: cover; object-position: top; border-radius: 240px 240px 24px 24px; filter: saturate(.86); }
+  .portrait span { position: absolute; right: -12px; bottom: 36px; padding: 14px 18px; border-radius: 14px; background: rgba(255,255,255,.94); box-shadow: var(--shadow-card); font-weight: 800; }
+  .portrait small { color: var(--color-muted); font-weight: 500; }
+  .metrics { background: var(--color-ink); color: white; }
+  .metric-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+  .metric-grid div { display: grid; gap: 4px; padding: 30px 6%; border-right: 1px solid rgba(255,255,255,.12); }
+  .metric-grid b { font-size: 2rem; } .metric-grid span { color: rgba(255,255,255,.65); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; }
+  .story { color: var(--color-muted); font-size: 1.08rem; } .story p:first-child { margin-top: 0; }
+  .specialties { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .specialties span { padding: 8px 13px; border: 1px solid var(--color-line); border-radius: 999px; background: white; color: var(--color-ink); font-size: .84rem; }
+  .team { background: white; }
+  .team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 48px; }
+  .member { overflow: hidden; box-shadow: none; }
+  .member img { aspect-ratio: 4/5; width: 100%; object-fit: cover; object-position: top; background: #eef0f2; }
+  .member div { padding: 20px; } .member h3 { margin: 0 0 5px; font-size: 1.25rem; } .member p { margin: 0; font-size: .82rem; } .member small { color: var(--color-muted); }
+  .team-link { display: inline-block; margin-top: 28px; color: var(--color-brand); font-weight: 750; text-decoration: none; }
+  .promise { background: white; padding-top: 0; }
+  .promise-card { padding: clamp(40px,7vw,90px); border-radius: var(--radius-lg); background: var(--color-canvas); text-align: center; }
+  blockquote { margin: 10px auto 18px; font-size: clamp(2rem,5vw,4.4rem); font-weight: 850; line-height: 1.18; letter-spacing: -.045em; }
+  .promise-card>p:last-child { color: var(--color-muted); }
+  @media (max-width: 840px) { .hero { min-height: auto; } .hero-grid,.split { grid-template-columns: 1fr; } .portrait { max-width: 520px; } .team-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 520px) { h1 { font-size: 3.3rem; } .hero-grid { padding-top: 48px; } .metric-grid { grid-template-columns: 1fr; } .metric-grid div { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.12); } .team-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .member div { padding: 14px; } }
+</style>

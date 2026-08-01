@@ -1,0 +1,24 @@
+{
+  "name": "fangzhongda-brand-platform",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "7.1.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@astrojs/compiler-binding-win32-x64-msvc": "^0.3.2",
+    "@rolldown/binding-win32-x64-msvc": "^1.2.1",
+    "typescript": "5.9.3"
+  }
+}

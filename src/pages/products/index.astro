@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const categories = ['儿童保险','医疗保险','重疾保险','储蓄保险','养老规划','海外资产配置'];
+---
+<BaseLayout title="保险产品知识库｜方仲达" description="以家庭真实需求为入口，理解儿童、医疗、重疾、储蓄、养老与海外资产配置相关保险知识。">
+  <section class="section"><div class="container"><p class="eyebrow">Knowledge Library</p><h1 class="section-title">不是一张产品清单，<br />而是一套家庭保障知识库。</h1><p class="section-lead">产品模板与首个“友童行”页面将在阶段 3 接入；阶段 1 先建立长期稳定的信息架构。</p><div class="grid">{categories.map((item,index)=><article class="card"><span>0{index+1}</span><h2>{item}</h2><p>从家庭场景、保障责任与选择逻辑出发，帮助您理解保障，而不是只看产品名称。</p></article>)}</div></div></section>
+</BaseLayout>
+<style>.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}.card{padding:28px;box-shadow:none}.card span{color:var(--color-brand);font-weight:800}.card h2{margin:22px 0 8px}.card p{color:var(--color-muted);font-size:.92rem}@media(max-width:760px){.grid{grid-template-columns:1fr}}</style>
