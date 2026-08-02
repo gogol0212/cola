@@ -1,0 +1,12 @@
+---
+const { title, summary, href, productLines = [], audiences = [], image, external = false } = Astro.props;
+const productLineLabels: Record<string,string> = { health:'健康保障', accident:'意外保障', 'critical-illness':'重疾保障', retirement:'享老保障', wealth:'财富管理', legacy:'传世系列' };
+const audienceLabels: Record<string,string> = { adult:'成人', child:'儿童' };
+---
+<a class:list={['product-card',{'official-card':external}]} data-lines={productLines.join(' ')} data-audiences={audiences.join(' ')} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+  <div class:list={['product-card__image',{'official-mark':external}]}>{image ? <img src={image} alt="" /> : <span>{external ? <>AIA<br />官方资料</> : productLines.map((line:string) => productLineLabels[line]).join(' · ')}</span>}</div>
+  <div class="product-card__body"><span>{external ? '友邦官网产品索引' : '本站深度解读'}</span><h3>{title}</h3><p>{summary}</p><div class="tag-list">{productLines.map((line:string) => <em>{productLineLabels[line]}</em>)}{audiences.map((audience:string) => <em>{audienceLabels[audience]}</em>)}</div><b>{external ? '前往友邦官网核验 ↗' : '阅读完整指南 →'}</b></div>
+</a>
+<style>
+  .product-card{display:grid;grid-template-columns:.72fr 1.28fr;overflow:hidden;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease}.product-card[hidden]{display:none}.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-card)}.product-card__image{min-height:280px;background:var(--color-olive);color:white}.product-card__image img{width:100%;height:100%;object-fit:cover}.product-card__image>span{display:grid;height:100%;place-items:center;padding:20px;text-align:center;font-weight:800}.official-mark{background:var(--color-charcoal)}.official-card .product-card__body>span{color:var(--color-olive)}.product-card__body{padding:28px}.product-card__body>span{color:var(--color-brand);font-size:.78rem;font-weight:800}.product-card h3{margin:8px 0;font-size:1.45rem}.product-card p{color:var(--color-muted)}.product-card b{color:var(--color-brand)}.tag-list{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0}.tag-list em{padding:5px 9px;border-radius:999px;background:rgba(165,145,92,.14);color:var(--color-dark-green);font-size:.76rem;font-style:normal;font-weight:750}@media(max-width:800px){.product-card{grid-template-columns:1fr}.product-card__image{min-height:190px}}
+</style>

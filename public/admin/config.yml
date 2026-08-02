@@ -72,7 +72,45 @@ collections:
           - { label: 成人, value: adult }
           - { label: 儿童, value: child }
       - { label: 友邦官网产品链接, name: officialUrl, widget: string, required: false, hint: "如引用友邦官网资料，请填写对应公开页面。" }
+      - label: 费用模板
+        name: layoutVariant
+        widget: select
+        default: medical
+        options:
+          - { label: 意外 / 医疗, value: medical }
+          - { label: 重疾, value: critical }
+          - { label: 财富 / 养老, value: wealth }
       - { label: 封面图片, name: heroImage, widget: image, required: false }
+      - label: 意外 / 医疗费用表
+        name: medicalCosts
+        widget: list
+        required: false
+        fields:
+          - { label: 责任模块, name: responsibility, widget: string }
+          - { label: 限额 / 给付, name: limit, widget: string }
+          - { label: 免赔口径, name: deductible, widget: string }
+          - { label: 给付比例, name: ratio, widget: string }
+          - { label: 说明, name: note, widget: text }
+      - label: 重疾保费档位表
+        name: criticalPremiums
+        widget: list
+        required: false
+        fields:
+          - { label: 保障档位, name: tier, widget: string }
+          - { label: 基本保额, name: coverage, widget: string }
+          - { label: 年交保费, name: premium, widget: string }
+          - { label: 可选附加责任, name: riders, widget: string }
+          - { label: 说明, name: note, widget: text }
+      - label: 财富 / 养老利益表
+        name: wealthCashflows
+        widget: list
+        required: false
+        fields:
+          - { label: 投保年龄, name: age, widget: string }
+          - { label: 保费 / 保额, name: premiumCoverage, widget: string }
+          - { label: 领取年龄, name: payoutAge, widget: string }
+          - { label: 年金 / 满期利益, name: benefit, widget: string }
+          - { label: 说明, name: note, widget: text }
       - label: 客户痛点
         name: painPoints
         widget: list
@@ -119,6 +157,31 @@ collections:
         fields:
           - { label: 问题, name: question, widget: string }
           - { label: 回答, name: answer, widget: text }
+      - label: 真实理赔案例
+        name: claimCases
+        widget: list
+        required: false
+        hint: "必须取得客户授权，并隐去姓名、证件号、保单号、联系方式和医疗隐私。"
+        fields:
+          - { label: 案例标题, name: title, widget: string }
+          - { label: 理赔背景, name: background, widget: text }
+          - { label: 客户情况, name: customer, widget: text }
+          - { label: 理赔结果, name: result, widget: text }
+          - { label: 理赔通知书, name: documentImage, widget: image, required: false }
+      - { label: 科普标题, name: knowledgeTitle, widget: string, required: false }
+      - { label: 科普导语, name: knowledgeIntro, widget: text, required: false }
+      - label: 科普知识点
+        name: knowledgeItems
+        widget: list
+        required: false
+        fields:
+          - { label: 分类标签, name: label, widget: string }
+          - { label: 标题, name: title, widget: string }
+          - { label: 说明, name: text, widget: text }
+      - { label: 科普补充说明, name: knowledgeNote, widget: text, required: false }
+      - { label: 内容来源, name: sourceText, widget: text, default: 产品资料及保险合同责任摘要 }
+      - { label: 对比口径, name: comparisonBasis, widget: text, default: 仅比较责任结构，不构成对市场全部产品的穷尽比较。 }
+      - { label: 免责声明, name: disclaimer, widget: text, default: 本页面仅用于保险知识普及，具体责任与内容以正式保险合同及最新产品资料为准。 }
       - { label: 咨询区标题, name: ctaTitle, widget: string, default: 预约一对一咨询 }
       - { label: 咨询区说明, name: ctaText, widget: text, default: 获得适合家庭实际情况的保障梳理。 }
       - { label: 咨询二维码, name: qrImage, widget: image, required: false }

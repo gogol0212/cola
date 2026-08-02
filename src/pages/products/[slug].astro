@@ -2,9 +2,15 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductHero from '../../components/products/ProductHero.astro';
+import ProductFeatures from '../../components/products/ProductFeatures.astro';
+import CostOverview from '../../components/products/CostOverview.astro';
 import CompareTable from '../../components/products/CompareTable.astro';
+import CaseStudy from '../../components/products/CaseStudy.astro';
+import ClaimCase from '../../components/products/ClaimCase.astro';
+import KnowledgeBlock from '../../components/products/KnowledgeBlock.astro';
 import FAQ from '../../components/products/FAQ.astro';
 import QRCodeBox from '../../components/products/QRCodeBox.astro';
+import ProductMeta from '../../components/products/ProductMeta.astro';
 
 const productLineLabels = { health:'健康保障', accident:'意外保障', 'critical-illness':'重疾保障', retirement:'享老保障', wealth:'财富管理', legacy:'传世系列' };
 const audienceLabels = { adult:'成人', child:'儿童' };
@@ -15,15 +21,30 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 const data = product.data;
 const tags = [...data.productLines.map(line => productLineLabels[line]), ...data.audiences.map(audience => audienceLabels[audience])];
+const outline = [{label:'费用模板',value:data.layoutVariant === 'medical' ? '意外 / 医疗' : data.layoutVariant === 'critical' ? '重疾' : '财富 / 养老'},{label:'适用地区',value:data.region},{label:'资料更新',value:data.updatedAt.toISOString().slice(0,10)}];
+const costRows = data.layoutVariant === 'critical'
+  ? data.criticalPremiums.map(row => [row.tier,row.coverage,row.premium,row.riders,row.note])
+  : data.layoutVariant === 'wealth'
+    ? data.wealthCashflows.map(row => [row.age,row.premiumCoverage,row.payoutAge,row.benefit,row.note])
+    : data.medicalCosts.map(row => [row.responsibility,row.limit,row.deductible,row.ratio,row.note]);
+const fallbackCosts = costRows.length > 0 ? costRows : data.coverage.map(row => [row.title,row.value,'—','—',row.text]);
+const scenarioItems = data.cases.map(item => ({image:item.image,kicker:'案例分析',title:item.title,scenario:item.scenario,analysis:item.result}));
 ---
 <BaseLayout title={data.seoTitle} description={data.seoDescription}>
-  <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} />
+  <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} outline={outline} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} />
+  <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
+
   {data.painPoints.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Customer needs</p><h2 class="section-title">为什么需要这份保障</h2><div class="info-grid">{data.painPoints.map(item => <article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>}
-  {data.highlights.length > 0 && <section class="section olive"><div class="container"><p class="eyebrow">Core benefits</p><h2 class="section-title">产品核心优势</h2><div class="info-grid">{data.highlights.map(item => <article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>}
-  {data.coverage.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Coverage</p><h2 class="section-title">保障内容</h2><div class="coverage-grid">{data.coverage.map(item => <article><span>{item.title}</span><strong>{item.value}</strong><p>{item.text}</p></article>)}</div></div></section>}
-  {data.cases.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Life scenarios</p><h2 class="section-title">案例说明</h2><div class="case-grid">{data.cases.map(item => <article>{item.image && <img src={item.image} alt="" />}<div><span>{item.title}</span><h3>{item.scenario}</h3><p>{item.result}</p></div></article>)}</div></div></section>}
-  {data.comparison.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Comparison</p><h2 class="section-title">产品比较</h2><CompareTable rows={data.comparison} /></div></section>}
-  {data.faq.length > 0 && <section class="section"><div class="container"><p class="eyebrow">FAQ</p><h2 class="section-title">常见问题</h2><FAQ items={data.faq} /></div></section>}
+  {data.highlights.length > 0 && <section class="section olive" id="features"><div class="container"><p class="eyebrow">Product features</p><h2 class="section-title">产品特色</h2><ProductFeatures items={data.highlights} /></div></section>}
+  {fallbackCosts.length > 0 && <section class="section" id="costs"><div class="container"><p class="eyebrow">Cost & coverage</p><h2 class="section-title">费用与责任一览</h2><CostOverview variant={data.layoutVariant} rows={fallbackCosts} caption="表格为便于理解的结构化摘要，实际保费、利益与责任以正式资料和投保方案为准。" /></div></section>}
+  {data.comparison.length > 0 && <section class="section" id="comparison"><div class="container"><p class="eyebrow">Comparison basis</p><h2 class="section-title">产品比较</h2><CompareTable rows={data.comparison} /></div></section>}
+  {scenarioItems.length > 0 && <section class="section" id="scenarios"><div class="container"><p class="eyebrow">Scenario analysis</p><h2 class="section-title">案例分析</h2><CaseStudy items={scenarioItems} /></div></section>}
+  <section class="section claim-section" id="claims"><div class="container"><p class="eyebrow">Real claim archive</p><h2 class="section-title">真实理赔案例</h2><ClaimCase cases={data.claimCases} /></div></section>
+  {data.knowledgeTitle && data.knowledgeItems.length > 0 && <section class="section" id="knowledge"><div class="container"><KnowledgeBlock title={data.knowledgeTitle} intro={data.knowledgeIntro ?? ''} items={data.knowledgeItems} note={data.knowledgeNote} /></div></section>}
+  {data.faq.length > 0 && <section class="section" id="faq"><div class="container"><p class="eyebrow">FAQ</p><h2 class="section-title">常见问题</h2><FAQ items={data.faq} /></div></section>}
+  <section class="section meta-section"><div class="container"><ProductMeta source={data.sourceText} updatedAt={data.updatedAt.toISOString().slice(0,10)} comparisonBasis={data.comparisonBasis} disclaimer={data.disclaimer} /></div></section>
   <section class="section"><div class="container"><QRCodeBox image={data.qrImage ?? '/assets/images/products/youtongxing/image-4028bb025c8c.jpg'} title={data.ctaTitle} text={data.ctaText} /></div></section>
 </BaseLayout>
-<style>.info-grid,.coverage-grid,.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}.info-grid article,.coverage-grid article,.case-grid article{padding:28px;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}.info-grid p,.coverage-grid p,.case-grid p{color:var(--color-muted)}.olive{background:var(--color-olive);color:white}.olive .eyebrow{color:white}.olive article{color:var(--color-ink)}.coverage-grid strong{display:block;margin:18px 0;color:var(--color-brand);font-size:2rem}.case-grid{grid-template-columns:repeat(2,1fr)}.case-grid article{padding:0;overflow:hidden}.case-grid article div{padding:24px}.case-grid img{width:100%;aspect-ratio:16/10;object-fit:cover}.case-grid span{color:var(--color-brand);font-weight:800}@media(max-width:760px){.info-grid,.coverage-grid,.case-grid{grid-template-columns:1fr}}</style>
+<style>
+  :global(html){scroll-behavior:smooth;scroll-padding-top:150px}.chapter-nav{position:sticky;z-index:30;top:74px;border-top:1px solid var(--color-line);border-bottom:1px solid var(--color-line);background:rgba(255,255,255,.92);backdrop-filter:blur(16px)}.chapter-nav .container{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px}.chapter-nav a{flex:0 0 auto;padding:8px 13px;border-radius:999px;color:var(--color-muted);font-size:.78rem;font-weight:750;text-decoration:none}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}.info-grid article{padding:28px;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}.info-grid p{color:var(--color-muted)}.olive{background:var(--color-olive);color:white}.olive .eyebrow{color:white}.claim-section{background:white}.meta-section{padding-top:16px}@media(max-width:760px){.chapter-nav{top:64px}.chapter-nav .container{padding-right:18px;padding-left:18px}.info-grid{grid-template-columns:1fr}}
+</style>

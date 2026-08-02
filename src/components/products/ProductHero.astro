@@ -1,5 +1,5 @@
 ---
-const { title, summary, audience = [], image, tags = [] } = Astro.props;
+const { title, summary, audience = [], image, tags = [], outline = [] } = Astro.props;
 ---
 <section class="product-hero">
   <div class="container product-hero__grid">
@@ -12,6 +12,7 @@ const { title, summary, audience = [], image, tags = [] } = Astro.props;
         <strong>适合人群</strong>
         <ul>{audience.map((item: string) => <li>{item}</li>)}</ul>
       </div>
+      {outline.length > 0 && <dl class="product-hero__outline">{outline.map((item:{label:string;value:string}) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
       <a class="button" href="#consult">预约一对一咨询</a>
     </div>
     <figure><img src={image} alt={`${title}保障知识说明`} /></figure>
@@ -26,7 +27,8 @@ const { title, summary, audience = [], image, tags = [] } = Astro.props;
   .product-hero__tags{display:flex;flex-wrap:wrap;gap:9px;margin:-6px 0 24px}.product-hero__tags span{padding:7px 13px;border:1px solid rgba(211,17,69,.22);border-radius:999px;background:rgba(211,17,69,.06);color:var(--color-brand);font-size:.84rem;font-weight:750}
   .product-hero__audience{margin:0 0 30px;padding:18px 22px;border-left:3px solid var(--color-olive);background:rgba(255,255,255,.72);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
   .product-hero__audience ul{display:flex;flex-wrap:wrap;gap:8px 24px;margin:7px 0 0;padding:0;list-style:none;color:var(--color-muted)}
+  .product-hero__outline{display:grid;grid-template-columns:repeat(3,1fr);margin:0 0 30px;border-top:1px solid var(--color-line);border-bottom:1px solid var(--color-line)}.product-hero__outline div{padding:14px 12px 14px 0}.product-hero__outline dt{color:var(--color-muted);font-size:.72rem;font-weight:750}.product-hero__outline dd{margin:4px 0 0;font-weight:800}
   figure{margin:0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-card);background:white}
   figure img{width:100%;aspect-ratio:4/5;object-fit:cover}
-  @media(max-width:800px){.product-hero__grid{grid-template-columns:1fr}.product-hero__copy{order:1}figure{order:0}figure img{aspect-ratio:16/11}h1{font-size:clamp(3rem,16vw,5rem)}}
+  @media(max-width:800px){.product-hero{padding-top:20px}.product-hero__grid{grid-template-columns:1fr}.product-hero__copy{order:1}figure{order:0;border-radius:20px}figure img{aspect-ratio:16/11}h1{font-size:clamp(3rem,16vw,5rem)}.product-hero__outline{grid-template-columns:1fr 1fr}.product-hero__outline div:last-child{grid-column:1/-1}}
 </style>

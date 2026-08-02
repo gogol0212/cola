@@ -1,0 +1,13 @@
+---
+const { items = [] } = Astro.props;
+---
+<div class="feature-grid">
+  {items.map((item: { eyebrow?: string; title: string; text: string }) => <article>
+    {item.eyebrow && <span>{item.eyebrow}</span>}
+    <h3>{item.title}</h3>
+    <p>{item.text}</p>
+  </article>)}
+</div>
+<style>
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}.feature-grid article{min-height:230px;padding:28px;border:1px solid rgba(255,255,255,.24);border-radius:var(--radius-md);background:rgba(255,255,255,.96);color:var(--color-ink)}.feature-grid span{color:var(--color-brand);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.feature-grid h3{margin:36px 0 10px;font-size:1.35rem}.feature-grid p{margin:0;color:var(--color-muted)}@media(max-width:760px){.feature-grid{grid-template-columns:1fr}.feature-grid article{min-height:0}.feature-grid h3{margin-top:20px}}
+</style>

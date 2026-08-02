@@ -1,0 +1,16 @@
+---
+const { variant = 'medical', rows = [], caption } = Astro.props;
+const headers = variant === 'critical'
+  ? ['保障档位', '基本保额', '年交保费', '可选附加责任', '说明']
+  : variant === 'wealth'
+    ? ['投保年龄', '保费 / 保额', '领取年龄', '年金 / 满期利益', '说明']
+    : ['责任模块', '限额 / 给付', '免赔口径', '给付比例', '说明'];
+---
+<div class:list={['cost-table', `cost-table--${variant}`]}>
+  <div class="cost-table__head">{headers.map(label => <span>{label}</span>)}</div>
+  {rows.map((row: string[]) => <div class="cost-table__row">{row.map((value, index) => <div><small>{headers[index]}</small><span>{value}</span></div>)}</div>)}
+</div>
+{caption && <p class="cost-caption">{caption}</p>}
+<style>
+  .cost-table{margin-top:40px;overflow:hidden;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}.cost-table__head,.cost-table__row{display:grid;grid-template-columns:1.05fr 1fr 1fr 1fr 1.45fr}.cost-table__head{background:var(--color-charcoal);color:white}.cost-table__head span,.cost-table__row>div{padding:17px 18px}.cost-table__head span{font-size:.8rem;font-weight:800}.cost-table__row{border-top:1px solid var(--color-line)}.cost-table__row>div{display:flex;align-items:center}.cost-table__row>div:nth-child(2) span{color:var(--color-brand);font-size:1.12rem;font-weight:850}.cost-table small{display:none}.cost-caption{color:var(--color-muted);font-size:.82rem}@media(max-width:760px){.cost-table{border:0;background:transparent}.cost-table__head{display:none}.cost-table__row{display:grid;grid-template-columns:1fr 1fr;margin-bottom:14px;overflow:hidden;border:1px solid var(--color-line);border-radius:18px;background:white}.cost-table__row>div{display:block;padding:15px;border-bottom:1px solid var(--color-line)}.cost-table__row>div:last-child{grid-column:1/-1;border-bottom:0}.cost-table small{display:block;margin-bottom:5px;color:var(--color-muted);font-size:.7rem;font-weight:750}.cost-table__row span{font-size:.9rem}}
+</style>

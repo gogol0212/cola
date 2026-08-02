@@ -1,0 +1,7 @@
+---
+const { source, updatedAt, comparisonBasis, disclaimer } = Astro.props;
+---
+<aside class="product-meta" aria-label="内容来源与免责声明"><div><span>内容来源</span><p>{source}</p></div><div><span>资料更新</span><p>{updatedAt}</p></div><div><span>对比口径</span><p>{comparisonBasis}</p></div><footer><b>重要提示</b><p>{disclaimer}</p></footer></aside>
+<style>
+  .product-meta{display:grid;grid-template-columns:1fr .7fr 1.3fr;gap:1px;overflow:hidden;border:1px solid var(--color-line);border-radius:var(--radius-md);background:var(--color-line)}.product-meta>div,.product-meta footer{padding:22px;background:white}.product-meta span,.product-meta b{color:var(--color-brand);font-size:.76rem;font-weight:800}.product-meta p{margin:7px 0 0;color:var(--color-muted);font-size:.84rem}.product-meta footer{grid-column:1/-1;background:rgba(211,202,195,.32)}@media(max-width:760px){.product-meta{grid-template-columns:1fr}.product-meta footer{grid-column:auto}}
+</style>
