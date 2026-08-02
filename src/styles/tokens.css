@@ -1,12 +1,16 @@
 :root {
   --color-brand: #d31145;
   --color-brand-dark: #ad0d36;
-  --color-ink: #363d47;
-  --color-muted: #68707c;
-  --color-gold: #a5915c;
+  --color-charcoal: #333d47;
+  --color-olive: #a5915c;
+  --color-dark-green: #68655a;
+  --color-warm-grey: #d3cac3;
+  --color-ink: var(--color-charcoal);
+  --color-muted: rgba(51, 61, 71, 0.72);
+  --color-gold: var(--color-olive);
   --color-surface: #ffffff;
-  --color-canvas: #f6f7f9;
-  --color-line: #e7e9ed;
+  --color-canvas: #f6f4f3;
+  --color-line: rgba(51, 61, 71, 0.13);
   --shadow-card: 0 18px 50px rgba(25, 31, 40, 0.08);
   --radius-sm: 12px;
   --radius-md: 20px;
