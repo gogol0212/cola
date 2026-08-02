@@ -1,14 +1,14 @@
 locale: zh_Hans
-site_url: https://www.fangzhongda.com
-display_url: https://www.fangzhongda.com
-logo_url: https://www.fangzhongda.com/assets/logo.png
+site_url: https://architecture-phase-0-1.cola-dr4.pages.dev
+display_url: https://architecture-phase-0-1.cola-dr4.pages.dev
+logo_url: https://architecture-phase-0-1.cola-dr4.pages.dev/assets/logo.png
 publish_mode: editorial_workflow
 show_preview_links: true
 
 backend:
   name: github
   repo: gogol0212/cola
-  branch: main
+  branch: architecture/phase-0-1
   base_url: https://fangzhongda-decap-auth.gogol0212.workers.dev
   auth_endpoint: /auth
   preview_context: cloudflare-pages
