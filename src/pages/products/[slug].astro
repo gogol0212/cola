@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductHero from '../../components/products/ProductHero.astro';
+import CompareTable from '../../components/products/CompareTable.astro';
+import FAQ from '../../components/products/FAQ.astro';
+import QRCodeBox from '../../components/products/QRCodeBox.astro';
+
+const needLabels = { health:'健康保障', longevity:'长期规划', wealth:'财富管理', 'accident-medical':'应对意外医疗', 'medical-costs':'补偿医疗费用', 'critical-illness':'储备重疾费用', 'long-term-care':'储备长护费用', 'family-responsibility':'承担家庭责任', 'children-planning':'子女规划准备', retirement:'品质养老准备', 'wealth-management':'积累 · 保全 · 传承' };
+export async function getStaticPaths() {
+  const products = await getCollection('products', ({ data }) => data.status !== 'draft' && data.slug !== 'youtongxing');
+  return products.map(product => ({ params:{ slug:product.data.slug }, props:{ product } }));
+}
+const { product } = Astro.props;
+const data = product.data;
+const tags = [...data.needGroups, ...data.needTags].map(tag => needLabels[tag]);
+---
+<BaseLayout title={data.seoTitle} description={data.seoDescription}>
+  <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} />
+  {data.painPoints.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Customer needs</p><h2 class="section-title">为什么需要这份保障</h2><div class="info-grid">{data.painPoints.map(item => <article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>}
+  {data.highlights.length > 0 && <section class="section olive"><div class="container"><p class="eyebrow">Core benefits</p><h2 class="section-title">产品核心优势</h2><div class="info-grid">{data.highlights.map(item => <article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>}
+  {data.coverage.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Coverage</p><h2 class="section-title">保障内容</h2><div class="coverage-grid">{data.coverage.map(item => <article><span>{item.title}</span><strong>{item.value}</strong><p>{item.text}</p></article>)}</div></div></section>}
+  {data.cases.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Life scenarios</p><h2 class="section-title">案例说明</h2><div class="case-grid">{data.cases.map(item => <article>{item.image && <img src={item.image} alt="" />}<div><span>{item.title}</span><h3>{item.scenario}</h3><p>{item.result}</p></div></article>)}</div></div></section>}
+  {data.comparison.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Comparison</p><h2 class="section-title">产品比较</h2><CompareTable rows={data.comparison} /></div></section>}
+  {data.faq.length > 0 && <section class="section"><div class="container"><p class="eyebrow">FAQ</p><h2 class="section-title">常见问题</h2><FAQ items={data.faq} /></div></section>}
+  <section class="section"><div class="container"><QRCodeBox image={data.qrImage ?? '/assets/images/products/youtongxing/image-4028bb025c8c.jpg'} title={data.ctaTitle} text={data.ctaText} /></div></section>
+</BaseLayout>
+<style>.info-grid,.coverage-grid,.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}.info-grid article,.coverage-grid article,.case-grid article{padding:28px;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}.info-grid p,.coverage-grid p,.case-grid p{color:var(--color-muted)}.olive{background:var(--color-olive);color:white}.olive .eyebrow{color:white}.olive article{color:var(--color-ink)}.coverage-grid strong{display:block;margin:18px 0;color:var(--color-brand);font-size:2rem}.case-grid{grid-template-columns:repeat(2,1fr)}.case-grid article{padding:0;overflow:hidden}.case-grid article div{padding:24px}.case-grid img{width:100%;aspect-ratio:16/10;object-fit:cover}.case-grid span{color:var(--color-brand);font-weight:800}@media(max-width:760px){.info-grid,.coverage-grid,.case-grid{grid-template-columns:1fr}}</style>

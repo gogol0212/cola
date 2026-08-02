@@ -6,6 +6,11 @@ summary: 儿童住院费用与意外风险保障知识说明
 audience:
   - 有 0–17 岁子女的家庭
   - 关注医保外医疗费用的家长
+needGroups:
+  - health
+needTags:
+  - accident-medical
+  - medical-costs
 featured: true
 heroImage: /assets/images/products/youtongxing/hero-youtongxing.webp
 status: reviewed

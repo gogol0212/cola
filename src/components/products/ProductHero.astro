@@ -1,5 +1,5 @@
 ---
-const { title, summary, audience = [], image } = Astro.props;
+const { title, summary, audience = [], image, tags = [] } = Astro.props;
 ---
 <section class="product-hero">
   <div class="container product-hero__grid">
@@ -7,6 +7,7 @@ const { title, summary, audience = [], image } = Astro.props;
       <p class="eyebrow">儿童保险 · Product Guide</p>
       <h1>{title}</h1>
       <p class="product-hero__summary">{summary}</p>
+      {tags.length > 0 && <div class="product-hero__tags" aria-label="产品需求标签">{tags.map((tag:string) => <span>{tag}</span>)}</div>}
       <div class="product-hero__audience">
         <strong>适合人群</strong>
         <ul>{audience.map((item: string) => <li>{item}</li>)}</ul>
@@ -22,6 +23,7 @@ const { title, summary, audience = [], image } = Astro.props;
   .product-hero__grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:clamp(36px,6vw,84px)}
   h1{margin:0;font-size:clamp(3rem,8vw,6.8rem);line-height:.98;letter-spacing:-.065em}
   .product-hero__summary{max-width:620px;margin:24px 0;color:var(--color-muted);font-size:clamp(1.1rem,2vw,1.4rem)}
+  .product-hero__tags{display:flex;flex-wrap:wrap;gap:9px;margin:-6px 0 24px}.product-hero__tags span{padding:7px 13px;border:1px solid rgba(211,17,69,.22);border-radius:999px;background:rgba(211,17,69,.06);color:var(--color-brand);font-size:.84rem;font-weight:750}
   .product-hero__audience{margin:0 0 30px;padding:18px 22px;border-left:3px solid var(--color-olive);background:rgba(255,255,255,.72);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
   .product-hero__audience ul{display:flex;flex-wrap:wrap;gap:8px 24px;margin:7px 0 0;padding:0;list-style:none;color:var(--color-muted)}
   figure{margin:0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-card);background:white}
