@@ -52,27 +52,24 @@ collections:
           - { label: 海外资产配置, value: overseas-assets }
       - { label: 一句话定位, name: summary, widget: text }
       - { label: 适合人群, name: audience, widget: list, field: { label: 人群, name: item, widget: string } }
-      - label: 一级需求方向
-        name: needGroups
+      - label: 保障类别
+        name: productLine
         widget: select
-        multiple: true
         options:
           - { label: 健康保障, value: health }
-          - { label: 长期规划, value: longevity }
+          - { label: 意外保障, value: accident }
+          - { label: 重疾保障, value: critical-illness }
+          - { label: 享老保障, value: retirement }
           - { label: 财富管理, value: wealth }
-      - label: 具体需求标签
-        name: needTags
+          - { label: 传世系列, value: legacy }
+      - label: 适用人群筛选
+        name: audiences
         widget: select
         multiple: true
         options:
-          - { label: 应对意外医疗, value: accident-medical }
-          - { label: 补偿医疗费用, value: medical-costs }
-          - { label: 储备重疾费用, value: critical-illness }
-          - { label: 储备长护费用, value: long-term-care }
-          - { label: 承担家庭责任, value: family-responsibility }
-          - { label: 子女规划准备, value: children-planning }
-          - { label: 品质养老准备, value: retirement }
-          - { label: 积累 · 保全 · 传承, value: wealth-management }
+          - { label: 成人, value: adult }
+          - { label: 儿童, value: child }
+      - { label: 友邦官网产品链接, name: officialUrl, widget: string, required: false, hint: "如引用友邦官网资料，请填写对应公开页面。" }
       - { label: 封面图片, name: heroImage, widget: image, required: false }
       - label: 客户痛点
         name: painPoints
@@ -138,6 +135,40 @@ collections:
       - { label: SEO 标题, name: seoTitle, widget: string }
       - { label: SEO 描述, name: seoDescription, widget: text }
       - { label: 补充正文, name: body, widget: markdown, required: false }
+
+  - name: aia_catalog
+    label: 友邦官网产品索引
+    files:
+      - label: 产品索引
+        name: products
+        file: src/data/aia-products.json
+        fields:
+          - { label: 官网核验日期, name: updatedAt, widget: datetime, date_format: YYYY-MM-DD, time_format: false }
+          - label: 产品列表
+            name: products
+            widget: list
+            summary: "{{fields.title}} · {{fields.productLine}}"
+            fields:
+              - { label: 产品名称, name: title, widget: string }
+              - label: 保障类别
+                name: productLine
+                widget: select
+                options:
+                  - { label: 健康保障, value: health }
+                  - { label: 意外保障, value: accident }
+                  - { label: 重疾保障, value: critical-illness }
+                  - { label: 享老保障, value: retirement }
+                  - { label: 财富管理, value: wealth }
+                  - { label: 传世系列, value: legacy }
+              - label: 适用人群
+                name: audiences
+                widget: select
+                multiple: true
+                options:
+                  - { label: 成人, value: adult }
+                  - { label: 儿童, value: child }
+              - { label: 简短说明, name: summary, widget: text }
+              - { label: 友邦官网链接, name: officialUrl, widget: string }
 
   - name: team
     label: 团队资料

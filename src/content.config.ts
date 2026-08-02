@@ -10,11 +10,9 @@ const products = defineCollection({
     category: z.enum(['children', 'medical', 'critical-illness', 'savings', 'pension', 'overseas-assets']),
     summary: z.string(),
     audience: z.array(z.string()).default([]),
-    needGroups: z.array(z.enum(['health', 'longevity', 'wealth'])).default([]),
-    needTags: z.array(z.enum([
-      'accident-medical', 'medical-costs', 'critical-illness', 'long-term-care',
-      'family-responsibility', 'children-planning', 'retirement', 'wealth-management'
-    ])).default([]),
+    productLine: z.enum(['health', 'accident', 'critical-illness', 'retirement', 'wealth', 'legacy']),
+    audiences: z.array(z.enum(['adult', 'child'])).min(1),
+    officialUrl: z.string().url().optional(),
     heroImage: z.string().optional(),
     featured: z.boolean().default(false),
     status: z.enum(['draft', 'reviewed', 'published']).default('draft'),

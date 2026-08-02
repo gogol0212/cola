@@ -6,14 +6,15 @@ import CompareTable from '../../components/products/CompareTable.astro';
 import FAQ from '../../components/products/FAQ.astro';
 import QRCodeBox from '../../components/products/QRCodeBox.astro';
 
-const needLabels = { health:'健康保障', longevity:'长期规划', wealth:'财富管理', 'accident-medical':'应对意外医疗', 'medical-costs':'补偿医疗费用', 'critical-illness':'储备重疾费用', 'long-term-care':'储备长护费用', 'family-responsibility':'承担家庭责任', 'children-planning':'子女规划准备', retirement:'品质养老准备', 'wealth-management':'积累 · 保全 · 传承' };
+const productLineLabels = { health:'健康保障', accident:'意外保障', 'critical-illness':'重疾保障', retirement:'享老保障', wealth:'财富管理', legacy:'传世系列' };
+const audienceLabels = { adult:'成人', child:'儿童' };
 export async function getStaticPaths() {
   const products = await getCollection('products', ({ data }) => data.status !== 'draft' && data.slug !== 'youtongxing');
   return products.map(product => ({ params:{ slug:product.data.slug }, props:{ product } }));
 }
 const { product } = Astro.props;
 const data = product.data;
-const tags = [...data.needGroups, ...data.needTags].map(tag => needLabels[tag]);
+const tags = [productLineLabels[data.productLine], ...data.audiences.map(audience => audienceLabels[audience])];
 ---
 <BaseLayout title={data.seoTitle} description={data.seoDescription}>
   <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} />
