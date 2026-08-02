@@ -91,6 +91,62 @@ collections:
           - { label: 免赔口径, name: deductible, widget: string }
           - { label: 给付比例, name: ratio, widget: string }
           - { label: 说明, name: note, widget: text }
+      - label: 费用卡展示方式
+        name: premiumDisplayMode
+        widget: select
+        default: structured
+        options:
+          - { label: HTML 结构化卡片, value: structured }
+          - { label: 仅展示图片, value: image }
+          - { label: 卡片和图片同时展示, value: both }
+      - { label: 费用一览原图（备用）, name: premiumImage, widget: image, required: false }
+      - { label: 费用一览手机图（备用）, name: premiumImageMobile, widget: image, required: false }
+      - { label: 费用图片说明, name: premiumImageAlt, widget: string, required: false }
+      - label: 年龄费用卡
+        name: premiumCards
+        widget: list
+        required: false
+        fields:
+          - { label: 年龄段, name: ageRange, widget: string }
+          - { label: 色彩, name: tone, widget: select, default: blue, options: [{ label: AIA Blue, value: blue }, { label: AIA Salmon, value: salmon }] }
+          - { label: 主险标签, name: primaryTag, widget: string }
+          - { label: 主险名称, name: primaryName, widget: string }
+          - { label: 主险保费, name: primaryPrice, widget: string }
+          - { label: 附加险标签, name: riderTag, widget: string }
+          - { label: 附加险名称, name: riderName, widget: string }
+          - { label: 附加险保费, name: riderPrice, widget: string }
+          - { label: 组合保费, name: total, widget: string }
+      - label: 责任一览（主险 / 附加险）
+        name: coveragePlans
+        widget: list
+        required: false
+        fields:
+          - { label: 方案名称, name: title, widget: string }
+          - { label: 色彩, name: tone, widget: select, default: blue, options: [{ label: AIA Blue, value: blue }, { label: AIA Salmon, value: salmon }] }
+          - label: 保险责任
+            name: responsibilities
+            widget: list
+            fields:
+              - { label: 序号, name: number, widget: string }
+              - { label: 责任名称, name: title, widget: string }
+              - { label: 责任说明, name: text, widget: text }
+              - { label: 重点提示, name: emphasis, widget: text, required: false }
+              - label: 给付比例卡
+                name: rates
+                widget: list
+                required: false
+                fields:
+                  - { label: 名称, name: label, widget: string }
+                  - { label: 说明, name: note, widget: string, required: false }
+                  - { label: 比例, name: rate, widget: string }
+                  - { label: 色彩, name: tone, widget: select, required: false, options: [green, olive, purple] }
+          - label: 补充说明
+            name: extras
+            widget: list
+            required: false
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - { label: 内容, name: text, widget: text }
       - label: 重疾保费档位表
         name: criticalPremiums
         widget: list
@@ -142,6 +198,22 @@ collections:
           - { label: 生活场景, name: scenario, widget: string }
           - { label: 结果说明, name: result, widget: text }
           - { label: 案例图片, name: image, widget: image, required: false }
+          - { label: 翻面标题, name: settlementHeading, widget: string, required: false, hint: "填写后，该案例可在悬停或点击时展示理赔测算。" }
+          - label: 实际费用
+            name: settlementExpenses
+            widget: list
+            required: false
+            fields:
+              - { label: 项目, name: label, widget: string }
+              - { label: 金额, name: value, widget: string }
+              - { label: 是否强调, name: accent, widget: boolean, default: false }
+          - { label: 无保险栏标题, name: withoutInsuranceTitle, widget: string, required: false }
+          - { label: 无保险栏明细, name: withoutInsuranceLines, widget: list, required: false, field: { label: 明细, name: line, widget: string } }
+          - { label: 无保险栏合计, name: withoutInsuranceTotal, widget: string, required: false }
+          - { label: 有保险栏标题, name: withInsuranceTitle, widget: string, required: false }
+          - { label: 有保险栏明细, name: withInsuranceLines, widget: list, required: false, field: { label: 明细, name: line, widget: string } }
+          - { label: 有保险栏合计, name: withInsuranceTotal, widget: string, required: false }
+          - { label: 保障亮点, name: settlementHighlight, widget: text, required: false }
       - label: 产品比较
         name: comparison
         widget: list

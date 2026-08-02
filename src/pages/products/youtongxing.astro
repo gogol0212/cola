@@ -2,7 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductHero from '../../components/products/ProductHero.astro';
 import ProductFeatures from '../../components/products/ProductFeatures.astro';
-import CostOverview from '../../components/products/CostOverview.astro';
+import AgePremiumCards from '../../components/products/AgePremiumCards.astro';
+import CoverageColumns from '../../components/products/CoverageColumns.astro';
 import CompareTable from '../../components/products/CompareTable.astro';
 import CaseStudy from '../../components/products/CaseStudy.astro';
 import ClaimCase from '../../components/products/ClaimCase.astro';
@@ -23,10 +24,39 @@ const features = [
   { eyebrow:'02 · 疾病住院', title:'医保内外分层承担', text:'住院费用责任包含医保范围内及符合合同约定的目录外费用。' },
   { eyebrow:'03 · 住院津贴', title:'补充住院期间支出', text:'意外住院日额津贴 100 元/天，具体免赔天数与累计上限以合同为准。' },
 ];
-const medicalRows = [
-  ['意外医药费用', '1 万元限额', '以合同约定为准', '已使用医保 100% / 未使用医保 80%', '不限医保范围；需符合医院、诊疗必要性和费用凭证等条件'],
-  ['住院费用补偿', '2 万元限额', '同一住院原因 100 元', '医保内按约定比例；目录外符合条件费用 70%', '先核对医保结算状态，再区分目录内外费用'],
-  ['意外住院津贴', '100 元 / 天', '同一原因免赔 3 天', '按符合条件的实际住院天数给付', '保险期间累计给付天数及除外责任以合同为准'],
+const premiumGroups = [
+  ['3–5岁','blue','57元','273元','330元'], ['6–10岁','salmon','55元','95元','150元'],
+  ['11–15岁','salmon','62元','88元','150元'], ['16–20岁','salmon','70元','80元','150元'],
+  ['21–25岁','blue','74元','56元','130元'], ['26–30岁','blue','76元','54元','130元'],
+].map(([ageRange,tone,primaryPrice,riderPrice,total]) => ({
+  ageRange, tone,
+  primary:{ tag:'保意外门诊和住院', name:'友邦友童行意外伤害保险', price:primaryPrice },
+  rider:{ tag:'保意外和疾病住院', name:'友邦附加友童行住院费用补偿医疗保险', price:riderPrice },
+  total,
+}));
+const coveragePlans = [
+  { title:'友邦友童行意外伤害保险', tone:'blue', responsibilities:[
+    { number:'1', title:'一般意外事故保险金', text:'身故 / 伤残，给付限额10万。' },
+    { number:'2', title:'航空意外事故保险金', text:'身故 / 伤残，给付限额100万。' },
+    { number:'3', title:'特定意外事故保险金', text:'身故 / 伤残，给付限额10万。', emphasis:'以乘客身份搭乘指定水陆公共交通工具、校车、学校，以及九种重大自然灾害情形。' },
+    { number:'4', title:'意外Ⅲ度烧伤保险金', text:'给付限额10万。', emphasis:'符合约定烧伤程度和面积，给付比例20% / 100%。' },
+    { number:'5', title:'预防接种事故保险金', text:'身故 / 伤残，给付限额20万。' },
+    { number:'6', title:'意外医药费用补偿金', text:'给付限额1万，不限医保范围，不限赔付次数。', rates:[
+      { label:'已使用医保', note:'公费医疗 / 基本医疗保险结算', rate:'100%' },
+      { label:'未使用医保', note:'未使用公费医疗 / 基本医保', rate:'80%', tone:'olive' },
+    ] },
+    { number:'7', title:'意外住院日额津贴保险金', text:'100元 / 天。同一意外住院原因，免赔3天，给付30天为限。', emphasis:'保险期间内给付180天为限。' },
+  ] },
+  { title:'友邦附加友童行住院费用补偿医疗保险', tone:'salmon', responsibilities:[
+    { number:'8', title:'住院费用补偿保险金', text:'给付限额2万，不限赔付次数。医保范围内，同一住院原因免赔额100元。', rates:[
+      { label:'医保内 · 已使用医保', note:'公费医疗 / 基本医疗保险结算', rate:'100%' },
+      { label:'医保内 · 未使用医保', note:'未使用公费医疗 / 基本医保', rate:'80%', tone:'olive' },
+      { label:'医保范围外费用', note:'符合合同约定的医保目录外住院费用', rate:'70%', tone:'purple' },
+    ] },
+  ], extras:[
+    { title:'核心理解', text:'住院医疗责任可覆盖医保范围内与范围外的部分费用，帮助减少家庭实际支出。' },
+    { title:'适合人群', text:'适合关注孩子日常磕碰、住院治疗、预防接种以及校园 / 出行阶段风险保障的家庭。' },
+  ] },
 ];
 const compareRows = [
   { label:'住院免赔口径', product:'医保范围内，同一住院原因免赔额 100 元', market:'常见方案可能按次、按年或设更高免赔额，不能只比较数字大小' },
@@ -35,8 +65,8 @@ const compareRows = [
   { label:'服务方式', product:'顾问协助理解责任、准备理赔资料并长期跟进', market:'依销售渠道、服务人员和实际服务约定而不同' },
 ];
 const cases = [
-  { image:`${base}/image-21fd40d9d105.png`, kicker:'案例 01 · 疾病住院', title:'肺炎住院 7 天', scenario:'总费用 12,000 元，医保结算后个人承担 5,000 元，其中包含医保目录外费用。', analysis:'把账单拆成医保内、医保外和已由医保承担三部分，再按照住院免赔额与约定比例逐项计算。案例只用于理解责任结构，不代表固定赔付结果。' },
-  { image:`${base}/image-3cfd48863fc1.png`, kicker:'案例 02 · 意外受伤', title:'骑车摔伤骨折', scenario:'意外导致门急诊检查、治疗，并因伤住院，产生门诊、住院和陪护等多类支出。', analysis:'分别核对意外医药、住院医疗与住院津贴三项责任，避免把门诊费用和住院费用混在同一个限额中理解。' },
+  { image:`${base}/image-21fd40d9d105.png`, kicker:'案例 01 · 疾病住院', title:'肺炎住院 7 天', scenario:'总费用 12,000 元，医保结算后个人承担 5,000 元，其中包含医保目录外费用。', analysis:'把账单拆成医保内、医保外和已由医保承担三部分，再按照住院免赔额与约定比例逐项计算。案例只用于理解责任结构，不代表固定赔付结果。', settlement:{ heading:'肺炎住院费用测算', expenses:[{label:'总医疗费用',value:'12,000元'},{label:'医保报销',value:'−7,000元'},{label:'医保后自付',value:'5,000元',accent:true}], withoutInsurance:{title:'没有保险',lines:['全部费用由家庭承担'],total:'需承担 5,000元'}, withInsurance:{title:'友邦友童行（住院费用补偿医疗保险）',lines:['免赔额：100元','医保范围内（100%）：约3,900元','医保范围外（70%）：约700元'],total:'预计赔付约4,600元',note:'家庭预计承担约400元'}, highlight:'保障亮点：医保内外分层计算，住院费用报销比例清晰。' } },
+  { image:`${base}/image-3cfd48863fc1.png`, kicker:'案例 02 · 意外受伤', title:'骑车摔伤骨折', scenario:'意外导致门急诊检查、治疗，并因伤住院，产生门诊、住院和陪护等多类支出。', analysis:'分别核对意外医药、住院医疗与住院津贴三项责任，避免把门诊费用和住院费用混在同一个限额中理解。', settlement:{ heading:'骑车摔伤费用测算', expenses:[{label:'医疗费用总额',value:'8,000元'},{label:'医保报销',value:'−5,500元'},{label:'医保后自付',value:'2,500元',accent:true}], withoutInsurance:{title:'没有保险',lines:['医疗自付部分无额外补贴'],total:'需承担 2,500元'}, withInsurance:{title:'友邦友童行（意外伤害保险）',lines:['意外医疗保险金：2,500元（示例按100%）','住院津贴：100元 / 天 × 5天 = 500元','如评定10%伤残：10万元 × 10% = 1万元'],total:'责任可分别核对',note:'伤残保险金以实际评定与审核为准'}, highlight:'保障亮点：意外医疗、住院津贴与伤残 / 身故责任分别计算。' } },
 ];
 const knowledgeItems = [
   { label:'甲类', title:'医保目录内基础用药', text:'通常按基本医保规定纳入支付范围，再根据当地政策、起付线和报销比例结算。' },
@@ -53,13 +83,15 @@ const faqs = [
 <BaseLayout title="友童行儿童保险保障说明｜方仲达" description="从儿童住院、医保内外费用与意外风险出发，理解友童行产品特色、费用责任、案例、医保知识与选择逻辑。">
   <ProductHero title="友童行" summary="用更容易理解的方式，梳理儿童意外门诊、疾病住院和医保目录外费用风险。" audience={audience} tags={['健康保障', '意外保障', '儿童']} outline={outline} image={`${base}/hero-youtongxing.webp`} />
 
-  <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
+  <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#coverage">责任一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
 
   <section class="section intro-section"><div class="container narrow"><p class="eyebrow">Why it matters</p><h2 class="section-title">孩子住院时，真正难预估的<br />往往不是医保内的那部分。</h2><p class="section-lead">儿童疾病和意外来得突然；医保能够托底，但目录外药品、特殊材料以及医保结算后的个人承担，仍可能形成明显支出。理解产品时，应先拆开看责任、免赔额和给付比例，而不是只看“能不能报”。</p></div></section>
 
   <section class="section feature-section" id="features"><div class="container"><p class="eyebrow">Product features</p><h2 class="section-title">产品特色</h2><p class="section-lead">三类责任，分别回应儿童家庭中更常见的门诊、住院和住院期间支出。</p><ProductFeatures items={features} /></div></section>
 
-  <section class="section" id="costs"><div class="container"><p class="eyebrow">Cost & coverage</p><h2 class="section-title">费用与责任一览</h2><p class="section-lead">意外/医疗产品采用“责任模块—限额—免赔—比例—说明”的表格。未来重疾模板将切换为“保额档位—保费—附加责任”，财富/养老模板则展示“年龄—保费/保额—领取年龄—年金利益”。</p><CostOverview variant="medical" rows={medicalRows} caption="以上为便于阅读的责任摘要，不构成合同条款或保费报价。不同投保组合、地区、医保使用状态及实际费用会影响结果。" /></div></section>
+  <section class="section" id="costs"><div class="container"><p class="eyebrow">Premium overview</p><h2 class="section-title">费用一览</h2><p class="section-lead">按年龄段查看主险、附加险与产品组合示例。费用会因投保年龄、地区、组合及最新费率而变化，以下不构成正式报价。</p><AgePremiumCards groups={premiumGroups} /></div></section>
+
+  <section class="section coverage-section" id="coverage"><div class="container"><p class="eyebrow">Coverage overview</p><h2 class="section-title">责任一览</h2><p class="section-lead">把主险与附加险分开呈现，快速核对给付限额、医保使用状态、住院免赔口径和赔付比例。</p><CoverageColumns plans={coveragePlans} /></div></section>
 
   <section class="section comparison-section" id="comparison"><div class="container"><p class="eyebrow">Comparison basis</p><h2 class="section-title">比较产品，不只比较保费。</h2><p class="section-lead">这里比较的是常见责任结构，不指定或贬低某一款市场产品，也不以单一价格推导产品优劣。</p><CompareTable rows={compareRows} /></div></section>
 

@@ -1,0 +1,24 @@
+---
+type RateBox = { label: string; note?: string; rate: string; tone?: 'green' | 'olive' | 'purple' };
+type Responsibility = { number: string; title: string; text: string; emphasis?: string; rates?: RateBox[] };
+type Extra = { title: string; text: string };
+type Plan = { title: string; tone?: 'blue' | 'salmon'; responsibilities: Responsibility[]; extras?: Extra[] };
+const { plans = [] } = Astro.props as { plans?: Plan[] };
+---
+<div class="coverage-grid">
+  {plans.map((plan) => <article class:list={['coverage-plan', plan.tone === 'salmon' && 'is-salmon']}>
+    <header><h3>{plan.title}</h3></header>
+    <div class="coverage-body">
+      {plan.responsibilities.map((item) => <section class="responsibility">
+        <span class="number">{item.number}</span>
+        <div><h4>{item.title}</h4><p>{item.text} {item.emphasis && <strong>{item.emphasis}</strong>}</p>
+          {item.rates && <div class="rate-grid">{item.rates.map((rate) => <div class:list={['rate', rate.tone && `is-${rate.tone}`]}><b>{rate.label}</b>{rate.note && <small>{rate.note}</small>}<strong>{rate.rate}</strong></div>)}</div>}
+        </div>
+      </section>)}
+      {plan.extras?.map((extra) => <aside><span aria-hidden="true">✓</span><div><h4>{extra.title}</h4><p>{extra.text}</p></div></aside>)}
+    </div>
+  </article>)}
+</div>
+<style>
+  .coverage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:36px}.coverage-plan{overflow:hidden;border:1px solid rgba(31,120,173,.2);border-radius:26px;background:#fff}.coverage-plan>header{padding:20px 24px;background:#1f78ad;color:#fff;text-align:center}.coverage-plan.is-salmon>header{background:var(--color-brand)}.coverage-plan h3{max-width:22ch;margin:0 auto;font-size:1.25rem;line-height:1.35}.coverage-body{display:grid;gap:14px;padding:18px}.responsibility,aside{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:16px;border:1px solid var(--color-line);border-radius:20px;background:rgba(255,255,255,.8)}.number,aside>span{display:grid;width:34px;height:34px;place-items:center;border-radius:50%;background:rgba(31,120,173,.09);color:#09689e;font-weight:850}.is-salmon .number{background:rgba(211,17,69,.08);color:var(--color-brand)}h4{margin:3px 0 8px;font-size:1rem}p{margin:0;color:var(--color-muted);font-size:.9rem;line-height:1.75}p strong{color:var(--color-brand)}.rate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.rate{display:grid;gap:5px;padding:12px;border-left:5px solid #178c68;border-radius:14px;background:rgba(23,140,104,.07);color:#087151}.rate small{color:var(--color-muted);line-height:1.35}.rate strong{justify-self:end;font-size:1.55rem}.rate.is-olive{border-color:var(--color-olive);background:rgba(165,145,92,.1);color:#735f28}.rate.is-purple{grid-column:1/-1;border-color:#4c4794;background:rgba(76,71,148,.07);color:#4c4794}aside{background:rgba(165,145,92,.08)}aside>span{background:rgba(165,145,92,.18);color:var(--color-dark-green)}@media(max-width:900px){.coverage-grid{grid-template-columns:1fr}}@media(max-width:560px){.coverage-grid{margin-top:26px}.coverage-plan{border-radius:22px}.coverage-plan>header{padding:18px}.coverage-body{padding:12px}.responsibility,aside{grid-template-columns:32px 1fr;padding:14px 12px}.number,aside>span{width:30px;height:30px}.rate-grid{grid-template-columns:1fr}.rate.is-purple{grid-column:auto}}
+</style>

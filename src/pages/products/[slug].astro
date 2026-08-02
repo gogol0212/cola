@@ -4,6 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductHero from '../../components/products/ProductHero.astro';
 import ProductFeatures from '../../components/products/ProductFeatures.astro';
 import CostOverview from '../../components/products/CostOverview.astro';
+import AgePremiumCards from '../../components/products/AgePremiumCards.astro';
+import CoverageColumns from '../../components/products/CoverageColumns.astro';
 import CompareTable from '../../components/products/CompareTable.astro';
 import CaseStudy from '../../components/products/CaseStudy.astro';
 import ClaimCase from '../../components/products/ClaimCase.astro';
@@ -28,15 +30,25 @@ const costRows = data.layoutVariant === 'critical'
     ? data.wealthCashflows.map(row => [row.age,row.premiumCoverage,row.payoutAge,row.benefit,row.note])
     : data.medicalCosts.map(row => [row.responsibility,row.limit,row.deductible,row.ratio,row.note]);
 const fallbackCosts = costRows.length > 0 ? costRows : data.coverage.map(row => [row.title,row.value,'—','—',row.text]);
-const scenarioItems = data.cases.map(item => ({image:item.image,kicker:'案例分析',title:item.title,scenario:item.scenario,analysis:item.result}));
+const premiumGroups = data.premiumCards.map(item => ({ ageRange:item.ageRange, tone:item.tone, primary:{tag:item.primaryTag,name:item.primaryName,price:item.primaryPrice}, rider:{tag:item.riderTag,name:item.riderName,price:item.riderPrice}, total:item.total }));
+const scenarioItems = data.cases.map(item => ({
+  image:item.image,kicker:'案例分析',title:item.title,scenario:item.scenario,analysis:item.result,
+  settlement:item.settlementHeading ? {
+    heading:item.settlementHeading, expenses:item.settlementExpenses,
+    withoutInsurance:{title:item.withoutInsuranceTitle ?? '没有保险',lines:item.withoutInsuranceLines,total:item.withoutInsuranceTotal},
+    withInsurance:{title:item.withInsuranceTitle ?? '本产品责任测算',lines:item.withInsuranceLines,total:item.withInsuranceTotal},
+    highlight:item.settlementHighlight,
+  } : undefined,
+}));
 ---
 <BaseLayout title={data.seoTitle} description={data.seoDescription}>
   <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} outline={outline} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} />
-  <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
+  <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#coverage">责任一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
 
   {data.painPoints.length > 0 && <section class="section"><div class="container"><p class="eyebrow">Customer needs</p><h2 class="section-title">为什么需要这份保障</h2><div class="info-grid">{data.painPoints.map(item => <article><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>}
   {data.highlights.length > 0 && <section class="section olive" id="features"><div class="container"><p class="eyebrow">Product features</p><h2 class="section-title">产品特色</h2><ProductFeatures items={data.highlights} /></div></section>}
-  {fallbackCosts.length > 0 && <section class="section" id="costs"><div class="container"><p class="eyebrow">Cost & coverage</p><h2 class="section-title">费用与责任一览</h2><CostOverview variant={data.layoutVariant} rows={fallbackCosts} caption="表格为便于理解的结构化摘要，实际保费、利益与责任以正式资料和投保方案为准。" /></div></section>}
+  {premiumGroups.length > 0 ? <section class="section" id="costs"><div class="container"><p class="eyebrow">Premium overview</p><h2 class="section-title">费用一览</h2><AgePremiumCards groups={premiumGroups} displayMode={data.premiumDisplayMode} image={data.premiumImage} imageMobile={data.premiumImageMobile} imageAlt={data.premiumImageAlt} /></div></section> : fallbackCosts.length > 0 && <section class="section" id="costs"><div class="container"><p class="eyebrow">Cost & coverage</p><h2 class="section-title">费用与责任一览</h2><CostOverview variant={data.layoutVariant} rows={fallbackCosts} caption="表格为便于理解的结构化摘要，实际保费、利益与责任以正式资料和投保方案为准。" /></div></section>}
+  {data.coveragePlans.length > 0 && <section class="section" id="coverage"><div class="container"><p class="eyebrow">Coverage overview</p><h2 class="section-title">责任一览</h2><CoverageColumns plans={data.coveragePlans} /></div></section>}
   {data.comparison.length > 0 && <section class="section" id="comparison"><div class="container"><p class="eyebrow">Comparison basis</p><h2 class="section-title">产品比较</h2><CompareTable rows={data.comparison} /></div></section>}
   {scenarioItems.length > 0 && <section class="section" id="scenarios"><div class="container"><p class="eyebrow">Scenario analysis</p><h2 class="section-title">案例分析</h2><CaseStudy items={scenarioItems} /></div></section>}
   <section class="section claim-section" id="claims"><div class="container"><p class="eyebrow">Real claim archive</p><h2 class="section-title">真实理赔案例</h2><ClaimCase cases={data.claimCases} /></div></section>

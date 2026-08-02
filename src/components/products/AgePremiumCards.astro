@@ -1,0 +1,40 @@
+---
+type PremiumPart = { tag: string; name: string; price: string };
+type PremiumGroup = {
+  ageRange: string;
+  tone?: 'blue' | 'salmon';
+  primary: PremiumPart;
+  rider: PremiumPart;
+  total: string;
+};
+
+const { groups = [], image, imageMobile, imageAlt = '', displayMode = 'structured' } = Astro.props as {
+  groups?: PremiumGroup[];
+  image?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  displayMode?: 'structured' | 'image' | 'both';
+};
+const showStructured = displayMode !== 'image';
+const showImage = displayMode !== 'structured' && image;
+---
+
+{showStructured && <div class="premium-grid">
+  {groups.map((group) => <article class:list={['premium-card', group.tone === 'salmon' && 'is-salmon']}>
+    <h3>{group.ageRange}</h3>
+    <dl>
+      <div><dt><b>主险</b><span>{group.primary.tag}</span><small>{group.primary.name}</small></dt><dd>{group.primary.price}</dd></div>
+      <div><dt><b>附加险</b><span>{group.rider.tag}</span><small>{group.rider.name}</small></dt><dd>{group.rider.price}</dd></div>
+      <div class="total"><dt><b>产品组合</b><small>主险 + 附加险</small></dt><dd>{group.total}</dd></div>
+    </dl>
+  </article>)}
+</div>}
+
+{showImage && <picture class="premium-image">
+  {imageMobile && <source media="(max-width: 760px)" srcset={imageMobile} />}
+  <img src={image} alt={imageAlt} loading="lazy" />
+</picture>}
+
+<style>
+  .premium-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:36px}.premium-card{position:relative;overflow:hidden;padding:22px 24px;border:1px solid rgba(31,120,173,.2);border-radius:26px;background:#fff}.premium-card:before{position:absolute;inset:0 auto 0 0;width:7px;background:var(--aia-blue,#1f78ad);content:""}.premium-card.is-salmon:before{background:var(--aia-salmon,#ff7a85)}h3{display:inline-flex;margin:0 0 20px;padding:8px 16px;border:1px solid rgba(31,120,173,.16);border-radius:999px;background:rgba(31,120,173,.08);color:#145f91;font-size:1.35rem}.is-salmon h3{border-color:rgba(211,17,69,.15);background:rgba(255,122,133,.09);color:var(--color-brand)}dl{margin:0}dl>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px dashed var(--color-line)}dl>div:last-child{border-bottom:0}dt{display:grid;grid-template-columns:auto 1fr;gap:5px 9px;align-items:center}dt b{font-size:.98rem}dt span{justify-self:start;padding:4px 9px;border-radius:999px;background:rgba(31,120,173,.08);color:#07699f;font-size:.72rem;font-weight:750}.is-salmon dt span{background:rgba(211,17,69,.07);color:var(--color-brand)}dt small{grid-column:1/-1;color:var(--color-muted);font-size:.88rem;line-height:1.45}dd{margin:0;color:var(--color-ink);font-size:1.3rem;font-weight:850}.total dd{font-size:1.5rem}.premium-image{display:block;margin-top:24px}.premium-image img{display:block;width:100%;border-radius:24px}@media(max-width:760px){.premium-grid{grid-template-columns:1fr;gap:14px;margin-top:26px}.premium-card{padding:20px 20px 16px;border-radius:22px}h3{font-size:1.15rem}dl>div{gap:10px}dt{grid-template-columns:auto 1fr}dd{font-size:1.2rem}}
+</style>
