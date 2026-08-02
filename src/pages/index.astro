@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TeamMember from '../components/TeamMember.astro';
-import { teamMembers } from '../data/team';
+import teamData from '../data/team.json';
+const teamMembers = teamData.members;
 ---
 <BaseLayout title="方仲达｜专业保险顾问与未来可乐团队" description="方仲达个人品牌网站，依托友邦人寿平台，为中高净值家庭、儿童家庭与海外资产规划客户提供长期保险与风险管理服务。">
   <section class="hero">

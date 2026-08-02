@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TeamMember from '../components/TeamMember.astro';
-import { teamMembers } from '../data/team';
+import teamData from '../data/team.json';
+const teamMembers = teamData.members;
 const process = [
   ['01','认识与倾听','了解家庭结构、生活阶段、现有保障与真正担忧。'],
   ['02','需求梳理','识别保障缺口，明确优先级、预算边界与长期目标。'],

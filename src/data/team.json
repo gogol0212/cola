@@ -1,0 +1,14 @@
+{
+  "members": [
+    { "name": "朱磊", "school": "中国地质大学 · 本科", "role": "友邦荣誉讲师 / 上市教培公司骨干", "years": "入司 5 年", "image": "朱磊.webp" },
+    { "name": "郝婷婷", "school": "英国莱斯特大学 · 本科", "role": "MDRT / 财富管理", "years": "入司 4 年", "image": "郝婷婷.webp" },
+    { "name": "刘双憧蓝", "school": "湖北科技学院 · 本科", "role": "互联网大厂资深设计师", "years": "入司 3 年", "image": "刘双憧蓝.webp" },
+    { "name": "张姜馨", "school": "武汉大学 · 硕士", "role": "上市公司品牌策划", "years": "入司 3 年", "image": "张姜馨.webp" },
+    { "name": "邵凌鹏", "school": "武汉科技大学 · 本科", "role": "十年金融支付行业", "years": "入司 3 年", "image": "邵凌鹏.webp" },
+    { "name": "常浩松", "school": "广西科技大学 · 本科", "role": "美术公司合伙人", "years": "入司 3 年", "image": "常浩松.webp" },
+    { "name": "林韵", "school": "武汉音乐学院 · 本科", "role": "多年音乐教育背景", "years": "入司 2 年", "image": "林韵.webp" },
+    { "name": "谭静", "school": "湖北经济学院 · 本科", "role": "CFP 持证 / 银行背景", "years": "入司 2 年", "image": "谭静.webp" },
+    { "name": "朱月恒", "school": "武汉大学 · 硕士", "role": "前 IT 数据管控认证", "years": "入司 1 年", "image": "朱月恒.webp" },
+    { "name": "叶琴", "school": "华科同济医学院 · 硕士", "role": "心理咨询师 / 企业主", "years": "入司 1 年", "image": "叶琴.webp" }
+  ]
+}
