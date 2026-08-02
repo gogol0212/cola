@@ -35,12 +35,8 @@ collections:
     summary: "{{title}} · {{category}} · {{status}}"
     sortable_fields: [title, category, updatedAt, sortOrder]
     view_filters:
-      - label: 已发布
-        field: status
-        pattern: published
-      - label: 草稿
-        field: status
-        pattern: draft
+      - { label: 已发布, field: status, pattern: published }
+      - { label: 草稿, field: status, pattern: draft }
     fields:
       - { label: 产品名称, name: title, widget: string }
       - { label: 页面路径, name: slug, widget: string, hint: "使用英文小写和连字符，例如 youtongxing" }
@@ -56,7 +52,77 @@ collections:
           - { label: 海外资产配置, value: overseas-assets }
       - { label: 一句话定位, name: summary, widget: text }
       - { label: 适合人群, name: audience, widget: list, field: { label: 人群, name: item, widget: string } }
+      - label: 一级需求方向
+        name: needGroups
+        widget: select
+        multiple: true
+        options:
+          - { label: 健康保障, value: health }
+          - { label: 长期规划, value: longevity }
+          - { label: 财富管理, value: wealth }
+      - label: 具体需求标签
+        name: needTags
+        widget: select
+        multiple: true
+        options:
+          - { label: 应对意外医疗, value: accident-medical }
+          - { label: 补偿医疗费用, value: medical-costs }
+          - { label: 储备重疾费用, value: critical-illness }
+          - { label: 储备长护费用, value: long-term-care }
+          - { label: 承担家庭责任, value: family-responsibility }
+          - { label: 子女规划准备, value: children-planning }
+          - { label: 品质养老准备, value: retirement }
+          - { label: 积累 · 保全 · 传承, value: wealth-management }
       - { label: 封面图片, name: heroImage, widget: image, required: false }
+      - label: 客户痛点
+        name: painPoints
+        widget: list
+        required: false
+        fields:
+          - { label: 标题, name: title, widget: string }
+          - { label: 说明, name: text, widget: text }
+      - label: 核心优势
+        name: highlights
+        widget: list
+        required: false
+        fields:
+          - { label: 标题, name: title, widget: string }
+          - { label: 说明, name: text, widget: text }
+      - label: 保障内容
+        name: coverage
+        widget: list
+        required: false
+        fields:
+          - { label: 责任名称, name: title, widget: string }
+          - { label: 核心数字或短句, name: value, widget: string }
+          - { label: 责任说明, name: text, widget: text }
+      - label: 生活案例
+        name: cases
+        widget: list
+        required: false
+        fields:
+          - { label: 案例标题, name: title, widget: string }
+          - { label: 生活场景, name: scenario, widget: string }
+          - { label: 结果说明, name: result, widget: text }
+          - { label: 案例图片, name: image, widget: image, required: false }
+      - label: 产品比较
+        name: comparison
+        widget: list
+        required: false
+        fields:
+          - { label: 比较维度, name: label, widget: string }
+          - { label: 本产品, name: product, widget: text }
+          - { label: 市场常见方案, name: market, widget: text }
+      - label: 常见问题
+        name: faq
+        widget: list
+        required: false
+        fields:
+          - { label: 问题, name: question, widget: string }
+          - { label: 回答, name: answer, widget: text }
+      - { label: 咨询区标题, name: ctaTitle, widget: string, default: 预约一对一咨询 }
+      - { label: 咨询区说明, name: ctaText, widget: text, default: 获得适合家庭实际情况的保障梳理。 }
+      - { label: 咨询二维码, name: qrImage, widget: image, required: false }
       - { label: 是否精选, name: featured, widget: boolean, default: false }
       - label: 发布状态
         name: status
@@ -71,7 +137,7 @@ collections:
       - { label: 适用地区, name: region, widget: string, default: 中国大陆 }
       - { label: SEO 标题, name: seoTitle, widget: string }
       - { label: SEO 描述, name: seoDescription, widget: text }
-      - { label: 正文内容, name: body, widget: markdown, hint: "阶段 3 将把正文进一步拆分为痛点、优势、保障、案例、对比和 FAQ 模块。" }
+      - { label: 补充正文, name: body, widget: markdown, required: false }
 
   - name: team
     label: 团队资料
@@ -88,8 +154,8 @@ collections:
               - { label: 姓名, name: name, widget: string }
               - { label: 学校与学历, name: school, widget: string }
               - { label: 专业经历, name: role, widget: string }
-              - { label: 入司年限, name: years, widget: string }
-              - { label: 照片文件名, name: image, widget: string, hint: "现有照片请填写文件名；新照片建议先上传素材后填写路径。" }
+              - { label: 公司年限, name: years, widget: string }
+              - { label: 照片路径, name: image, widget: string }
 
   - name: settings
     label: 网站设置

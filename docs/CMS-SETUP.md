@@ -1,37 +1,29 @@
-# Decap CMS 启用说明
+# 阶段 4：Decap CMS 启用说明
 
-阶段 4 已完成内容后台页面、字段模型和 GitHub 工作流配置。后台入口为 `/admin/`。
+后台入口为 `/admin/`。代码侧已完成产品、需求标签、团队、网站设置、图片上传、审核流程和统一产品模板字段。
 
-## 当前能力
+## 编辑能力
 
-- 新增、编辑产品知识内容。
-- 修改团队成员资料。
-- 修改网站基础资料和合规提示。
-- 上传图片到 GitHub 仓库。
-- 使用 Editorial Workflow 创建内容分支和审核流程。
-- 内容提交后由 Cloudflare Pages 自动构建。
+- 新增和修改产品，选择“健康 / 长期规划 / 财富管理”及具体需求标签。
+- 编辑客户痛点、产品优势、保障内容、案例、比较表、FAQ 和咨询区。
+- 修改团队成员和网站资料，上传图片到 GitHub。
+- 使用 Editorial Workflow 保存草稿、审核并发布到 `main`；Cloudflare Pages 自动构建。
 
-## 启用 GitHub 登录前的必要步骤
+## 首次启用登录（账户所有者完成一次）
 
-Decap CMS 的 GitHub 后端需要 OAuth 服务。官方推荐使用独立的边缘代理，因此规划使用：
+1. GitHub → Settings → Developer settings → OAuth Apps → New OAuth App。
+2. Homepage URL：`https://auth.fangzhongda.com`。
+3. Authorization callback URL：`https://auth.fangzhongda.com/callback`。
+4. 在 Cloudflare 创建 Worker，代码使用仓库 `cms-auth/`。
+5. 添加加密 Secret：`GITHUB_CLIENT_ID`、`GITHUB_CLIENT_SECRET`、`OAUTH_STATE_SECRET`。
+6. 将 `auth.fangzhongda.com` 绑定到 Worker。
+7. 打开 `https://www.fangzhongda.com/admin/`，测试新增草稿、预览和发布。
 
-`https://auth.fangzhongda.com`
+Client Secret 和 OAuth state secret 禁止提交到 GitHub。敏感值必须保存为 Cloudflare Worker Secret。
 
-1. 在 GitHub Developer Settings 创建 OAuth App。
-2. Homepage URL 设置为 `https://auth.fangzhongda.com`。
-3. Authorization callback URL 设置为 `https://auth.fangzhongda.com/callback`。
-4. 在 Cloudflare 部署 Decap 官方文档链接的 OAuth Proxy Worker。
-5. 将 GitHub OAuth Client ID 与 Client Secret 作为 Worker Secrets 保存，禁止写入仓库。
-6. 将 `auth.fangzhongda.com` 绑定到该 Worker。
-7. 合并本分支后，通过 `https://www.fangzhongda.com/admin/` 登录测试。
+## 发布规则
 
-## 权限边界
-
-- 只有拥有 `gogol0212/cola` 仓库写入权限的 GitHub 用户可以使用后台提交内容。
-- CMS 默认写入 `main`，并使用 Editorial Workflow 生成内容分支和审核记录。
-- 产品 `status` 字段分为草稿、已审核和已发布；展示层在阶段 3 中只输出 `published` 内容。
-- GitHub OAuth Secret 与 Cloudflare API Token 不得提交到 GitHub。
-
-## 阶段依赖
-
-产品内容字段已经建立，但阶段 3 的统一产品页面尚未实施。当前友童行内容仅作为迁移种子，后台可编辑；正式产品详情展示仍需阶段 3 完成。
+- `draft`：网站不显示。
+- `reviewed`：预览分支展示，便于审核。
+- `published`：正式发布。
+- 只有拥有 `gogol0212/cola` 写入权限的 GitHub 用户可以提交内容。
