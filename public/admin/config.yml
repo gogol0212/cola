@@ -9,7 +9,7 @@ backend:
   name: github
   repo: gogol0212/cola
   branch: main
-  base_url: https://auth.fangzhongda.com
+  base_url: https://fangzhongda-decap-auth.gogol0212.workers.dev
   auth_endpoint: /auth
   preview_context: cloudflare-pages
   commit_messages:
