@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductHero from '../../components/products/ProductHero.astro';
+import CompareTable from '../../components/products/CompareTable.astro';
+import FAQ from '../../components/products/FAQ.astro';
+import QRCodeBox from '../../components/products/QRCodeBox.astro';
+
+const base = '/assets/images/products/youtongxing';
+const audience = ['0–17 岁儿童家庭', '关注医保外住院费用的家长', '希望补充意外门诊与住院保障的家庭'];
+const compareRows = [
+  { label:'住院免赔额', product:'医保范围内，同一住院原因免赔额 100 元', market:'常见方案可能设年度免赔额，具体差异较大' },
+  { label:'医保范围外', product:'符合合同约定的医保目录外住院费用按约定比例给付', market:'部分基础方案仅覆盖医保目录内费用' },
+  { label:'意外门诊', product:'意外医药费用责任，不限医保范围', market:'需确认是否包含门急诊及给付限额' },
+  { label:'服务方式', product:'顾问协助理解责任、准备理赔资料并长期跟进', market:'依销售渠道与服务人员而不同' },
+];
+const faqs = [
+  { question:'友童行可以保证续保吗？', answer:'相关主险与附加险均为一年期产品，不保证续保。投保前应结合孩子的长期医疗保障安排综合评估。' },
+  { question:'没有先使用医保，会影响赔付吗？', answer:'会影响约定给付比例。以现有责任说明为例，医保范围内费用先经医保结算与未经医保结算的给付比例不同，最终以保险合同和理赔审核为准。' },
+  { question:'医保外费用是不是全部都能赔？', answer:'不是。必须属于合同约定的保障范围，并满足医院、诊疗必要性、费用凭证等条件，不能把“医保外可赔”理解为无限制报销。' },
+  { question:'页面里的案例就是承诺赔付金额吗？', answer:'不是。案例用于帮助理解责任结构，实际赔付取决于真实费用、医保结算、合同条款及保险公司审核。' },
+];
+---
+<BaseLayout title="友童行儿童保险保障说明｜方仲达" description="从儿童住院、医保内外费用与意外风险出发，理解友童行相关保障责任、案例与选择逻辑。">
+  <ProductHero title="友童行" summary="用更容易理解的方式，梳理儿童意外门诊、疾病住院和医保目录外费用风险。" audience={audience} image={`${base}/hero-youtongxing.webp`} />
+
+  <section class="section"><div class="container narrow"><p class="eyebrow">Why it matters</p><h2 class="section-title">孩子住院时，真正难预估的<br />往往不是医保内的那部分。</h2><p class="section-lead">儿童疾病和意外来得突然；医保能够托底，但目录外药品、特殊材料以及医保结算后的个人承担，仍可能形成明显支出。</p><div class="pain-grid"><article><strong>01</strong><h3>医保目录有限</h3><p>自费药、进口器械与部分治疗项目，可能不在基本医保直接承担范围。</p></article><article><strong>02</strong><h3>意外高频发生</h3><p>跌倒、烫伤、骨折等儿童常见意外，可能同时产生门急诊与住院费用。</p></article><article><strong>03</strong><h3>家庭现金流压力</h3><p>保障的价值不是制造焦虑，而是在突发支出发生时保留家庭选择空间。</p></article></div></div></section>
+
+  <section class="section olive-section"><div class="container"><p class="eyebrow">Core benefits</p><h2 class="section-title">三类责任，回应三种真实场景。</h2><div class="benefit-grid"><article><span>意外门诊</span><h3>小意外也能用得上</h3><p>符合约定的意外医药费用，给付限额 1 万元，不限医保范围。</p></article><article><span>疾病住院</span><h3>医保内外分层承担</h3><p>住院费用责任包含医保范围内及符合合同约定的目录外费用。</p></article><article><span>住院津贴</span><h3>补充住院期间支出</h3><p>意外住院日额津贴 100 元/天，具体免赔天数与上限以合同为准。</p></article></div></div></section>
+
+  <section class="section"><div class="container"><p class="eyebrow">Coverage at a glance</p><h2 class="section-title">先看责任，再看价格。</h2><div class="coverage"><div><b>意外医药费用</b><strong>1 万元限额</strong><span>已使用医保 100% / 未使用医保 80%</span></div><div><b>住院费用补偿</b><strong>2 万元限额</strong><span>医保内按约定比例，目录外符合条件费用 70%</span></div><div><b>意外住院津贴</b><strong>100 元 / 天</strong><span>同一原因免赔 3 天，期间累计给付天数有限</span></div></div><p class="legal-note">以上为便于理解的责任摘要，不构成合同条款或投保建议。保险责任、除外责任、医院范围及给付条件以正式保险合同为准。</p></div></section>
+
+  <section class="section case-section"><div class="container"><p class="eyebrow">Life scenarios</p><h2 class="section-title">把条款放回真实生活场景。</h2><div class="case-grid"><article class="case-card"><img src={`${base}/image-21fd40d9d105.png`} alt="儿童肺炎住院场景插画" /><div><span>案例 01 · 疾病住院</span><h3>肺炎住院 7 天</h3><p>总费用 12,000 元，医保结算后自付 5,000 元，其中包含医保目录外费用。相关住院责任按免赔额和约定比例计算，示例可减少家庭数千元支出。</p></div></article><article class="case-card"><img src={`${base}/image-3cfd48863fc1.png`} alt="儿童意外骨折场景插画" /><div><span>案例 02 · 意外受伤</span><h3>骑车摔伤骨折</h3><p>意外导致门急诊及住院支出时，可分别核对意外医药费用、住院医疗及住院津贴责任，避免只看单一报销比例。</p></div></article></div><p class="legal-note">案例为演示，人物与费用不对应特定客户，实际赔付以保险合同和理赔审核为准。</p></div></section>
+
+  <section class="section"><div class="container"><p class="eyebrow">Comparison</p><h2 class="section-title">比较产品，不只比较保费。</h2><p class="section-lead">免赔额、医保目录限制、责任范围和后续服务，往往比一张价格表更值得先看。</p><CompareTable rows={compareRows} /></div></section>
+  <section class="section"><div class="container narrow"><p class="eyebrow">FAQ</p><h2 class="section-title">常见问题</h2><FAQ items={faqs} /></div></section>
+  <section class="section"><div class="container"><QRCodeBox image={`${base}/image-4028bb025c8c.jpg`} /></div></section>
+</BaseLayout>
+
+<style>
+  .narrow{max-width:1000px}.pain-grid,.benefit-grid,.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}.pain-grid article,.benefit-grid article{padding:28px;border-radius:var(--radius-md);background:white;border:1px solid var(--color-line)}.pain-grid strong,.benefit-grid span{color:var(--color-brand);font-weight:800}.pain-grid h3,.benefit-grid h3{font-size:1.35rem;margin:18px 0 8px}.pain-grid p,.benefit-grid p{margin:0;color:var(--color-muted)}.olive-section{background:var(--color-olive);color:white}.olive-section .eyebrow{color:white}.benefit-grid article{color:var(--color-ink)}.coverage{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:48px;overflow:hidden;border-radius:var(--radius-md);background:var(--color-line)}.coverage div{display:flex;min-height:230px;flex-direction:column;padding:30px;background:white}.coverage strong{margin:auto 0 10px;font-size:clamp(1.8rem,3vw,3rem);color:var(--color-brand)}.coverage span{color:var(--color-muted)}.legal-note{color:var(--color-muted);font-size:.82rem}.case-section{background:white}.case-grid{grid-template-columns:repeat(2,1fr)}.case-card{overflow:hidden;border:1px solid var(--color-line);border-radius:var(--radius-md);background:var(--color-canvas)}.case-card img{width:100%;aspect-ratio:16/10;object-fit:cover}.case-card div{padding:26px}.case-card span{color:var(--color-brand);font-weight:800}.case-card h3{margin:8px 0;font-size:1.5rem}.case-card p{color:var(--color-muted)}@media(max-width:760px){.pain-grid,.benefit-grid,.coverage,.case-grid{grid-template-columns:1fr}.coverage{gap:1px}.coverage div{min-height:190px}}
+</style>

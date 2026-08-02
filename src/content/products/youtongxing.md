@@ -7,6 +7,7 @@ audience:
   - 有 0–17 岁子女的家庭
   - 关注医保外医疗费用的家长
 featured: true
+heroImage: /assets/images/products/youtongxing/hero-youtongxing.webp
 status: reviewed
 sortOrder: 10
 updatedAt: 2026-08-02

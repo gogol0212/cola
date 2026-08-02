@@ -1,0 +1,30 @@
+---
+const { title, summary, audience = [], image } = Astro.props;
+---
+<section class="product-hero">
+  <div class="container product-hero__grid">
+    <div class="product-hero__copy">
+      <p class="eyebrow">儿童保险 · Product Guide</p>
+      <h1>{title}</h1>
+      <p class="product-hero__summary">{summary}</p>
+      <div class="product-hero__audience">
+        <strong>适合人群</strong>
+        <ul>{audience.map((item: string) => <li>{item}</li>)}</ul>
+      </div>
+      <a class="button" href="#consult">预约一对一咨询</a>
+    </div>
+    <figure><img src={image} alt={`${title}保障知识说明`} /></figure>
+  </div>
+</section>
+
+<style>
+  .product-hero{padding:clamp(44px,7vw,88px) 0 72px;background:linear-gradient(145deg,#fff 0%,rgba(165,145,92,.15) 100%)}
+  .product-hero__grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:clamp(36px,6vw,84px)}
+  h1{margin:0;font-size:clamp(3rem,8vw,6.8rem);line-height:.98;letter-spacing:-.065em}
+  .product-hero__summary{max-width:620px;margin:24px 0;color:var(--color-muted);font-size:clamp(1.1rem,2vw,1.4rem)}
+  .product-hero__audience{margin:0 0 30px;padding:18px 22px;border-left:3px solid var(--color-olive);background:rgba(255,255,255,.72);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+  .product-hero__audience ul{display:flex;flex-wrap:wrap;gap:8px 24px;margin:7px 0 0;padding:0;list-style:none;color:var(--color-muted)}
+  figure{margin:0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-card);background:white}
+  figure img{width:100%;aspect-ratio:4/5;object-fit:cover}
+  @media(max-width:800px){.product-hero__grid{grid-template-columns:1fr}.product-hero__copy{order:1}figure{order:0}figure img{aspect-ratio:16/11}h1{font-size:clamp(3rem,16vw,5rem)}}
+</style>

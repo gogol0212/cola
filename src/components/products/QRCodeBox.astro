@@ -1,0 +1,5 @@
+---
+const { image, title = '微信咨询', text = '扫码添加方仲达，获得一对一家庭保障梳理。' } = Astro.props;
+---
+<aside class="qr-box" id="consult"><div><p class="eyebrow">Private Consultation</p><h2>{title}</h2><p>{text}</p><a class="button" href="tel:13971177100">电话咨询</a></div><img src={image} alt="方仲达微信咨询二维码" /></aside>
+<style>.qr-box{display:grid;grid-template-columns:1fr 180px;align-items:center;gap:32px;padding:clamp(28px,5vw,54px);border-radius:var(--radius-lg);background:var(--color-charcoal);color:white}.qr-box h2{margin:0;font-size:clamp(2rem,4vw,3.5rem)}.qr-box p:not(.eyebrow){color:rgba(255,255,255,.75)}.qr-box img{width:180px;border:10px solid white;border-radius:16px}@media(max-width:600px){.qr-box{grid-template-columns:1fr}.qr-box img{width:160px}}</style>
