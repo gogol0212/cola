@@ -23,6 +23,44 @@ media_folder: public/assets/images/uploads
 public_folder: /assets/images/uploads
 
 collections:
+  - name: knowledge
+    label: 保险知识
+    label_singular: 知识文章
+    folder: src/content/knowledge
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}} · {{status}}"
+    sortable_fields: [title, category, updatedAt]
+    view_filters:
+      - { label: 已发布, field: status, pattern: published }
+      - { label: 草稿, field: status, pattern: draft }
+    fields:
+      - { label: 文章标题, name: title, widget: string }
+      - { label: 页面路径, name: slug, widget: string, hint: "使用英文小写和连字符，例如 hubei-medical-insurance" }
+      - label: 内容分类
+        name: category
+        widget: select
+        options:
+          - { label: 医保政策, value: medical-policy }
+          - { label: 保险选购, value: insurance-selection }
+          - { label: 医疗与理赔, value: claims }
+          - { label: 健康知识, value: health }
+          - { label: 家庭规划, value: family-planning }
+      - { label: 列表摘要, name: summary, widget: text }
+      - { label: 封面图片, name: coverImage, widget: image, required: false }
+      - { label: 首页精选, name: featured, widget: boolean, default: false }
+      - { label: 内容状态, name: status, widget: select, default: draft, options: [draft, reviewed, published] }
+      - { label: 更新日期, name: updatedAt, widget: datetime, date_format: YYYY-MM-DD, time_format: false }
+      - { label: SEO标题, name: seoTitle, widget: string }
+      - { label: SEO描述, name: seoDescription, widget: text }
+      - { label: 发布主体, name: authorLabel, widget: string, default: 未来可乐团队 }
+      - { label: 正文, name: body, widget: markdown }
+      - { label: 资料来源, name: sourceText, widget: text, required: false }
+      - { label: 阅读说明, name: disclaimer, widget: text, default: "本文仅用于保险及健康知识交流，不构成诊断、治疗、投保建议或销售承诺。" }
+
   - name: products
     label: 产品介绍
     label_singular: 产品页面

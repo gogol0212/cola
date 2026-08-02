@@ -69,4 +69,23 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { products };
+const knowledge = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/knowledge' }),
+  schema: z.object({
+    title:z.string(),
+    slug:z.string(),
+    category:z.enum(['medical-policy','insurance-selection','claims','health','family-planning']),
+    summary:z.string(),
+    coverImage:z.string().optional(),
+    featured:z.boolean().default(false),
+    status:z.enum(['draft','reviewed','published']).default('draft'),
+    updatedAt:z.coerce.date(),
+    seoTitle:z.string(),
+    seoDescription:z.string(),
+    sourceText:z.string().optional(),
+    disclaimer:z.string().default('本文仅用于保险及健康知识交流，不构成诊断、治疗、投保建议或销售承诺。'),
+    authorLabel:z.string().default('未来可乐团队'),
+  }),
+});
+
+export const collections = { products, knowledge };
