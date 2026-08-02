@@ -1,0 +1,1 @@
+{"$schema":"node_modules/wrangler/config-schema.json","name":"fangzhongda-decap-auth","main":"src/index.js","compatibility_date":"2026-08-01","workers_dev":true,"vars":{"ALLOWED_ORIGINS":"https://www.fangzhongda.com,https://fangzhongda.com,https://architecture-phase-0-1.cola-dr4.pages.dev"}}
