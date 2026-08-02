@@ -9,7 +9,8 @@ export default{async fetch(request,env){
   const url=new URL(request.url),origins=env.ALLOWED_ORIGINS.split(',').map(x=>x.trim());
   if(!env.GITHUB_CLIENT_ID||!env.GITHUB_CLIENT_SECRET||!env.OAUTH_STATE_SECRET)return respond('OAuth secrets are not configured.',503);
   if(url.pathname==='/auth'){
-    const origin=url.searchParams.get('site_id')||url.searchParams.get('origin')||origins[0];
+    const requestedOrigin=url.searchParams.get('site_id')||url.searchParams.get('origin')||origins[0];
+    const origin=requestedOrigin.startsWith('http://')||requestedOrigin.startsWith('https://')?requestedOrigin:`https://${requestedOrigin}`;
     if(!origins.includes(origin))return respond('Origin not allowed.',403);
     const payload=encode(JSON.stringify({origin,expires:Date.now()+600000,nonce:crypto.randomUUID()})),state=`${payload}.${await sign(payload,env.OAUTH_STATE_SECRET)}`,redirect=new URL(AUTHORIZE);
     redirect.searchParams.set('client_id',env.GITHUB_CLIENT_ID);redirect.searchParams.set('redirect_uri',`${url.origin}/callback`);redirect.searchParams.set('scope','repo,user');redirect.searchParams.set('state',state);return Response.redirect(redirect,302);
