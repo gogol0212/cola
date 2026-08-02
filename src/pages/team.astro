@@ -1,7 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TeamMember from '../components/TeamMember.astro';
+import { teamMembers } from '../data/team';
+const process = [
+  ['01','认识与倾听','了解家庭结构、生活阶段、现有保障与真正担忧。'],
+  ['02','需求梳理','识别保障缺口，明确优先级、预算边界与长期目标。'],
+  ['03','方案说明','用可理解的语言呈现选择逻辑、责任差异与限制条件。'],
+  ['04','长期服务','持续协助保单检视、理赔沟通和家庭阶段变化后的调整。'],
+];
 ---
-<BaseLayout title="可乐团队｜专业保险顾问团队" description="了解未来可乐团队的长期主义理念、跨行业专业背景与客户服务原则。">
-  <section class="section"><div class="container"><p class="eyebrow">Cola Team</p><h1 class="section-title">不做最大，做最专业，<br />长期陪伴客户。</h1><p class="section-lead">团队完整内容将在阶段 2 从现有招募页迁移并重新编排；当前页面用于确立稳定 URL 和统一站点结构。</p><a class="button" href="/#founder">先认识创始人</a></div></section>
+<BaseLayout title="可乐团队｜专业保险顾问团队" description="了解未来可乐团队的长期主义理念、跨行业专业背景、服务流程与团队成员。">
+  <section class="team-hero"><div class="container"><p class="eyebrow">Cola Team</p><h1>不做最大，<br /><em>做最专业。</em></h1><p>如果你不想一个人走得很累，这里有一群人走得很远。</p><div class="hero-tags"><span>长期陪伴</span><span>需求导向</span><span>专业协作</span></div></div></section>
+  <section class="section belief"><div class="container belief-grid"><div><p class="eyebrow">Our Belief</p><h2 class="section-title">专业不是一句口号，<br />而是长期坚持的能力。</h2></div><div><p>未来可乐团队汇聚来自金融、医疗、教育、互联网、品牌与企业经营等不同领域的伙伴。我们相信，保险顾问的价值不是提供更多产品，而是帮助客户在复杂信息中做出清晰、适合自己的长期决定。</p><p>我们走得并不快，但希望走得足够远，能够陪伴客户穿越不同的人生阶段。</p></div></div></section>
+  <section class="numbers"><div class="container number-grid"><article><b>100%</b><span>本科及以上学历</span></article><article><b>80%</b><span>海归 · 985 · 211</span></article><article><b>20+</b><span>跨行业专业伙伴</span></article><article><b>2021</b><span>扎根友邦湖北</span></article></div></section>
+  <section class="section members"><div class="container"><p class="eyebrow">Our People</p><h2 class="section-title">不同经历，共同标准。</h2><p class="section-lead">成员的跨行业经验，让团队能够从更接近真实生活的角度理解家庭需求。</p><div class="members-grid">{teamMembers.map((member,index) => <TeamMember {...member} featured={index < 2} />)}</div></div></section>
+  <section class="section process"><div class="container"><p class="eyebrow">Service Process</p><h2 class="section-title">先理解，再建议；<br />签约之后，服务继续。</h2><div class="process-grid">{process.map(([number,title,copy]) => <article><b>{number}</b><h3>{title}</h3><p>{copy}</p></article>)}</div></div></section>
+  <section class="section recognition"><div class="container recognition-grid"><div><p class="eyebrow">Professional Recognition</p><h2 class="section-title">专业资质与行业认可。</h2><p class="section-lead">团队成员拥有 MDRT、CFP、友邦荣誉讲师等专业经历，并持续通过培训与实践更新服务能力。</p></div><div class="recognition-list"><span>MDRT</span><span>CFP 持证</span><span>友邦荣誉讲师</span><span>硕士与海归背景</span></div></div></section>
+  <section class="section founder-band"><div class="container founder-grid"><img src="/assets/images/方仲达.webp" loading="lazy" width="817" height="1090" alt="方仲达，未来可乐团队创始人" /><div><p class="eyebrow">Founder</p><h2 class="section-title">方仲达</h2><p>澳洲格里菲斯大学毕业，拥有十年澳洲留学与工作经历。2021 年成为友邦人寿湖北首批营销员之一，专注医疗保障、高净值家庭风险管理与长期资产规划。</p><a class="button" href="/#founder">了解创始人经历</a></div></div></section>
+  <section class="section join"><div class="container join-card"><div><p class="eyebrow">Join Cola</p><h2>寻找愿意长期做正确事情的同行者。</h2><p>招募是团队发展的组成部分，但不是网站的主叙事。我们更看重专业能力、长期主义和对客户的真诚。</p></div><a class="button" href="https://forms.office.com/r/E0M8pbtc7X">了解人才计划</a></div></section>
 </BaseLayout>
-<style>.section { min-height: 62vh; display:grid; align-items:center; }.button{margin-top:28px}</style>
+<style>
+  .team-hero { min-height: 680px; display:grid; align-items:end; padding: 110px 0 90px; background: linear-gradient(120deg,rgba(51,61,71,.96),rgba(51,61,71,.74)),url('/assets/images/hero-bg.jpg') center/cover; color:white; }
+  .team-hero h1 { margin:0; font-size:clamp(4rem,9vw,8rem); line-height:.9; letter-spacing:-.07em; }
+  .team-hero em { color:var(--color-olive); font-style:normal; }
+  .team-hero>div>p:not(.eyebrow) { max-width:620px; margin:30px 0; color:rgba(255,255,255,.72); font-size:1.2rem; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:8px; }.hero-tags span { padding:8px 14px; border:1px solid rgba(255,255,255,.3); border-radius:999px; font-size:.82rem; }
+  .belief-grid,.recognition-grid,.founder-grid { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:center; }
+  .belief-grid>div:last-child { color:var(--color-muted); font-size:1.08rem; }
+  .numbers { background:var(--color-olive); color:white; }.number-grid { display:grid; grid-template-columns:repeat(4,1fr); }.number-grid article { display:grid; padding:32px 5%; border-right:1px solid rgba(255,255,255,.25); }.number-grid b{font-size:2rem}.number-grid span{opacity:.72}
+  .members { background:white; }.members-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-top:48px; }
+  .process { background:var(--color-charcoal); color:white; }.process-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:50px; background:rgba(255,255,255,.13); }.process-grid article { padding:30px; background:var(--color-charcoal); }.process-grid b{color:var(--color-olive)}.process-grid h3{margin:50px 0 8px}.process-grid p{color:rgba(255,255,255,.62);font-size:.9rem}
+  .recognition-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; }.recognition-list span { padding:26px 20px; border-left:3px solid var(--color-olive); background:white; font-weight:750; }
+  .founder-band { background:white; }.founder-grid { grid-template-columns:.7fr 1.3fr; }.founder-grid img { max-height:520px; width:100%; object-fit:contain; object-position:top; border-radius:var(--radius-md); background:var(--color-canvas); }.founder-grid p:not(.eyebrow){max-width:700px;color:var(--color-muted);font-size:1.05rem}.founder-grid .button{margin-top:16px}
+  .join { background:white;padding-top:0}.join-card { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; padding:clamp(36px,6vw,72px); border-radius:var(--radius-lg); background:var(--color-canvas); }.join h2{margin:0;font-size:clamp(2rem,4vw,3.4rem);line-height:1.12}.join p:not(.eyebrow){max-width:760px;color:var(--color-muted)}
+  @media(max-width:980px){.members-grid{grid-template-columns:repeat(3,1fr)}.process-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:720px){.belief-grid,.recognition-grid,.founder-grid,.join-card{grid-template-columns:1fr}.number-grid{grid-template-columns:1fr 1fr}.members-grid{grid-template-columns:1fr 1fr}.join-card .button{justify-self:start}}
+  @media(max-width:480px){.team-hero{min-height:590px}.members-grid,.process-grid{grid-template-columns:1fr}.number-grid article{padding:24px 10px}.number-grid b{font-size:1.6rem}.number-grid span{font-size:.75rem}}
+</style>
