@@ -2,95 +2,221 @@
   "updatedAt": "2026-08-02",
   "products": [
     {
-      "title": "友邦友童无忧高端医疗保险",
-      "productLine": "health",
-      "audiences": ["child"],
-      "summary": "面向儿童成长阶段的高端医疗与就医服务安排。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/youtongwuyou"
-    },
-    {
-      "title": "友邦友童乐齿医疗保险",
-      "productLine": "health",
-      "audiences": ["child"],
-      "summary": "围绕儿童口腔检查、日常护理与齿科医疗需求。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/youtonglechi"
-    },
-    {
-      "title": "友邦传世无忧（2026）高端医疗保险",
-      "productLine": "health",
-      "audiences": ["adult", "child"],
-      "summary": "可按保障区域、医院范围、免赔额与责任组合进行配置的高端医疗产品。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/chuanshixilie/chuanshiwuyou2026"
-    },
-    {
-      "title": "友邦欣安益（2023）意外伤害保险产品计划—成人",
-      "productLine": "accident",
-      "audiences": ["adult"],
-      "summary": "面向成人日常意外与相关医疗费用需求的产品计划。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/xinanyi2023"
-    },
-    {
-      "title": "友邦欣安益（2023）意外伤害保险产品计划—儿童",
-      "productLine": "accident",
-      "audiences": ["child"],
-      "summary": "面向儿童日常意外与相关医疗费用需求的产品计划。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
-    },
-    {
       "title": "友邦安行无忧（2025）/荣耀（2025）两全保险",
-      "productLine": "accident",
+      "productLines": ["accident"],
       "audiences": ["adult"],
       "summary": "关注驾乘、公共交通与商旅出行等意外风险。",
       "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/anxingwuyou2025"
     },
     {
+      "title": "友邦智选逸生医疗保险",
+      "productLines": ["health"],
+      "audiences": ["adult"],
+      "summary": "可根据就医与医疗费用需求灵活配置的医疗保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
+    },
+    {
+      "title": "友邦友童无忧高端医疗保险",
+      "productLines": ["health", "legacy"],
+      "audiences": ["child"],
+      "summary": "面向儿童成长阶段的高端医疗与就医服务安排。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/youtongwuyou"
+    },
+    {
+      "title": "友邦传世无忧（2026）高端医疗保险",
+      "productLines": ["health", "legacy"],
+      "audiences": ["adult", "child"],
+      "summary": "可按保障区域、医院范围、免赔额与责任组合配置的高端医疗产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/chuanshixilie/chuanshiwuyou2026"
+    },
+    {
+      "title": "友邦欣安益（2023）意外伤害保险产品计划—成人",
+      "productLines": ["health", "accident"],
+      "audiences": ["adult"],
+      "summary": "面向成人日常意外及相关医疗费用需求的产品计划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/xinanyi2023"
+    },
+    {
+      "title": "友邦欣安益（2023）意外伤害保险产品计划—儿童",
+      "productLines": ["health", "accident"],
+      "audiences": ["child"],
+      "summary": "面向儿童日常意外及相关医疗费用需求的产品计划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
+    },
+    {
+      "title": "友邦长保康惠长期医疗保险（费率可调）",
+      "productLines": ["health"],
+      "audiences": ["adult", "child"],
+      "summary": "面向长期医疗费用风险的医疗保障产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
+    },
+    {
+      "title": "友邦守护长青（2023）意外保险产品计划",
+      "productLines": ["health", "accident"],
+      "audiences": ["adult"],
+      "summary": "关注中老年意外与骨折相关风险及服务需求。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
+    },
+    {
+      "title": "友邦友童乐齿医疗保险",
+      "productLines": ["health"],
+      "audiences": ["child"],
+      "summary": "围绕儿童口腔检查、日常护理与齿科医疗需求。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao/youtonglechi"
+    },
+    {
+      "title": "友邦智选康惠慢病版医疗保险",
+      "productLines": ["health"],
+      "audiences": ["adult"],
+      "summary": "面向慢病人群医疗费用风险的专项医疗保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yiwaiyiliao"
+    },
+    {
       "title": "友邦盈如意星享2026保险产品计划",
-      "productLine": "critical-illness",
+      "productLines": ["critical-illness"],
       "audiences": ["child"],
       "summary": "友邦官网列示的儿童重疾保障产品计划。",
       "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang"
     },
     {
       "title": "友邦盈如意顺心2026保险产品计划",
-      "productLine": "critical-illness",
+      "productLines": ["critical-illness"],
       "audiences": ["adult"],
       "summary": "友邦官网列示的成人重疾保障产品计划。",
       "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang"
     },
     {
-      "title": "友邦传世未来2026荣耀版保险产品计划",
-      "productLine": "retirement",
+      "title": "友邦友如意顺心版（2025）保险产品计划",
+      "productLines": ["critical-illness"],
       "audiences": ["adult"],
-      "summary": "以年金、满期安排与长期养老现金流为核心的享老规划。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/chuanshiweilai2026rongyaoban"
+      "summary": "围绕成人重大疾病风险与健康服务的保障计划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang"
     },
     {
-      "title": "友邦传世金生2026荣耀版保险产品计划",
-      "productLine": "retirement",
+      "title": "友邦爱安康恶性肿瘤（重度）疾病保险",
+      "productLines": ["critical-illness"],
       "audiences": ["adult"],
-      "summary": "面向长寿阶段现金流与家庭长期安排的年金产品计划。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/chuanshijinsheng2026"
+      "summary": "聚焦恶性肿瘤重度风险的专项疾病保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang/aiankang"
     },
     {
-      "title": "友邦传世臻享2026年金保险（分红型）",
-      "productLine": "wealth",
-      "audiences": ["adult", "child"],
-      "summary": "兼顾年金安排、身故保障与分红机制的长期财富管理产品。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/touzilicai/chuanshizhenxiang2026"
+      "title": "友邦智安康特定疾病保险",
+      "productLines": ["critical-illness"],
+      "audiences": ["adult"],
+      "summary": "聚焦中老年神经系统退行性疾病的专项保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang/zhiankang"
+    },
+    {
+      "title": "友邦肾安康特定疾病保险",
+      "productLines": ["critical-illness"],
+      "audiences": ["adult"],
+      "summary": "围绕慢性肾脏疾病风险的专项疾病保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/jibingbaozhang"
+    },
+    {
+      "title": "友邦传世经典乐享2026保险产品计划",
+      "productLines": ["legacy"],
+      "audiences": ["adult"],
+      "summary": "围绕人身风险、高额保障与家庭长期责任的寿险计划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/renshoubaoxian/youbangchuanshijingdianlexiang2026"
     },
     {
       "title": "友邦传世经典荣耀2026保险产品计划",
-      "productLine": "legacy",
+      "productLines": ["legacy"],
       "audiences": ["adult"],
       "summary": "围绕终身寿险保障、家庭责任与定向传承需求的产品计划。",
       "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/renshoubaoxian/youbangchuanshijingdianrongyao2026"
     },
     {
-      "title": "友邦传世经典乐享2026保险产品计划",
-      "productLine": "legacy",
+      "title": "友邦传世盈佳2025荣耀A款终身寿险（分红型）",
+      "productLines": ["wealth", "legacy"],
       "audiences": ["adult"],
-      "summary": "友邦官网列示的终身寿险与家业传承产品计划。",
-      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/renshoubaoxian/youbangchuanshijingdianlexiang2026"
+      "summary": "兼顾终身寿险保障、长期财富规划与家业安排。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/renshoubaoxian"
+    },
+    {
+      "title": "友邦百倍安欣（精英版）定期寿险",
+      "productLines": ["legacy"],
+      "audiences": ["adult"],
+      "summary": "面向家庭责任阶段的定期寿险与高额保障需求。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/renshoubaoxian/baibeianxin"
+    },
+    {
+      "title": "友邦传世未来2026荣耀版保险产品计划",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "以年金、满期安排与长期养老现金流为核心的享老规划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/chuanshiweilai2026rongyaoban"
+    },
+    {
+      "title": "友邦传世颐年养老年金保险（分红型）",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "围绕长寿阶段持续养老现金流的年金产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian"
+    },
+    {
+      "title": "友邦优享年年（2025）A款年金保险",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "友邦官网列示的个人养老金保险产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/youxiangniannian2025"
+    },
+    {
+      "title": "友邦优享长伴（2025）终身护理保险",
+      "productLines": ["retirement"],
+      "audiences": ["adult"],
+      "summary": "关注终身护理与疾病身故风险的享老保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian"
+    },
+    {
+      "title": "友邦传世金生2026荣耀版保险产品计划",
+      "productLines": ["retirement", "wealth", "legacy"],
+      "audiences": ["adult"],
+      "summary": "面向养老现金流、财富规划与传承安排的年金产品计划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/chuanshijinsheng2026"
+    },
+    {
+      "title": "友邦利享年年（2025）A款年金保险（分红型）",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "友邦官网列示的分红型个人养老金产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian"
+    },
+    {
+      "title": "友邦优享未来（2025）A款两全保险",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "兼顾个人养老金规划、满期安排与人身保障。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian"
+    },
+    {
+      "title": "友邦自在福2026A款养老年金保险（分红型）",
+      "productLines": ["retirement", "wealth"],
+      "audiences": ["adult"],
+      "summary": "面向养老储备、满期安排与长期家庭规划的年金产品。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/yanglaobaoxian/zizaifu2026"
+    },
+    {
+      "title": "友邦传世臻享2026年金保险（分红型）",
+      "productLines": ["wealth", "legacy"],
+      "audiences": ["adult", "child"],
+      "summary": "兼顾年金安排、身故保障、分红机制与长期家业规划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/touzilicai/chuanshizhenxiang2026"
+    },
+    {
+      "title": "友邦创赢未来（2023）保险产品计划",
+      "productLines": ["wealth"],
+      "audiences": ["adult", "child"],
+      "summary": "面向儿童及青年不同人生阶段的长期财富规划。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/touzilicai"
+    },
+    {
+      "title": "友邦传世无忧安心版（2022）高端医疗保险",
+      "productLines": ["health", "legacy"],
+      "audiences": ["adult", "child"],
+      "summary": "关注境内品质医疗保障与健康管理服务。",
+      "officialUrl": "https://www.aia.com.cn/zh-cn/baoxian/chuanshixilie"
     }
   ]
 }

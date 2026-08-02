@@ -19,17 +19,17 @@ const total = products.length + officialCatalog.products.length;
     <div class="filter-group"><span>适用人群</span><div class="filter-bar" role="group" aria-label="适用人群筛选">{audienceFilters.map(([value,label],index) => <button type="button" class:list={['filter-button',{active:index===0}]} data-filter-group="audience" data-filter={value} aria-pressed={index===0 ? 'true':'false'}>{label}</button>)}</div></div>
 
     <div class="product-grid" id="product-grid">
-      {products.map(product => <a class="product-card" data-line={product.data.productLine} data-audiences={product.data.audiences.join(' ')} href={`/products/${product.data.slug}/`}>
-        <div class="product-card__image">{product.data.heroImage ? <img src={product.data.heroImage} alt="" /> : <span>{productLineLabels[product.data.productLine]}</span>}</div>
-        <div class="product-card__body"><span>本站深度解读</span><h3>{product.data.title}</h3><p>{product.data.summary}</p><div class="tag-list"><em>{productLineLabels[product.data.productLine]}</em>{product.data.audiences.map(audience => <em>{audienceLabels[audience]}</em>)}</div><b>阅读完整指南 →</b></div>
+      {products.map(product => <a class="product-card" data-lines={product.data.productLines.join(' ')} data-audiences={product.data.audiences.join(' ')} href={`/products/${product.data.slug}/`}>
+        <div class="product-card__image">{product.data.heroImage ? <img src={product.data.heroImage} alt="" /> : <span>{product.data.productLines.map(line => productLineLabels[line]).join(' · ')}</span>}</div>
+        <div class="product-card__body"><span>本站深度解读</span><h3>{product.data.title}</h3><p>{product.data.summary}</p><div class="tag-list">{product.data.productLines.map(line => <em>{productLineLabels[line]}</em>)}{product.data.audiences.map(audience => <em>{audienceLabels[audience]}</em>)}</div><b>阅读完整指南 →</b></div>
       </a>)}
-      {officialCatalog.products.map(product => <a class="product-card official-card" data-line={product.productLine} data-audiences={product.audiences.join(' ')} href={product.officialUrl} target="_blank" rel="noopener noreferrer">
+      {officialCatalog.products.map(product => <a class="product-card official-card" data-lines={product.productLines.join(' ')} data-audiences={product.audiences.join(' ')} href={product.officialUrl} target="_blank" rel="noopener noreferrer">
         <div class="product-card__image official-mark"><span>AIA<br />官方资料</span></div>
-        <div class="product-card__body"><span>友邦官网产品索引</span><h3>{product.title}</h3><p>{product.summary}</p><div class="tag-list"><em>{productLineLabels[product.productLine]}</em>{product.audiences.map(audience => <em>{audienceLabels[audience]}</em>)}</div><b>前往友邦官网核验 ↗</b></div>
+        <div class="product-card__body"><span>友邦官网产品索引</span><h3>{product.title}</h3><p>{product.summary}</p><div class="tag-list">{product.productLines.map(line => <em>{productLineLabels[line]}</em>)}{product.audiences.map(audience => <em>{audienceLabels[audience]}</em>)}</div><b>前往友邦官网核验 ↗</b></div>
       </a>)}
     </div>
     <p class="empty-state" id="empty-state" hidden>暂未收录同时符合这两个条件的内容，您可以切换筛选或联系我们梳理需求。</p>
-    <p class="source-note">官网索引首批同步于 {officialCatalog.updatedAt}。友邦产品可能调整、升级或停售；保险责任、投保条件、利益演示及服务内容均以友邦官网、正式保险合同与最新资料为准。</p>
+    <p class="source-note">官网目录核验于 {officialCatalog.updatedAt}。同一产品可属于多个保障方向；友邦产品也可能调整、升级或停售，保险责任、投保条件、利益演示及服务内容均以友邦官网、正式保险合同与最新资料为准。</p>
   </div></section>
 
   <section class="section category-section"><div class="container"><p class="eyebrow">Official product structure</p><h2 class="section-title">六个保障方向</h2><div class="category-grid">{Object.entries(productLineLabels).map(([key,label],index)=><article><span>0{index+1}</span><h3>{label}</h3><p>{key === 'health' ? '医疗费用、高端医疗与健康服务安排。' : key === 'accident' ? '日常、出行及特定场景的意外风险保障。' : key === 'critical-illness' ? '成人或儿童重大疾病带来的收入与治疗压力。' : key === 'retirement' ? '长寿阶段的养老现金流与服务规划。' : key === 'wealth' ? '长期积累、年金安排与家庭财富规划。' : '高净值家庭的人身保障与财富传承安排。'}</p></article>)}</div></div></section>
@@ -45,7 +45,8 @@ const total = products.length + officialCatalog.products.length;
     let visible = 0;
     cards.forEach(card => {
       const audiences = (card.dataset.audiences ?? '').split(' ');
-      const show = (state.line === 'all' || card.dataset.line === state.line) && (state.audience === 'all' || audiences.includes(state.audience));
+      const lines = (card.dataset.lines ?? '').split(' ');
+      const show = (state.line === 'all' || lines.includes(state.line)) && (state.audience === 'all' || audiences.includes(state.audience));
       card.hidden = !show;
       if (show) visible++;
     });

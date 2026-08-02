@@ -10,7 +10,7 @@ const products = defineCollection({
     category: z.enum(['children', 'medical', 'critical-illness', 'savings', 'pension', 'overseas-assets']),
     summary: z.string(),
     audience: z.array(z.string()).default([]),
-    productLine: z.enum(['health', 'accident', 'critical-illness', 'retirement', 'wealth', 'legacy']),
+    productLines: z.array(z.enum(['health', 'accident', 'critical-illness', 'retirement', 'wealth', 'legacy'])).min(1),
     audiences: z.array(z.enum(['adult', 'child'])).min(1),
     officialUrl: z.string().url().optional(),
     heroImage: z.string().optional(),

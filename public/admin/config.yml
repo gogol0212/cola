@@ -53,8 +53,10 @@ collections:
       - { label: 一句话定位, name: summary, widget: text }
       - { label: 适合人群, name: audience, widget: list, field: { label: 人群, name: item, widget: string } }
       - label: 保障类别
-        name: productLine
+        name: productLines
         widget: select
+        multiple: true
+        hint: "可多选，例如同时选择健康保障和意外保障。"
         options:
           - { label: 健康保障, value: health }
           - { label: 意外保障, value: accident }
@@ -147,12 +149,13 @@ collections:
           - label: 产品列表
             name: products
             widget: list
-            summary: "{{fields.title}} · {{fields.productLine}}"
+            summary: "{{fields.title}} · {{fields.productLines}}"
             fields:
               - { label: 产品名称, name: title, widget: string }
               - label: 保障类别
-                name: productLine
+                name: productLines
                 widget: select
+                multiple: true
                 options:
                   - { label: 健康保障, value: health }
                   - { label: 意外保障, value: accident }
