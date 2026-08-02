@@ -1,0 +1,49 @@
+---
+type Product = { name:string; price:string; positioning:string };
+type Row = { label:string; values:string[]; same?:boolean };
+type Section = { title:string; tone?:string; rows:Row[] };
+const { products = [], sections = [] } = Astro.props as { products:Product[]; sections:Section[] };
+---
+<div class="mobile-controls" aria-label="选择需要比较的方案">
+  <label>左侧方案<select data-compare-left>{products.map((p,i)=><option value={i}>{`方案${i+1} · ${p.name}`}</option>)}</select></label>
+  <label>右侧方案<select data-compare-right>{products.map((p,i)=><option value={i} selected={i===1}>{`方案${i+1} · ${p.name}`}</option>)}</select></label>
+</div>
+<div class="compare-shell" data-comparison>
+  <div class="product-head comparison-row">
+    <div class="row-label">测评方案</div>
+    {products.map((product,index)=><div class="product-column" data-product={index}><small>{`方案${index+1}`}</small><strong>{product.name}</strong><b>{product.price}<em>/年</em></b><span>{product.positioning}</span></div>)}
+  </div>
+  {sections.map((section)=><section class:list={['compare-section',section.tone && `tone-${section.tone}`]}>
+    <h3>{section.title}</h3>
+    {section.rows.map((row)=><div class:list={['comparison-row',row.same && 'is-same']} data-same={String(Boolean(row.same))}>
+      <div class="row-label">{row.label}</div>
+      {row.values.map((value,index)=><div class="value" data-product={index}>{value}</div>)}
+    </div>)}
+  </section>)}
+</div>
+<script>
+  const shell = document.querySelector('[data-comparison]');
+  const left = document.querySelector('[data-compare-left]');
+  const right = document.querySelector('[data-compare-right]');
+  if (shell instanceof HTMLElement && left instanceof HTMLSelectElement && right instanceof HTMLSelectElement) {
+    const update = () => {
+      let leftValue = left.value;
+      let rightValue = right.value;
+      if (leftValue === rightValue) rightValue = String((Number(leftValue) + 1) % right.options.length);
+      right.value = rightValue;
+      shell.dataset.left = leftValue;
+      shell.dataset.right = rightValue;
+      shell.querySelectorAll('[data-product]').forEach((cell) => {
+        if (!(cell instanceof HTMLElement)) return;
+        const visible = cell.dataset.product === leftValue || cell.dataset.product === rightValue;
+        cell.classList.toggle('mobile-hidden', !visible);
+      });
+    };
+    left.addEventListener('change', update);
+    right.addEventListener('change', update);
+    update();
+  }
+</script>
+<style>
+  .mobile-controls{display:none}.compare-shell{margin-top:34px}.comparison-row{display:grid;grid-template-columns:180px repeat(3,minmax(0,1fr))}.product-head{position:sticky;z-index:12;top:76px;overflow:hidden;border:1px solid rgba(211,17,69,.2);border-radius:26px;background:rgba(255,255,255,.96);box-shadow:0 14px 36px rgba(51,61,71,.08);backdrop-filter:blur(16px)}.row-label{display:flex;align-items:center;padding:16px;color:var(--color-ink);font-size:.88rem;font-weight:750}.product-column{display:grid;align-content:center;gap:3px;min-height:142px;padding:16px;border-left:1px solid rgba(211,17,69,.12);text-align:center}.product-column small{color:var(--color-muted)}.product-column strong{line-height:1.35}.product-column b{color:var(--color-brand);font-size:1.35rem}.product-column em{color:var(--color-ink);font-size:.8rem;font-style:normal}.product-column span{color:var(--color-muted);font-size:.74rem}.compare-section{overflow:hidden;margin-top:20px;border:1px solid rgba(31,120,173,.16);border-radius:24px;background:#fff}.compare-section h3{margin:0;padding:15px 20px;background:rgba(31,120,173,.08);font-size:1rem}.compare-section.tone-green{border-color:rgba(104,101,90,.18)}.compare-section.tone-green h3{background:rgba(104,101,90,.09)}.compare-section.tone-purple{border-color:rgba(76,71,148,.16)}.compare-section.tone-purple h3{background:rgba(76,71,148,.07)}.compare-section.tone-olive{border-color:rgba(165,145,92,.22)}.compare-section.tone-olive h3{background:rgba(165,145,92,.1)}.compare-section .comparison-row+.comparison-row{border-top:1px solid var(--color-line)}.value{padding:16px;border-left:1px solid var(--color-line);color:var(--color-muted);font-size:.84rem;line-height:1.65;white-space:pre-line}.is-same{opacity:.72}@media(max-width:820px){.mobile-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}.mobile-controls label{display:grid;gap:6px;color:var(--color-muted);font-size:.75rem}.mobile-controls select{width:100%;min-height:46px;padding:0 10px;border:1px solid var(--color-line);border-radius:12px;background:#fff;color:var(--color-ink)}.comparison-row{grid-template-columns:105px repeat(2,minmax(0,1fr))}.product-head{top:66px}.product-column.mobile-hidden,.value.mobile-hidden{display:none}.product-column{min-height:132px;padding:12px 8px}.product-column strong{font-size:.82rem}.product-column b{font-size:1.08rem}.row-label,.value{padding:12px 10px;font-size:.75rem}.compare-section{border-radius:18px}.compare-section h3{padding:13px 15px}}
+</style>

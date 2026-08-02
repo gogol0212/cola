@@ -24,7 +24,7 @@ public_folder: /assets/images/uploads
 
 collections:
   - name: products
-    label: 产品知识库
+    label: 产品介绍
     label_singular: 产品页面
     folder: src/content/products
     create: true

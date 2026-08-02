@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const topics = [
+  { label:'保险选购', title:'不同价格的医疗险，差异到底在哪？', text:'从免赔额、医院、用药、责任与服务五个维度，看懂医疗险保费差距。', href:'/knowledge/medical-insurance-comparison/', featured:true },
+  { label:'医保政策', title:'什么是 DRG？', text:'理解医院支付方式变化，以及它与患者就医和商业医疗险之间的关系。' },
+  { label:'医保政策', title:'湖北职工医保到底怎么报销？', text:'从门诊、住院、起付线、统筹比例到个人账户，逐层解释报销路径。' },
+  { label:'健康知识', title:'什么是脂肪肝？', text:'了解常见成因、检查指标、生活管理以及投保时可能需要准备的信息。' },
+];
+---
+<BaseLayout title="保险知识｜方仲达与未来可乐团队" description="用清晰、可信的方式解释医保政策、保险产品差异、理赔逻辑与常见健康知识。">
+  <section class="knowledge-hero"><div class="container"><p class="eyebrow">Insurance knowledge</p><h1>把复杂的保险和医疗知识，<br />讲到真正能用。</h1><p>不堆术语，也不只给结论。从政策、条款和生活场景出发，帮助家庭理解每一个选择背后的差异。</p></div></section>
+  <section class="section"><div class="container"><div class="topic-tabs"><span>全部</span><span>医保政策</span><span>保险选购</span><span>医疗与理赔</span><span>健康知识</span></div><div class="knowledge-grid">{topics.map(topic=><article class:list={['knowledge-card',topic.featured&&'featured']}><span>{topic.label}</span><h2>{topic.title}</h2><p>{topic.text}</p>{topic.href ? <a href={topic.href}>阅读全文 <b aria-hidden="true">→</b></a> : <small>内容筹备中</small>}</article>)}</div></div></section>
+</BaseLayout>
+<style>
+  .knowledge-hero{padding:clamp(86px,11vw,150px) 0;background:linear-gradient(135deg,rgba(211,202,195,.35),rgba(255,255,255,.9))}.knowledge-hero h1{max-width:950px;margin:0;font-size:clamp(2.7rem,6vw,5.8rem);line-height:1.05;letter-spacing:-.06em}.knowledge-hero p:last-child{max-width:700px;margin:28px 0 0;color:var(--color-muted);font-size:1.1rem}.topic-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:34px}.topic-tabs span{flex:0 0 auto;padding:8px 15px;border:1px solid var(--color-line);border-radius:999px;background:#fff;color:var(--color-muted);font-size:.8rem}.topic-tabs span:first-child{border-color:var(--color-brand);background:var(--color-brand);color:#fff}.knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.knowledge-card{min-height:300px;padding:34px;border:1px solid var(--color-line);border-radius:28px;background:#fff}.knowledge-card.featured{grid-column:1/-1;min-height:360px;background:var(--color-ink);color:#fff}.knowledge-card>span{color:var(--color-brand);font-size:.76rem;font-weight:850;letter-spacing:.1em}.knowledge-card h2{max-width:760px;margin:14px 0;font-size:clamp(1.6rem,3.2vw,3.4rem);line-height:1.15;letter-spacing:-.035em}.knowledge-card p{max-width:660px;color:var(--color-muted)}.featured p{color:rgba(255,255,255,.65)}.knowledge-card a{display:inline-flex;align-items:center;gap:10px;margin-top:24px;color:var(--color-brand);font-weight:800;text-decoration:none}.knowledge-card small{display:block;margin-top:24px;color:var(--color-muted)}@media(max-width:700px){.knowledge-grid{grid-template-columns:1fr}.knowledge-card,.knowledge-card.featured{grid-column:auto;min-height:270px;padding:25px;border-radius:22px}}
+</style>

@@ -11,7 +11,7 @@ const audienceFilters = [['all','全部人群'], ...Object.entries(audienceLabel
 const products = (await getCollection('products', ({ data }) => data.status !== 'draft')).sort((a,b) => a.data.sortOrder - b.data.sortOrder);
 const total = products.length + officialCatalog.products.length;
 ---
-<BaseLayout title="保险产品知识库｜方仲达" description="按友邦官方保障类别和成人、儿童人群筛选保险知识与产品索引。">
+<BaseLayout title="保险产品介绍｜方仲达" description="按友邦官方保障类别和成人、儿童人群筛选保险产品介绍。">
   <section class="section library-hero"><div class="container"><p class="eyebrow">Knowledge Library</p><h1 class="section-title">先明确保障需求，<br />再理解适合的人群与工具。</h1><p class="section-lead">产品类别采用友邦官网结构，并增加成人与儿童人群筛选。本站解读用于知识普及，产品名称和公开资料以友邦官网及正式保险合同为准。</p></div></section>
 
   <section class="section"><div class="container">

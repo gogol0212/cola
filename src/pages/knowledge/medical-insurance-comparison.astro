@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ComparisonExplorer from '../../components/knowledge/ComparisonExplorer.astro';
+
+const products = [
+  { name:'智选逸生（新机构）', price:'1569.0元', positioning:'国内医疗加强方案' },
+  { name:'传世无忧（2026）· 全球除美', price:'5417元', positioning:'全球高端医疗方案' },
+  { name:'智选逸生（新机构）', price:'921.0元', positioning:'基础医疗方案' },
+];
+const sections = [
+  { title:'保障计划', rows:[
+    { label:'保险期间累计给付限额', values:['境内500万元；境外400万元（除中国含港澳台以外）','800万元','境内500万元；境外400万元（除中国含港澳台以外）'] },
+    { label:'年度免赔额', values:['基本责任A的一般医疗5000元，其他责任0免赔','1万元，可按约定抵扣','基本责任A的一般医疗5000元，其他责任0免赔'] },
+    { label:'给付比例', values:['一般按100% / 80%；院外特定药械100%，一般药械及送检80%','100%','一般按100% / 80%；院外特定药械100%，一般药械及送检80%'] },
+    { label:'就医地区', values:['中国境内；约定全球特药海外医疗地区','全球除美国','中国境内；约定全球特药海外医疗地区'] },
+    { label:'疾病范围', values:['一般疾病、重大疾病','一般疾病、重大疾病','一般疾病、重大疾病'], same:true },
+    { label:'病房范围', values:['普通 / 高端病房','普通 / 高端病房','普通病房'] },
+    { label:'首次投保等待期', values:['30天','30天','30天'], same:true },
+    { label:'直付服务', values:['部分直付','支持直付','部分直付'] },
+  ]},
+  { title:'主要保障责任', tone:'blue', rows:[
+    { label:'住院', values:['包含','包含','包含'], same:true },
+    { label:'床位膳食费', values:['1500元 / 天','全额（按合同约定）','全额（按合同约定）'] },
+    { label:'住院前后门急诊', values:['前30天 / 后30天','前30天 / 后60天','前30天 / 后30天'] },
+    { label:'门诊手术费', values:['包含','包含','包含'], same:true },
+    { label:'其他指定门急诊费', values:['恶性肿瘤特殊门急诊、肾透析、器官移植后抗排异治疗','恶性肿瘤特殊门急诊、肾透析、器官移植后抗排异治疗','恶性肿瘤特殊门急诊、肾透析、器官移植后抗排异治疗'], same:true },
+    { label:'主要院外药', values:['CAR-T特药、恶性肿瘤特药、罕见病特药、一般药','CAR-T特药、恶性肿瘤特药、一般药','CAR-T特药、恶性肿瘤特药、罕见病特药、一般药'] },
+    { label:'ICU津贴', values:['1000元 / 天','1500元 / 天','1000元 / 天'] },
+    { label:'无理赔住院津贴', values:['—','650元 / 天','—'] },
+    { label:'特色保障', values:['术后再次住院、外置医疗设备、肿瘤院外特种器械、特定药品基因检测、院外送检补偿','增加住院临床费、重建手术、康复治疗、疾病终末期关怀、精神疾病住院、居家中看护、全球紧急救援等','术后再次住院、外置医疗设备、肿瘤院外特种器械、特定药品基因检测、院外送检补偿'] },
+  ]},
+  { title:'医院范围', tone:'green', rows:[
+    { label:'境内就医范围', values:['二级或以上基本医疗定点医院','符合合同约定资质的医疗机构','二级或以上基本医疗定点医院'] },
+    { label:'境外医院', values:['约定全球特药海外医疗推荐医院','全球除美国','约定全球特药海外医疗推荐医院'] },
+    { label:'质子重离子医院', values:['约定9家','符合约定的全部医院','约定9家'] },
+  ]},
+  { title:'用药范围', tone:'purple', rows:[
+    { label:'院内医保目录内 / 外', values:['包含','包含','包含'], same:true },
+    { label:'院外 CAR-T 特药', values:['包含','包含','包含'], same:true },
+    { label:'院外恶性肿瘤特药', values:['包含','包含','包含'], same:true },
+    { label:'院外罕见病特药', values:['包含','以合同约定为准','包含'] },
+    { label:'境外用药', values:['境外特药，除中国（含港澳台）以外','包含','境外特药，除中国（含港澳台）以外'] },
+  ]},
+];
+const priceDrivers = [
+  { number:'01', title:'医院范围', text:'价格更高的方案通常不只是多几家医院，而是扩展到高端病房、更多类型医疗机构及境外就医。' },
+  { number:'02', title:'责任宽度', text:'康复治疗、居家看护、全球救援、终末期关怀等责任，会显著拉开医疗险的保障边界。' },
+  { number:'03', title:'免赔与比例', text:'免赔额只是起点，还要结合是否可抵扣、不同责任的给付比例以及医保使用状态一起判断。' },
+  { number:'04', title:'用药与设备', text:'院外特药、罕见病药、基因检测和外置医疗设备，决定了高费用治疗时能否真正衔接。' },
+  { number:'05', title:'服务能力', text:'直付、就医协助和全球医疗网络影响实际使用体验，但服务仍以具体约定和可用网络为准。' },
+];
+---
+<BaseLayout title="不同价格的医疗险，差异到底在哪？｜保险知识" description="以35岁男性、有基本社保的示例测评条件，对比三种友邦医疗保障方案在免赔额、责任、医院、用药和服务上的差异。">
+  <section class="article-hero"><div class="container"><a href="/knowledge/">← 返回保险知识</a><p class="eyebrow">Medical insurance comparison</p><h1>不同价格的医疗险，<br />差异到底在哪？</h1><p class="intro">从不到一千元到五千元以上，保费差距并不只对应“保额更高”。真正需要比较的是医院范围、责任宽度、用药能力、免赔口径和服务网络。</p><div class="conditions"><span>示例年龄 <b>35周岁</b></span><span>性别 <b>男</b></span><span>基本社保 <b>有</b></span><span>资料日期 <b>2026-08-02</b></span></div></div></section>
+
+  <nav class="chapter-nav" aria-label="文章章节"><div class="container"><a href="#answer">先看结论</a><a href="#drivers">价格差在哪</a><a href="#comparison">完整对比</a><a href="#selection">怎么选择</a><a href="#notes">来源说明</a></div></nav>
+
+  <section class="section answer" id="answer"><div class="container"><p class="eyebrow">The short answer</p><h2 class="section-title">贵，不只是因为保额更高。</h2><p class="section-lead">三个示例方案都能解决住院医疗问题，但它们应对的就医环境和极端医疗风险不同。预算增加后，主要买到的是更宽的医疗资源与责任边界。</p><div class="answer-grid"><article><span>921元 / 年</span><h3>先解决基础住院支出</h3><p>更适合把预算集中在常见住院与约定医疗责任上的客户。</p></article><article><span>1569元 / 年</span><h3>加强院外用药与医疗拓展</h3><p>在基础医疗之上，进一步关注院外特药、罕见病药和部分境外用药能力。</p></article><article class="premium"><span>5417元 / 年</span><h3>购买更广的医疗资源</h3><p>核心差异来自全球除美、高端病房、更广责任与更完整服务能力。</p></article></div></div></section>
+
+  <section class="section drivers" id="drivers"><div class="container"><p class="eyebrow">Five price drivers</p><h2 class="section-title">保费差距，主要来自五件事。</h2><div class="driver-grid">{priceDrivers.map(item=><article><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></div></section>
+
+  <section class="section comparison" id="comparison"><div class="container"><p class="eyebrow">Full comparison</p><h2 class="section-title">把差异逐项展开。</h2><p class="section-lead">电脑端同时显示三个方案；手机端可任选两个方案并排核对。内容按照用户提供的测评截图整理，相同产品名可能对应不同计划或责任组合。</p><ComparisonExplorer products={products} sections={sections} /></div></section>
+
+  <section class="section selection" id="selection"><div class="container"><p class="eyebrow">How to choose</p><h2 class="section-title">先确定想解决的问题，<br />再讨论价格。</h2><div class="selection-grid"><article><b>预算优先</b><h3>先看住院、免赔和给付比例</h3><p>有基本医保、希望补充较大额住院支出的家庭，先确认医院范围与常见住院责任是否够用。</p></article><article><b>关注大病用药</b><h3>重点看院外药与送检责任</h3><p>不能只看“含特药”，还要区分CAR-T、恶性肿瘤特药、罕见病药、一般药及各自给付比例。</p></article><article><b>重视医疗资源</b><h3>医院网络往往是价格分水岭</h3><p>如果看重高端病房、全球就医、直付和救援服务，应优先核对机构范围及服务可用条件。</p></article></div><aside><strong>方仲达的阅读建议</strong><p>同样是医疗险，低价方案不一定“不好”，高价方案也不一定“人人需要”。合理选择取决于家庭预算、基本医保、就医习惯、境外需求以及已有保障，而不是单看保费排序。</p></aside></div></section>
+
+  <section class="section notes" id="notes"><div class="container"><p class="eyebrow">Source & disclaimer</p><h2>资料来源与阅读说明</h2><dl><div><dt>资料来源</dt><dd>用户提供的“医疗产品测评方案”截图（1–4），页面依据截图可见字段进行结构化整理。</dd></div><div><dt>测评条件</dt><dd>35周岁、男性、有基本社保。示例保费不能直接套用于其他年龄、性别、地区或投保条件。</dd></div><div><dt>比较口径</dt><dd>比较保障计划、主要责任、医院范围和用药范围；截图未完整显示或语义不明确的内容以“合同约定为准”表达。</dd></div><div><dt>重要说明</dt><dd>本页仅用于保险知识交流，不构成投保建议、销售承诺或正式报价。产品责任、医院和药品范围、除外责任、续保条件与服务内容均以最新正式保险合同、投保方案及保险公司审核为准。</dd></div></dl><a class="button" href="/#contact">结合家庭情况梳理医疗保障</a></div></section>
+</BaseLayout>
+
+<style>
+  :global(html){scroll-padding-top:145px}.article-hero{padding:clamp(70px,9vw,125px) 0 70px;background:linear-gradient(145deg,#fff 30%,rgba(211,202,195,.38))}.article-hero a{display:inline-block;margin-bottom:38px;color:var(--color-muted);font-size:.85rem;text-decoration:none}.article-hero h1{max-width:1000px;margin:0;font-size:clamp(3rem,7vw,6.8rem);line-height:1.02;letter-spacing:-.065em}.intro{max-width:820px;margin:30px 0;color:var(--color-muted);font-size:clamp(1.05rem,2vw,1.3rem)}.conditions{display:flex;flex-wrap:wrap;gap:10px}.conditions span{padding:9px 14px;border:1px solid rgba(51,61,71,.1);border-radius:999px;background:rgba(255,255,255,.72);color:var(--color-muted);font-size:.8rem}.conditions b{margin-left:5px;color:var(--color-ink)}.chapter-nav{position:sticky;z-index:30;top:76px;border-block:1px solid var(--color-line);background:rgba(255,255,255,.92);backdrop-filter:blur(16px)}.chapter-nav .container{display:flex;gap:7px;overflow-x:auto;padding-block:9px}.chapter-nav a{flex:0 0 auto;padding:7px 12px;border-radius:999px;color:var(--color-muted);font-size:.76rem;font-weight:750;text-decoration:none}.answer{background:#fff}.answer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}.answer-grid article{padding:28px;border:1px solid var(--color-line);border-radius:24px;background:var(--color-canvas)}.answer-grid article.premium{background:var(--color-ink);color:#fff}.answer-grid span{color:var(--color-brand);font-weight:850}.answer-grid h3{margin:10px 0;font-size:1.25rem}.answer-grid p{color:var(--color-muted);font-size:.9rem}.premium p{color:rgba(255,255,255,.62)}.drivers{background:var(--color-olive);color:#fff}.drivers .eyebrow{color:#fff}.driver-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:42px}.driver-grid article{padding:22px;border:1px solid rgba(255,255,255,.24);border-radius:22px;background:rgba(255,255,255,.09)}.driver-grid span{font-size:.72rem;font-weight:850}.driver-grid h3{margin:20px 0 8px}.driver-grid p{margin:0;color:rgba(255,255,255,.72);font-size:.83rem}.comparison{background:#fff}.selection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}.selection-grid article{padding:26px;border:1px solid var(--color-line);border-radius:24px;background:#fff}.selection-grid b{color:var(--color-brand);font-size:.8rem}.selection-grid h3{margin:10px 0}.selection-grid p{color:var(--color-muted);font-size:.9rem}.selection aside{display:grid;grid-template-columns:220px 1fr;gap:28px;margin-top:18px;padding:28px;border-radius:24px;background:rgba(165,145,92,.13)}.selection aside p{margin:0;color:var(--color-muted)}.notes{background:#fff}.notes h2{font-size:clamp(2rem,4vw,3.5rem)}.notes dl{margin:34px 0}.notes dl div{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--color-line)}.notes dt{font-weight:800}.notes dd{margin:0;color:var(--color-muted)}@media(max-width:900px){.driver-grid{grid-template-columns:repeat(2,1fr)}.answer-grid,.selection-grid{grid-template-columns:1fr}.selection aside{grid-template-columns:1fr}}@media(max-width:600px){.article-hero h1 br{display:none}.chapter-nav{top:66px}.answer-grid{margin-top:28px}.driver-grid{grid-template-columns:1fr}.notes dl div{grid-template-columns:1fr;gap:4px}}
+</style>
