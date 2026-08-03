@@ -1,0 +1,875 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductHero from "../../components/products/ProductHero.astro";
+import ProductFeatures from "../../components/products/ProductFeatures.astro";
+import CoverageOverview from "../../components/products/CoverageOverview.astro";
+import DisclosureList from "../../components/products/DisclosureList.astro";
+import PremiumCalculator from "../../components/products/PremiumCalculator.astro";
+import RateTable from "../../components/products/RateTable.astro";
+import CompareTable from "../../components/products/CompareTable.astro";
+import CaseStudy from "../../components/products/CaseStudy.astro";
+import ClaimCase from "../../components/products/ClaimCase.astro";
+import KnowledgeBlock from "../../components/products/KnowledgeBlock.astro";
+import FAQ from "../../components/products/FAQ.astro";
+import QRCodeBox from "../../components/products/QRCodeBox.astro";
+import ProductMeta from "../../components/products/ProductMeta.astro";
+
+const audience = [
+  "有医保或社保的成人",
+  "关注住院与重大疾病医疗费用的上班族",
+  "希望补充院外药械、特需医疗等中高端责任的客户",
+];
+const outline = [
+  { label: "保障方向", value: "一般/重疾医疗 + 质子重离子 + CAR-T + 住院津贴" },
+  { label: "适用人群", value: "出生满 7 天至 65 周岁" },
+  { label: "阅读重点", value: "责任A五大保障、四项可选责任、等待期与续保" },
+];
+const features = [
+  {
+    eyebrow: "01 · 五大保障",
+    title: "基本责任A覆盖五项保障",
+    text: "一般/重大疾病医疗、质子重离子医疗、恶性肿瘤CAR-T疗法院外药品费、特别住院津贴。保险期间累计给付限额 500 万元，一般医疗年度免赔额仅 5000 元，重疾/质子重离子/CAR-T 0 免赔。",
+  },
+  {
+    eyebrow: "02 · 药械广",
+    title: "三项可选，药械覆盖更全",
+    text: "院外一般药械（0 免赔、80%、10 万，无药械白名单，普药/慢病药/器械都算）、院外特定药械（0 免赔、100%、400 万，涵盖 300+ 种特药与 3 种特种器械，含罕见病特定药）、全球特药海外医疗（0 免赔、100%、400 万，支持海外就医）。",
+  },
+  {
+    eyebrow: "03 · 体验佳",
+    title: "可选扩展特需 / 国际部",
+    text: "可选扩展特需/国际部医疗责任，住院范围扩展至二级或以上医保定点医院的普通部、特需部、国际部，床位费限 1500 元/天。",
+  },
+  {
+    eyebrow: "04 · 服务臻",
+    title: "住院前中后全流程服务",
+    text: "优选 30+ 家知名医院特需/国际部住院直付服务，可选责任灵活增减、因需赋形。",
+  },
+];
+type Chip = { label: string; value: string; tone?: "brand" | "olive" };
+type Group = {
+  title: string;
+  chips: Chip[];
+  headers: string[];
+  rows: (
+    string | { text: string; tone?: "brand" | "olive"; muted?: boolean }
+  )[][];
+  note?: string;
+};
+type Tab = {
+  id: string;
+  tab: string;
+  heading: string;
+  intro?: string;
+  groups: Group[];
+  footnotes?: string[];
+};
+const coverageMeta: Chip[] = [
+  { label: "投保年龄", value: "7天 ～ 65周岁" },
+  { label: "保险期间", value: "一年" },
+  { label: "交费方式", value: "年交" },
+  { label: "疾病等待期", value: "30天" },
+  { label: "累计给付限额", value: "500万" },
+];
+const coverageTabs: Tab[] = [
+  {
+    id: "basic-a",
+    tab: "基本责任A",
+    heading: "基本责任 A · 五大保障",
+    intro:
+      "基本责任A 为一揽子必选保障，涵盖一般医疗、重大疾病医疗、质子重离子、恶性肿瘤CAR-T疗法院外药品费与特别住院津贴五项责任。",
+    footnotes: [
+      "医院范围包括：(1) 二级或以上医院普通病房、普通门急诊（住院/指定门急诊等补偿金）；(2) 康复医院或二级或以上医院普通病房（手术后再次住院费用）；(3) 保险合同指定的质子重离子治疗医院；(4) 保险合同指定的CAR-T治疗医院；(5) 二级或以上医院重症监护病房（特别住院津贴）。",
+      "住院费用/住院手术费用/指定门急诊费用，若以有公费医疗或基本医保身份投保但就诊未使用医保结算，赔付比例降为 80%。",
+    ],
+    groups: [
+      {
+        title: "(一) 一般医疗费用补偿金",
+        chips: [
+          { label: "年度免赔额", value: "5000元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "200万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "每项累计给付限额"],
+        rows: [
+          [
+            "1、住院费用补偿金",
+            "床位费、膳食费、护理费、医生诊疗费、检查检验费、药品费、治疗费、救护车使用费及重症监护病房费",
+            "200万",
+          ],
+          ["2、住院手术 · 常规手术费", "住院期间符合约定的手术费用", "200万"],
+          [
+            "2、住院手术 · 内置医疗设备费",
+            "住院期间使用内置医疗设备费用",
+            "200万",
+          ],
+          [
+            "2、住院手术 · 外置医疗设备费",
+            "住院期间使用外置医疗设备费用",
+            "3万",
+          ],
+          [
+            "3、指定门急诊 · 住院前后门急诊费",
+            "住院前后 30 天（含出院当天）指定门急诊",
+            "200万",
+          ],
+          ["3、指定门急诊 · 门急诊手术费", "符合约定的门急诊手术费用", "200万"],
+          [
+            "3、指定门急诊 · 恶性肿瘤特殊门急诊费",
+            "恶性肿瘤相关特殊门急诊治疗",
+            "200万",
+          ],
+          ["3、指定门急诊 · 肾透析门急诊费", "肾透析相关门急诊治疗", "200万"],
+          [
+            "3、指定门急诊 · 抗排异治疗门急诊费",
+            "器官移植后的抗排异治疗门急诊",
+            "200万",
+          ],
+          [
+            "4、手术后出院再次住院费用补偿金",
+            "手术后因相关原因出院后再住院",
+            "2万",
+            { text: "80%", tone: "olive" },
+          ],
+        ],
+        note: "本组各子项累计给付限额合计不超 200 万；手术后再次住院费用补偿金赔付比例为 80%。",
+      },
+      {
+        title: "(二) 重大疾病医疗费用补偿金",
+        chips: [
+          { label: "年度免赔额", value: "0元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "每项累计给付限额"],
+        rows: [
+          [
+            "1、住院费用补偿金",
+            "同一般医疗包含项目（床位、膳食、护理、诊疗、检查检验、药品、治疗、救护车、重症监护等）",
+            "400万",
+          ],
+          ["2、住院手术 · 常规手术费", "住院期间符合约定的手术费用", "400万"],
+          [
+            "2、住院手术 · 内置医疗设备费",
+            "住院期间使用内置医疗设备费用",
+            "400万",
+          ],
+          [
+            "2、住院手术 · 外置医疗设备费",
+            "住院期间使用外置医疗设备费用",
+            "3万",
+          ],
+          [
+            "3、指定门急诊 · 住院前后门急诊费",
+            "住院前后 30 天（含出院当天）指定门急诊",
+            "400万",
+          ],
+          ["3、指定门急诊 · 门急诊手术费", "符合约定的门急诊手术费用", "400万"],
+          [
+            "3、指定门急诊 · 恶性肿瘤特殊门急诊费",
+            "恶性肿瘤相关特殊门急诊治疗",
+            "400万",
+          ],
+          ["3、指定门急诊 · 肾透析门急诊费", "肾透析相关门急诊治疗", "400万"],
+          [
+            "3、指定门急诊 · 抗排异治疗门急诊费",
+            "器官移植后的抗排异治疗门急诊",
+            "400万",
+          ],
+          [
+            "4、手术后出院再次住院费用补偿金",
+            "手术后因相关原因出院后再住院",
+            "2万",
+            { text: "80%", tone: "olive" },
+          ],
+        ],
+        note: "本组各子项累计给付限额合计不超 400 万；手术后再次住院费用补偿金赔付比例为 80%。",
+      },
+      {
+        title: "(三) 质子重离子医疗费用补偿金",
+        chips: [
+          { label: "年度免赔额", value: "0元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "累计给付限额"],
+        rows: [
+          [
+            "质子重离子医疗费用",
+            "在保险合同指定的质子重离子治疗医院接受治疗的相关费用",
+            "400万",
+          ],
+        ],
+      },
+      {
+        title: "(四) 恶性肿瘤CAR-T疗法院外药品费补偿金",
+        chips: [
+          { label: "年度免赔额", value: "0元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "累计给付限额"],
+        rows: [
+          [
+            "CAR-T疗法院外药品费",
+            "在保险合同指定的CAR-T治疗医院使用约定药品的相关费用",
+            "400万",
+          ],
+        ],
+      },
+      {
+        title: "(五) 特别住院津贴保险金",
+        chips: [
+          { label: "给付标准", value: "1000元/天" },
+          { label: "给付上限", value: "180天" },
+          { label: "累计给付限额", value: "18万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "累计给付限额"],
+        rows: [
+          [
+            "特别住院津贴",
+            "在二级或以上医院重症监护病房住院期间给付，每日 1000 元",
+            "18万",
+          ],
+        ],
+      },
+    ],
+  },
+  {
+    id: "optional-1",
+    tab: "可选责任1 · 特需/国际部",
+    heading: "可选责任 1 · 扩展特需/国际部医疗费用补偿金",
+    intro:
+      "将住院范围扩展至二级或以上医保定点医院的高端病房、高端门急诊（特需部、国际部等），0 免赔，床位费限 1500 元/天，各补偿金累计给付限额 400 万。",
+    footnotes: [
+      "医院范围：具有基本医疗保险定点资格并经国家卫生行政部门认定的二级或以上医院高端病房、高端门急诊。",
+      "本费率页面中可选责任 1 分为计划 D 与计划 E 两个档位，二者互斥，需选择其一。",
+    ],
+    groups: [
+      {
+        title: "扩展特需/国际部医疗费用补偿金（计划 D / 计划 E）",
+        chips: [
+          { label: "年度免赔额", value: "0元" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "计划 D 每项累计给付", "计划 E 每项累计给付"],
+        rows: [
+          [
+            "1、住院费用补偿金（床位费及膳食费、护理费、医生诊疗费等）",
+            "限1500元/天 · 400万",
+            "限1500元/天 · 400万",
+          ],
+          ["2、住院手术 · 常规手术费", "400万", "400万"],
+          ["2、住院手术 · 内置医疗设备费", "400万", "400万"],
+          ["2、住院手术 · 外置医疗设备费", "3万", "3万"],
+          ["3、指定门急诊 · 住院前后门急诊费", "400万", "400万"],
+          ["3、指定门急诊 · 门急诊手术费", "400万", "400万"],
+          ["3、指定门急诊 · 恶性肿瘤特殊门急诊费", "400万", "400万"],
+          ["3、指定门急诊 · 肾透析门急诊费", "400万", "400万"],
+          ["3、指定门急诊 · 抗排异治疗门急诊费", "400万", "400万"],
+          [
+            "赔付比例",
+            {
+              text: "计划D：80%（自付金额高于5万元时，超过部分赔付比例为100%）",
+              tone: "olive",
+            },
+            {
+              text: "计划E：区域A（除北京、上海、江苏、广东(含深圳)以外地区）80%，自付超5万元部分100%；区域B（北京、上海、江苏、广东(含深圳)）60%",
+              tone: "olive",
+            },
+          ],
+        ],
+      },
+    ],
+  },
+  {
+    id: "optional-2",
+    tab: "可选责任2 · 院外特定药械",
+    heading: "可选责任 2 · 院外特定药械费用补偿金",
+    intro:
+      "覆盖 300+ 种恶性肿瘤特定药品、临床急需进口药品、罕见病特定药品与特种医疗器械，0 免赔、100% 赔付，累计给付限额 400 万。罕见病特定药品清单市面上较少见。",
+    footnotes: ["涵盖范围以保险合同约定的药品清单、器械清单及责任定义为准。"],
+    groups: [
+      {
+        title: "院外特定药械费用补偿金",
+        chips: [
+          { label: "免赔额", value: "0元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "每项累计给付限额"],
+        rows: [
+          [
+            "1、恶性肿瘤院外特定药品费",
+            "遵医嘱在院外购买的恶性肿瘤特定药品",
+            "400万",
+          ],
+          [
+            "2、恶性肿瘤临床急需进口药品费",
+            "国内已上市但临床急需的进口药品",
+            "400万",
+          ],
+          [
+            "3、恶性肿瘤院外特种医疗器械费",
+            "符合约定的院外特种医疗器械",
+            "400万",
+          ],
+          [
+            "4、恶性肿瘤特定药品基因检测费",
+            "用于特定药品使用的基因检测",
+            "2万",
+          ],
+          ["5、罕见病院外特定药品费", "罕见病相关的院外特定药品", "400万"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "optional-3",
+    tab: "可选责任3 · 院外一般药械",
+    heading: "可选责任 3 · 院外一般药械及送药费用补偿金",
+    intro:
+      "覆盖院外一般药械费与院外送药费，无药械白名单，普药、慢病药、医疗器械均可纳入；0 免赔、赔付比例 80%，累计给付限额 10 万元。",
+    footnotes: ["院外购药须符合合同约定，并以医生处方和实际费用凭证为准。"],
+    groups: [
+      {
+        title: "院外一般药械及送药费用补偿金",
+        chips: [
+          { label: "免赔额", value: "0元" },
+          { label: "赔付比例", value: "80%" },
+          { label: "累计给付限额", value: "10万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "每项累计给付限额"],
+        rows: [
+          ["1、院外一般药械费", "遵医嘱在院外购买的一般药械费用", "10万"],
+          ["2、院外送药费", "符合约定的院外送药服务费用", "10万"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "optional-4",
+    tab: "可选责任4 · 全球特药海外医疗",
+    heading: "可选责任 4 · 全球特药海外医疗费用补偿金",
+    intro:
+      "覆盖海外就医产生的医疗、交通、住宿及遗体返还费用，0 免赔、100% 赔付，累计给付限额 400 万。",
+    footnotes: ["海外就医安排与费用给付以保险合同约定及保险公司审核为准。"],
+    groups: [
+      {
+        title: "全球特药海外医疗费用补偿金",
+        chips: [
+          { label: "免赔额", value: "0元" },
+          { label: "赔付比例", value: "100%" },
+          { label: "累计给付限额", value: "400万", tone: "brand" },
+        ],
+        headers: ["保险责任项目", "覆盖内容", "每项累计给付限额"],
+        rows: [
+          ["1、医疗费用", "海外就医产生的约定医疗费用", "400万"],
+          ["2、交通费用", "赴境外就医的交通费用", "400万"],
+          ["3、住宿费用", "境外就医期间的住宿费用", "400万"],
+          ["4、遗体返还费用", "符合约定的遗体返还相关费用", "400万"],
+        ],
+      },
+    ],
+  },
+];
+const disclosureCards = [
+  {
+    tag: "质子重离子",
+    title: "指定的质子重离子治疗医院",
+    count: "9",
+    unit: "家",
+    desc: "本产品适用的质子重离子治疗医院清单，覆盖上海、山东、河北、安徽、湖北、浙江等地的头部质子重离子机构。",
+    wuhan: true,
+    preview: [
+      { text: "华中科技大学同济医学院附属同济医院", wuhan: true },
+      { text: "华中科技大学同济医学院附属协和医院", wuhan: true },
+      "上海市质子重离子医院（复旦大学附属肿瘤医院质子重离子中心）",
+      "上海交通大学医学院附属瑞金医院肿瘤质子中心",
+      "淄博万杰肿瘤医院",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengyiliaojigou",
+  },
+  {
+    tag: "直付住院",
+    title: "指定的直付住院优选医院（计划A/B/C/D）",
+    count: "39",
+    unit: "家",
+    desc: "可选责任1计划A/B/C/D 适用的直付住院优选医院，覆盖北京、上海、广州、深圳、苏州、武汉、杭州、成都、重庆、合肥等 15 城。",
+    wuhan: true,
+    preview: [
+      { text: "华中科技大学同济医学院附属同济医院国际医疗部", wuhan: true },
+      { text: "武汉大学中南医院（干部特需门诊）", wuhan: true },
+      "首都医科大学附属北京友谊医院国际医疗中心",
+      "上海交通大学医学院附属瑞金医院国际医疗部",
+      "中山大学附属第一医院特需医疗中心",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhifuzhuyuan#tabfilter-944b7720b6-item-46d1f9d3d5-tab",
+  },
+  {
+    tag: "直付住院",
+    title: "指定的直付住院优选医院（计划E）",
+    count: "25",
+    unit: "家",
+    desc: "可选责任1计划E 适用的直付住院优选医院，覆盖武汉、天津、济南、郑州、杭州、成都、重庆等城市。",
+    wuhan: true,
+    preview: [
+      { text: "武汉大学中南医院（干部特需门诊）", wuhan: true },
+      { text: "华中科技大学同济医学院附属同济医院国际医疗部", wuhan: true },
+      "山东第一医科大学附属省立医院国际医疗部",
+      "河南省人民医院国际医疗中心",
+      "浙江大学医学院附属第一医院国际医疗门诊部",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhifuzhuyuan#tabfilter-944b7720b6-item-98d1723613-tab",
+  },
+  {
+    tag: "CAR-T药品",
+    title: "指定的CAR-T药品及认可的医院",
+    count: "5",
+    unit: "种",
+    desc: "5 种CAR-T药品及 221 家认可医疗机构，覆盖复发或难治性多发性骨髓瘤、大B细胞淋巴瘤、滤泡性淋巴瘤、B细胞急性淋巴细胞白血病等。",
+    wuhan: true,
+    preview: [
+      { text: "湖北省内认可医院（含武汉地区多家三甲）", wuhan: true },
+      "伊基奥仑赛注射液（福可苏）",
+      "阿基仑赛注射液（奕凯达）",
+      "瑞基奥仑赛注射液（倍诺达）",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao",
+  },
+  {
+    tag: "恶性肿瘤特定药品",
+    title: "指定的恶性肿瘤特定药品",
+    count: "256",
+    unit: "种",
+    desc: "恶性肿瘤院外靶向药及其他肿瘤用药的指定清单，覆盖常见与创新肿瘤药品，为院外特定药械责任提供用药支持。",
+    preview: [
+      "可瑞达（帕博利珠单抗）",
+      "欧狄沃（纳武利尤单抗）",
+      "英飞凡（度伐利尤单抗）",
+      "安维汀（贝伐珠单抗）",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-286ad5bcb5-item-6e96bec15a-tab",
+  },
+  {
+    tag: "特种器械",
+    title: "指定的特种器械及认可的机构",
+    count: "3",
+    unit: "种",
+    desc: "覆盖难治性癌痛的植入性鞘内药物输注系统、乳房一期再造的乳房假体、恶性肿瘤骨缺损的组配式假体系统。",
+    preview: ["植入性鞘内药物输注系统", "乳房假体", "组配式假体系统"],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-3f33341b9b-item-3e9e01e74f-tab",
+  },
+  {
+    tag: "临床急需进口药品",
+    title: "指定的临床急需进口药品（海南博鳌）",
+    count: "50",
+    unit: "种",
+    desc: "海南博鳌乐城国际医疗旅游先行区适用的临床急需进口药品清单，并认可 4 家先行区特定医疗机构。",
+    preview: [
+      "Arzerra（奥法妥木单抗）",
+      "Balversa（厄达替尼）",
+      "Bavencio（阿维鲁单抗）",
+      "Bosulif（博舒替尼）",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-4e1c5c1afb-item-643acfbbd9-tab",
+  },
+  {
+    tag: "临床急需进口药品",
+    title: "指定的临床急需进口药品（大湾区）",
+    count: "11",
+    unit: "种",
+    desc: "粤港澳大湾区适用的临床急需进口药品清单，并认可 37 家湾区特定医疗机构。",
+    preview: [
+      "Erivedge（维莫德吉胶囊）",
+      "Cabometyx（卡博替尼）",
+      "Piqray（阿培利司）",
+      "Yervoy（伊匹木单抗）",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-3f33341b9b-item-6cb9730ec8-tab",
+  },
+  {
+    tag: "罕见病特定药品",
+    title: "指定的罕见病特定药品",
+    count: "41",
+    unit: "种",
+    desc: "覆盖黏多糖贮积症、法布雷病、戈谢病、血友病等多种罕见病的特定药品清单，市面上较少见。",
+    preview: [
+      "海芮思（艾度硫酸酯酶β注射液）",
+      "艾而赞（拉罗尼酶）",
+      "瑞普佳（阿加糖酶α）",
+      "思而赞（伊米苷酶）",
+    ],
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-0373cff824-item-0cad3cc0da-tab",
+  },
+];
+const disclosureRelated = [
+  {
+    label: "友邦海外特药医疗保险 · 特定药品列表（PDF）",
+    href: "https://www.aia.com.cn/content/dam/cn/zh-cn/docs/fuwu/yiyaopilu/%E5%8F%8B%E9%82%A6%E6%B5%B7%E5%A4%96%E7%89%B9%E8%8D%AF%E5%8C%BB%E7%96%97%E4%BF%9D%E9%99%A9-%E7%89%B9%E5%AE%9A%E8%8D%AF%E5%93%81%E5%88%97%E8%A1%A8_V2.0%E7%89%88.pdf",
+  },
+  {
+    label: "卓越逸生产品的直付住院医院查询",
+    href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhuoyuezhifuzhuyuanyiyuan",
+  },
+];
+const compareRows = [
+  {
+    label: "就医范围",
+    product:
+      "可选扩展特需/国际部责任，住院范围覆盖二级及以上医保定点医院普通部、特需部、国际部；另有质子重离子、CAR-T、直付住院指定医院",
+    market:
+      "支付宝好医保·长期医疗以二级及以上公立医院普通部为主，特需部/国际部通常需满足重疾确诊等条件才能使用",
+  },
+  {
+    label: "免赔额",
+    product:
+      "一般医疗年度免赔额仅 5000 元，重大疾病、质子重离子、CAR-T 0 免赔；赔付比例最高 100%",
+    market:
+      "好医保·长期医疗（2025 旗舰版）宣传 0 免赔但多为阶梯赔付（小额比例低、大额比例高），一般医疗通常需先达约定免赔门槛",
+  },
+  {
+    label: "药品清单",
+    product:
+      "院外特定药械含 300+ 种特药（恶性肿瘤靶向药、临床急需进口药、罕见病特定药、特种器械），另有院外一般药械无白名单、全球特药海外医疗",
+    market:
+      "好医保宣传覆盖 1500 余种药械，但以约定清单为准，罕见病特定药品清单市面上较少；海外特药医疗非标配",
+  },
+  {
+    label: "保障延续性",
+    product:
+      "一年期产品，不保证续保；66–99 周岁投保需满足重新投保条件。需长期稳定保障时建议综合评估",
+    market:
+      "好医保·长期医疗一般医疗保证续保 20 年，长期可预期性更强，但需注意责任范围与免责条款",
+  },
+];
+const cases = [
+  {
+    image: undefined,
+    kicker: "案例 01 · 一般医疗",
+    title: "住院手术，免赔额怎么抵扣",
+    scenario:
+      "被保人因急性阑尾炎住院手术，总费用 28,000 元，经医保结算后个人承担 12,000 元（均为医保范围内合理费用）。",
+    analysis:
+      "一般医疗费用补偿金按年度免赔额 5000 元抵扣，超免赔部分按约定比例赔付。先算个人承担金额，再扣除免赔额、乘以赔付比例，即为示例赔付。案例仅用于理解责任结构，不代表固定赔付结果。",
+    settlement: {
+      heading: "阑尾炎住院手术费用测算",
+      expenses: [
+        { label: "总医疗费用", value: "28,000元" },
+        { label: "医保报销", value: "−16,000元" },
+        { label: "医保后自付", value: "12,000元", accent: true },
+      ],
+      withoutInsurance: {
+        title: "没有保险",
+        lines: ["全部个人承担费用由家庭支出"],
+        total: "需承担 12,000元",
+      },
+      withInsurance: {
+        title: "智选逸生（基本责任A · 一般医疗）",
+        lines: [
+          "年度免赔额：5,000元",
+          "免赔后金额：12,000 − 5,000 = 7,000元",
+          "赔付比例 100%：约 7,000元",
+        ],
+        total: "预计赔付约 7,000元",
+        note: "家庭预计承担约 5,000元（即免赔额部分）",
+      },
+      highlight:
+        "保障亮点：一般医疗年度免赔额仅 5000 元，超免赔部分按 100% 给付。",
+    },
+  },
+  {
+    image: undefined,
+    kicker: "案例 02 · 重大疾病 + 可选责任",
+    title: "恶性肿瘤，院外特药怎么赔",
+    scenario:
+      "被保人确诊恶性肿瘤，住院手术治疗产生费用 120,000 元，并遵医嘱在院外购买特定抗癌药品 80,000 元（属可选责任2覆盖范围）。",
+    analysis:
+      "重大疾病医疗费用补偿金 0 免赔、100% 赔付；院外特定药械作为可选责任，0 免赔、100% 赔付。两项责任需分别核对责任范围与累计限额，再计算示例赔付。",
+    settlement: {
+      heading: "恶性肿瘤治疗费用测算",
+      expenses: [
+        { label: "住院及治疗费用", value: "120,000元" },
+        { label: "院外特定抗癌药品", value: "80,000元", accent: true },
+        { label: "合计", value: "200,000元" },
+      ],
+      withoutInsurance: {
+        title: "没有保险",
+        lines: ["住院手术 + 院外特药全部自费"],
+        total: "需承担 200,000元",
+      },
+      withInsurance: {
+        title: "智选逸生（基本责任A + 可选责任2）",
+        lines: [
+          "重大疾病医疗费用补偿金（0免赔、100%）：120,000元",
+          "院外特定药械费用补偿金（0免赔、100%）：80,000元",
+        ],
+        total: "预计赔付约 200,000元",
+        note: "责任范围内自付大幅减少，具体以真实费用、合同与审核为准",
+      },
+      highlight:
+        "保障亮点：重疾 0 免赔，叠加可选责任2 覆盖院外特定药械，大病用药更从容。",
+    },
+  },
+];
+const knowledgeItems = [
+  {
+    label: "什么是百万医疗",
+    title: "几百块撬动几百万的住院保障",
+    text: "百万医疗险通常以低保费提供较高的医疗费用给付限额，重点覆盖大额住院与重大疾病医疗费用。本产品保险期间累计给付限额达 500 万元，是医保之外的重要补充。",
+  },
+  {
+    label: "免赔额",
+    title: "小额自付，抵御大额风险",
+    text: "免赔额指需要自行承担的金额，超过部分才进入赔付计算。本产品一般医疗年度免赔额仅 5000 元，而重大疾病、质子重离子、CAR-T 均为 0 免赔，大病场景下起赔更快。",
+  },
+  {
+    label: "一年期与续保",
+    title: "短期医疗险要看续保条件",
+    text: "本产品为一年期、不保证续保产品；66 至 99 周岁投保需满足重新投保条件。选择短期医疗险时，应同时关注续保安排、责任范围和费率变化。",
+  },
+];
+const faqs = [
+  {
+    question: "没有先使用医保，会影响赔付吗？",
+    answer:
+      "会。以有公费医疗或基本医保身份投保，若就诊未使用医保结算，一般/重大疾病医疗等相关责任的赔付比例降为 80%；以无社保身份投保则按无社保费率与约定比例核算。",
+  },
+  {
+    question: "免赔额是每次住院都要扣吗？",
+    answer:
+      "一般医疗年度免赔额 5000 元按保险期间（年度）计算，不是按次扣减；重大疾病、质子重离子、CAR-T 为 0 免赔。具体以保险合同约定为准。",
+  },
+  {
+    question: "是不是所有住院费用都能赔？",
+    answer:
+      "不是。费用须符合医院范围、责任约定、合理且必需等条件，并满足费用凭证要求；超出累计给付限额、责任免除范围内或未满足约定条件的费用不在保障范围内。",
+  },
+  {
+    question: "页面里的保费测算就是最终保费吗？",
+    answer:
+      "不是。页面测算基于演示费率，实际保费取决于被保人年龄、社保状态、所选择责任组合及保险公司核保结果，不构成正式报价。",
+  },
+];
+---
+
+<BaseLayout
+  title="友邦智选逸生医疗保险保障说明｜方仲达"
+  description="从一般/重大疾病医疗、质子重离子、CAR-T、院外药械与特需国际部责任出发，理解智选逸生医疗险的责任结构、费率与测算逻辑。"
+>
+  <ProductHero
+    title="友邦智选逸生医疗保险"
+    summary="五大保障覆盖一般/重疾医疗与高端治疗，四项可选责任按需组合，用清晰的方式梳理医保、免赔额、赔付比例与累计限额如何组成一份医疗保障。"
+    audience={audience}
+    tags={["医疗保障", "重大疾病", "成人"]}
+    outline={outline}
+    image="/assets/images/hero-bg.jpg"
+  />
+
+  <nav class="chapter-nav" aria-label="页面章节">
+    <div class="container">
+      <a href="#features">产品特色</a><a href="#calculator">保费测算</a><a
+        href="#coverage">责任一览</a
+      ><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a
+        href="#claims">真实理赔</a
+      ><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult"
+        >联系方式</a
+      >
+    </div>
+  </nav>
+
+  <section class="section feature-section" id="features">
+    <div class="container">
+      <p class="eyebrow">Product features</p><h2 class="section-title">
+        产品特色
+      </h2><p class="section-lead">
+        五大保障打底，四项可选责任按需组合，丰俭由人、灵活定制。
+      </p><ProductFeatures items={features} />
+    </div>
+  </section>
+
+  <section class="section" id="calculator">
+    <div class="container">
+      <p class="eyebrow">Premium calculator</p><h2 class="section-title">
+        保费测算
+      </h2><p class="section-lead">
+        选择投保年龄、社保状态、主险责任与可选责任，实时查看首年、续保与 累计至
+        70 / 99 周岁总保费示例。
+      </p><RateTable /><PremiumCalculator />
+    </div>
+  </section>
+
+  <section class="section coverage-section" id="coverage">
+    <div class="container">
+      <p class="eyebrow">Coverage overview</p><h2 class="section-title">
+        责任一览
+      </h2><p class="section-lead">
+        先看投保信息与基本责任A
+        的五大保障，再按需核对四项可选责任的免赔额、赔付比例与累计给付限额。
+      </p><CoverageOverview meta={coverageMeta} tabs={coverageTabs} />
+      <DisclosureList
+        intro="药品、器械与医院清单会随产品与监管要求更新，以下为友邦官网披露的指定清单入口，点击跳转查看完整内容。"
+        cards={disclosureCards}
+        related={disclosureRelated}
+        note="各清单以友邦官网最新公布信息为准，披露更新日期与具体条目请以官网为准；清单内容不构成对用药、就医效果的承诺。"
+      />
+    </div>
+  </section>
+
+  <section class="section comparison-section" id="comparison">
+    <div class="container">
+      <p class="eyebrow">Comparison basis</p><h2 class="section-title">
+        比较产品，不只比较保费。
+      </h2><p class="section-lead">
+        以支付宝上的好医保·长期医疗为参照，重点比较就医范围、免赔额与药品清单。这里仅作责任结构的客观比较，不构成对任一产品的优劣判定。
+      </p><CompareTable
+        rows={compareRows}
+        productLabel="智选逸生"
+        marketLabel="好医保·长期医疗（蚂蚁保）"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="scenarios">
+    <div class="container">
+      <p class="eyebrow">Scenario analysis</p><h2 class="section-title">
+        把条款放回真实生活场景。
+      </h2><CaseStudy items={cases} /><p class="legal-note">
+        以上均为责任理解示例，人物与费用不对应特定客户，实际赔付以真实材料、保险合同和理赔审核为准。
+      </p>
+    </div>
+  </section>
+
+  <section class="section claim-section" id="claims">
+    <div class="container">
+      <p class="eyebrow">Real claim archive</p><h2 class="section-title">
+        真实理赔案例
+      </h2><p class="section-lead">
+        真实案例必须同时呈现背景、客户情况、处理过程和理赔结果；通知书展示前需取得授权并完成隐私处理。
+      </p><ClaimCase cases={[]} />
+    </div>
+  </section>
+
+  <section class="section knowledge-section" id="knowledge">
+    <div class="container">
+      <KnowledgeBlock
+        title="百万医疗险怎么看"
+        intro="百万医疗以较低保费提供较高的住院与大病费用保障，但需要理解免赔额、赔付比例、医院范围与续保条件，才能判断它适合谁。"
+        items={knowledgeItems}
+        note="产品责任、费率、等待期和续保条件存在地区及版本差异，请以正式保险合同和最新产品资料为准。"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container narrow">
+      <p class="eyebrow">Questions & answers</p><h2 class="section-title">
+        常见问题
+      </h2><FAQ items={faqs} />
+    </div>
+  </section>
+
+  <section class="section meta-section">
+    <div class="container">
+      <ProductMeta
+        source="《友邦智选逸生医疗保险》官方产品宣传页、演示费率表及保险合同责任摘要整理。"
+        updatedAt="2026-08-03"
+        comparisonBasis="以支付宝好医保·长期医疗为参照，比较就医范围、免赔额与药品清单等责任结构；不构成对市场全部产品的穷尽比较，亦不构成对任一产品的优劣判定。"
+        disclaimer="本页面仅用于保险知识普及，不构成销售承诺、保险合同、利益保证或个性化投保建议。产品名称、保险责任、责任免除、医院范围、等待期、续保条件、给付比例、费用及服务内容均以正式保险合同、最新产品资料和保险公司审核为准。"
+      />
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container">
+      <QRCodeBox
+        image="/assets/images/products/youtongxing/image-4028bb025c8c.jpg"
+        title="先把你的保障需求梳理清楚"
+        text="扫码添加方仲达，结合医保、已有保单与家庭预算进行一对一保障梳理。"
+      />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
+  }
+  .narrow {
+    max-width: 1000px;
+  }
+  .chapter-nav {
+    position: sticky;
+    z-index: 30;
+    top: 74px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+  }
+  .chapter-nav .container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .chapter-nav a {
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .chapter-nav a:hover {
+    background: rgba(165, 145, 92, 0.13);
+    color: var(--color-ink);
+  }
+  .feature-section {
+    background: var(--color-olive);
+    color: white;
+  }
+  .feature-section .eyebrow {
+    color: white;
+  }
+  .feature-section .section-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .comparison-section,
+  .claim-section {
+    background: white;
+  }
+  .coverage-section {
+    background: white;
+  }
+  .knowledge-section {
+    background: rgba(211, 202, 195, 0.24);
+  }
+  .legal-note {
+    margin-top: 20px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .meta-section {
+    padding-top: 10px;
+  }
+  .contact-section {
+    padding-top: 20px;
+  }
+  @media (max-width: 760px) {
+    .chapter-nav {
+      top: 64px;
+    }
+    .chapter-nav .container {
+      padding-right: 18px;
+      padding-left: 18px;
+    }
+    .section {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+  }
+</style>

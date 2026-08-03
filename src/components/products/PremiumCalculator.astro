@@ -1,0 +1,523 @@
+---
+const { labels } = Astro.props as {
+  labels?: {
+    title?: string;
+    age?: string;
+    social?: string;
+    optionalTitle?: string;
+    year1?: string;
+    year2?: string;
+    total70?: string;
+    total99?: string;
+  };
+};
+const l = {
+  title: "保费测算",
+  age: "投保年龄",
+  social: "社保状态",
+  optionalTitle: "可选责任",
+  year1: "首年保费（含等待期）",
+  year2: "次年续保保费",
+  total70: "续保至 70 周岁总保费",
+  total99: "续保至 99 周岁总保费",
+  ...labels,
+};
+
+// 可选责任的说明文案（悬停提示用）
+const tips = {
+  planD:
+    "计划D · 扩展特需/国际部医疗费用补偿金：0免赔，床位费限1500元/天，赔付比例80%（自付金额高于5万元时，超过部分赔付比例100%），累计给付限额400万。",
+  planE:
+    "计划E · 扩展特需/国际部医疗费用补偿金：0免赔，床位费限1500元/天；区域A（除北京、上海、江苏、广东(含深圳)以外地区）赔付比例80%（自付超5万部分100%），区域B（北京、上海、江苏、广东(含深圳)）为60%，累计给付限额400万。",
+  opt2: "可选责任2 · 院外特定药械费用补偿金：0免赔、赔付比例100%、累计给付限额400万，涵盖300+种恶性肿瘤特定药品、临床急需进口药、罕见病特定药品及特种器械（含基因检测费2万）。",
+  opt3: "可选责任3 · 院外一般药械及送药费用补偿金：0免赔、赔付比例80%、累计给付限额10万，覆盖院外一般药械费与送药费。",
+  opt4: "可选责任4 · 全球特药海外医疗费用补偿金：0免赔、赔付比例100%、累计给付限额400万，覆盖海外就医的医疗、交通、住宿及遗体返还费用。",
+};
+const optionLabels = [
+  { value: "planD", name: "计划 D", tip: tips.planD },
+  { value: "planE", name: "计划 E", tip: tips.planE },
+  { value: "opt2", name: "可选责任 2 · 院外特定药械", tip: tips.opt2 },
+  { value: "opt3", name: "可选责任 3 · 院外一般药械及送药", tip: tips.opt3 },
+  { value: "opt4", name: "可选责任 4 · 全球特药海外医疗", tip: tips.opt4 },
+];
+---
+
+<section class="premium-calculator" data-calculator>
+  <div class="calc-form" data-calc-form>
+    <h2>{l.title}</h2>
+
+    <div class="field">
+      <label for="calc-age">{l.age}</label>
+      <div class="age-row">
+        <input
+          id="calc-age"
+          type="number"
+          min="0"
+          max="65"
+          value="30"
+          inputmode="numeric"
+          data-field-age
+        />
+        <span class="unit">周岁</span>
+      </div>
+      <p class="hint" data-hint-age hidden>年龄需在 0–65 周岁之间</p>
+    </div>
+
+    <div class="field">
+      <span class="field-label">{l.social}</span>
+      <div class="choice-row" data-field-social>
+        <label class="opt"
+          ><input type="radio" name="calc-social" value="with" checked /><span
+            >有社保</span
+          ></label
+        >
+        <label class="opt"
+          ><input type="radio" name="calc-social" value="without" /><span
+            >无社保</span
+          ></label
+        >
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">{l.optionalTitle}</span>
+      <div class="check-grid" data-field-optionals>
+        {
+          optionLabels.map((opt) => (
+            <label class="opt">
+              <>
+                <input type="checkbox" name="calc-opt" value={opt.value} />
+                <span>{opt.name}</span>
+                <i class="tip" aria-hidden="true">
+                  ?
+                </i>
+                <span class="tooltip">{opt.tip}</span>
+              </>
+            </label>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-result">
+    <p class="eyebrow">Premium estimate</p>
+    <dl class="result-list">
+      <div class="result-item"><dt>{l.year1}</dt><dd data-out-year1>—</dd></div>
+      <div class="result-item"><dt>{l.year2}</dt><dd data-out-year2>—</dd></div>
+      <div class="result-item sub-total">
+        <dt>{l.total70}</dt><dd data-out-total70>—</dd>
+      </div>
+      <div class="result-item total">
+        <dt>{l.total99}</dt><dd data-out-total99>—</dd>
+      </div>
+    </dl>
+    <p class="calc-note">
+      以上为演示费率测算，不构成正式报价。累计保费按自然费率逐年计算，实际保费以保险公司核保结果、被保人年龄、社保状态、所在地区及最新费率表为准；可选责任与主险责任以合同约定为准。
+    </p>
+  </div>
+</section>
+
+<script>
+  import { ratesData } from "../../data/zhixuan-yisheng-rates";
+
+  type RateRow = {
+    basicA: number;
+    basicB: number;
+    planA: number;
+    planB: number;
+    planC: number;
+    planD: number;
+    planE: number;
+    opt2: number;
+    opt3: number;
+    opt4: number;
+  };
+  type RateTable = Record<string, RateRow>;
+
+  // 官方费率表：
+  // table1 = 有社保 · 首年（有等待期，0-65）
+  // table2 = 有社保 · 续保（无等待期，0-99）
+  // table3 = 无社保 · 首年（有等待期，0-65）
+  // table4 = 无社保 · 续保（无等待期，0-99）
+  const table1 = ratesData.table1 as RateTable;
+  const table2 = ratesData.table2 as RateTable;
+  const table3 = ratesData.table3 as RateTable;
+  const table4 = ratesData.table4 as RateTable;
+
+  const MAIN_KEY = "basicA" as const;
+  const OPT_KEYS = ["planD", "planE", "opt2", "opt3", "opt4"] as const;
+
+  const ROOT = document.querySelector<HTMLElement>("[data-calculator]");
+  if (!ROOT) throw new Error("PremiumCalculator: root not found");
+
+  const ageInput = ROOT.querySelector<HTMLInputElement>("[data-field-age]");
+  const socialRadios = Array.from(
+    ROOT.querySelectorAll<HTMLInputElement>(
+      '[data-field-social] input[name="calc-social"]',
+    ),
+  );
+  const optionalChecks = Array.from(
+    ROOT.querySelectorAll<HTMLInputElement>(
+      '[data-field-optionals] input[name="calc-opt"]',
+    ),
+  );
+  const hintAge = ROOT.querySelector<HTMLElement>("[data-hint-age]");
+  const outYear1 = ROOT.querySelector<HTMLElement>("[data-out-year1]");
+  const outYear2 = ROOT.querySelector<HTMLElement>("[data-out-year2]");
+  const outTotal70 = ROOT.querySelector<HTMLElement>("[data-out-total70]");
+  const outTotal99 = ROOT.querySelector<HTMLElement>("[data-out-total99]");
+  if (
+    !ageInput ||
+    !hintAge ||
+    !outYear1 ||
+    !outYear2 ||
+    !outTotal70 ||
+    !outTotal99
+  ) {
+    throw new Error("PremiumCalculator: required nodes not found");
+  }
+
+  // 计划 D 与计划 E 为同一可选责任的两个档位，互斥选择
+  const planD = ROOT.querySelector<HTMLInputElement>(
+    'input[name="calc-opt"][value="planD"]',
+  );
+  const planE = ROOT.querySelector<HTMLInputElement>(
+    'input[name="calc-opt"][value="planE"]',
+  );
+  planD?.addEventListener("change", () => {
+    if (planD.checked && planE) planE.checked = false;
+    calc();
+  });
+  planE?.addEventListener("change", () => {
+    if (planE.checked && planD) planD.checked = false;
+    calc();
+  });
+
+  const fmt = (n: number) => `¥ ${n.toLocaleString("zh-CN")}`;
+
+  function premiumFor(
+    table: RateTable,
+    age: number,
+    optionals: readonly string[],
+  ): number | null {
+    const row = table[String(age)];
+    if (!row) return null;
+    const main = row[MAIN_KEY] ?? 0;
+    const extra = optionals.reduce(
+      (sum, key) => sum + (row[key as keyof RateRow] ?? 0),
+      0,
+    );
+    return main + extra;
+  }
+
+  function calc() {
+    const raw = Number(ageInput!.value);
+    const age = Number.isFinite(raw) ? raw : 0;
+
+    // 校验年龄范围
+    const valid = age >= 0 && age <= 65;
+    hintAge!.hidden = valid;
+    ageInput!.setAttribute("aria-invalid", String(!valid));
+
+    if (!valid) {
+      outYear1!.textContent = "—";
+      outYear2!.textContent = "—";
+      outTotal70!.textContent = "—";
+      outTotal99!.textContent = "—";
+      return;
+    }
+
+    const social = socialRadios.find((r) => r.checked)?.value ?? "with";
+    const optionals = optionalChecks
+      .filter((c) => c.checked)
+      .map((c) => c.value);
+
+    const firstTable = social === "with" ? table1 : table3;
+    const renewTable = social === "with" ? table2 : table4;
+
+    // 首年：首年表查当前年龄（含等待期）
+    const year1 = premiumFor(firstTable, age, optionals);
+    // 次年：续保表查（当前年龄 + 1，无等待期）
+    const year2 = premiumFor(renewTable, age + 1, optionals);
+
+    // 累计保费：首年按首年表（含等待期），其后各年按续保表（无等待期），年龄逐年递增，
+    // 累加至目标周岁（含目标周岁当年）。续保表覆盖 0-99，首年表覆盖 0-65，输入受限 0-65。
+    const cumulativeTo = (target: number): number => {
+      let total = 0;
+      for (let y = age; y <= target; y++) {
+        const table = y === age ? firstTable : renewTable;
+        total += premiumFor(table, y, optionals) ?? 0;
+      }
+      return total;
+    };
+
+    const total70 = cumulativeTo(70);
+    const total99 = cumulativeTo(99);
+
+    outYear1!.textContent = year1 === null ? "—" : fmt(year1);
+    outYear2!.textContent = year2 === null ? "—" : fmt(year2);
+    outTotal70!.textContent = total70 > 0 ? fmt(total70) : "—";
+    outTotal99!.textContent = total99 > 0 ? fmt(total99) : "—";
+  }
+
+  ageInput.addEventListener("input", calc);
+  socialRadios.forEach((r) => r.addEventListener("change", calc));
+  optionalChecks.forEach((c) => c.addEventListener("change", calc));
+
+  calc();
+</script>
+
+<style>
+  .premium-calculator {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .calc-form,
+  .calc-result {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .calc-form {
+    padding: 34px 36px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+  .calc-form h2 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+  }
+  .field {
+    margin-top: 26px;
+  }
+  .field-label,
+  label[for] {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--color-charcoal);
+    font-size: 0.9rem;
+    font-weight: 750;
+  }
+  .age-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .age-row input {
+    width: 130px;
+    padding: 12px 14px;
+    border: 1px solid rgba(51, 61, 71, 0.2);
+    border-radius: 14px;
+    font: inherit;
+    font-size: 1.15rem;
+  }
+  .age-row input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+  }
+  .age-row .unit {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .hint {
+    margin: 8px 0 0;
+    color: var(--color-brand);
+    font-size: 0.8rem;
+  }
+  .choice-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .choice-row label,
+  .check-grid label {
+    position: relative;
+    cursor: pointer;
+  }
+  .choice-row input,
+  .check-grid input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+  .choice-row span,
+  .check-grid span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid rgba(51, 61, 71, 0.18);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--color-charcoal);
+    font-size: 0.9rem;
+    font-weight: 650;
+    transition: all 0.15s;
+  }
+  .choice-row input:checked + span {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #fff;
+  }
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .check-grid span {
+    justify-content: flex-start;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+  .check-grid input:checked + span {
+    background: rgba(211, 17, 69, 0.08);
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  /* 悬停提示 */
+  .opt .tip {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    z-index: 2;
+    display: grid;
+    width: 17px;
+    height: 17px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(51, 61, 71, 0.14);
+    color: var(--color-charcoal);
+    font-size: 0.68rem;
+    font-style: normal;
+    font-weight: 800;
+    transform: translateY(-50%);
+  }
+  .opt .tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    z-index: 40;
+    width: max-content;
+    max-width: 300px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--color-charcoal);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: left;
+    box-shadow: var(--shadow-card);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-4px);
+    transition:
+      opacity 0.15s,
+      transform 0.15s;
+    pointer-events: none;
+  }
+  .opt .tooltip::after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    border: 6px solid transparent;
+    border-bottom-color: var(--color-charcoal);
+    content: "";
+    transform: translateX(-50%);
+  }
+  .opt:hover .tooltip,
+  .opt:focus-within .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .calc-result {
+    padding: 34px 32px;
+    border: 1px solid var(--color-line);
+    background: linear-gradient(
+      180deg,
+      rgba(51, 61, 71, 0.04),
+      rgba(51, 61, 71, 0.01)
+    );
+  }
+  .result-list {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0 0;
+  }
+  .result-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .result-item dt {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .result-item dd {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 1.4rem;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+  .result-item.sub-total {
+    background: rgba(165, 145, 92, 0.08);
+    border-color: rgba(165, 145, 92, 0.35);
+  }
+  .result-item.sub-total dd {
+    color: var(--color-olive);
+  }
+  .result-item.total {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+  .result-item.total dt {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .result-item.total dd {
+    color: #fff;
+    font-size: 1.7rem;
+  }
+  .calc-note {
+    margin: 16px 0 0;
+    color: var(--color-muted);
+    font-size: 0.76rem;
+    line-height: 1.7;
+  }
+  @media (max-width: 880px) {
+    .premium-calculator {
+      grid-template-columns: 1fr;
+    }
+    .calc-form,
+    .calc-result {
+      padding: 26px 22px;
+    }
+  }
+  @media (max-width: 420px) {
+    .check-grid {
+      grid-template-columns: 1fr;
+    }
+    .result-item {
+      flex-direction: column;
+      gap: 4px;
+    }
+    .result-item dd {
+      font-size: 1.25rem;
+    }
+    .result-item.total dd {
+      font-size: 1.45rem;
+    }
+  }
+</style>
