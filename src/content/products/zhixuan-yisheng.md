@@ -1,5 +1,5 @@
 ---
-title: 友邦智选逸生医疗保险
+title: 智选逸生医疗保险
 slug: zhixuan-yisheng
 category: medical
 summary: 五大保障覆盖一般/重疾医疗、质子重离子、CAR-T与住院津贴，四项可选责任按需组合
@@ -11,8 +11,9 @@ productLines:
   - health
 audiences:
   - adult
+  - child
+heroImage: /assets/images/uploads/img_3999.png
 featured: false
-heroImage: /assets/images/hero-bg.jpg
 status: published
 sortOrder: 20
 updatedAt: 2026-08-03
