@@ -17,7 +17,7 @@ import ProductMeta from '../../components/products/ProductMeta.astro';
 const productLineLabels = { health:'健康保障', accident:'意外保障', 'critical-illness':'重疾保障', retirement:'享老保障', wealth:'财富管理', legacy:'传世系列' };
 const audienceLabels = { adult:'成人', child:'儿童' };
 export async function getStaticPaths() {
-  const products = await getCollection('products', ({ data }) => data.status !== 'draft' && data.slug !== 'youtongxing');
+  const products = await getCollection('products', ({ data }) => data.status !== 'draft' && data.slug !== 'youtongxing' && data.slug !== 'zhixuan-yisheng');
   return products.map(product => ({ params:{ slug:product.data.slug }, props:{ product } }));
 }
 const { product } = Astro.props;

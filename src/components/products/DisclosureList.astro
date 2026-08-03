@@ -1,0 +1,341 @@
+---
+type PreviewItem = string | { text: string; wuhan?: boolean };
+type DisclosureCard = {
+  tag: string;
+  title: string;
+  count: string;
+  unit: string;
+  desc?: string;
+  preview: PreviewItem[];
+  href: string;
+  wuhan?: boolean;
+};
+type Props = {
+  intro?: string;
+  cards?: DisclosureCard[];
+  related?: { label: string; href: string }[];
+  note?: string;
+};
+const { intro, cards = [], related = [], note } = Astro.props as Props;
+
+const renderPreview = (item: PreviewItem): { text: string; wuhan?: boolean } =>
+  typeof item === "string" ? { text: item } : item;
+---
+
+<section class="disclosure">
+  {intro && <p class="disclosure-intro">{intro}</p>}
+
+  <div class="disclosure-list">
+    {
+      cards.map((card, index) => {
+        const wuhanItems = card.preview
+          .map(renderPreview)
+          .filter((p) => p.wuhan);
+        const otherItems = card.preview
+          .map(renderPreview)
+          .filter((p) => !p.wuhan);
+        const ordered = [...wuhanItems, ...otherItems];
+        return (
+          <details
+            class:list={["disclosure-card", card.wuhan && "is-wuhan"]}
+            open={index === 0}
+          >
+            <summary>
+              <span class="card-title">
+                <span class="tag">{card.tag}</span>
+                <span class="title-text">{card.title}</span>
+                {card.wuhan && <span class="wuhan-pill">武汉</span>}
+              </span>
+              <span class="count">
+                <strong>{card.count}</strong>
+                <span>{card.unit}</span>
+              </span>
+              <span class="chevron" aria-hidden="true" />
+            </summary>
+            <div class="card-body">
+              {card.desc && <p class="desc">{card.desc}</p>}
+              <ul class="preview">
+                {ordered.map((item) => (
+                  <li class:list={{ "is-wuhan": item.wuhan === true }}>
+                    {item.wuhan && <span class="dot" aria-hidden="true" />}
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+              <a class="more" href={card.href} target="_blank" rel="noopener">
+                查看完整清单
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </details>
+        );
+      })
+    }
+  </div>
+
+  {
+    related.length > 0 && (
+      <div class="related">
+        <span class="related-label">相关官方披露</span>
+        <div class="related-list">
+          {related.map((r) => (
+            <a href={r.href} target="_blank" rel="noopener">
+              {r.label}
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {note && <p class="disclosure-note">{note}</p>}
+</section>
+
+<style>
+  .disclosure {
+    margin-top: 44px;
+    padding-top: 34px;
+    border-top: 1px solid var(--color-line);
+  }
+  .disclosure-intro {
+    max-width: 760px;
+    margin: 0 0 20px;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .disclosure-list {
+    display: grid;
+    gap: 12px;
+  }
+  .disclosure-card {
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 18px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .disclosure-card summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+  .disclosure-card summary::-webkit-details-marker {
+    display: none;
+  }
+  .disclosure-card summary:hover {
+    background: rgba(211, 202, 195, 0.16);
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(165, 145, 92, 0.14);
+    color: var(--color-dark-green);
+    font-size: 0.74rem;
+    font-weight: 750;
+  }
+  .title-text {
+    color: var(--color-ink);
+    font-size: 1.02rem;
+    font-weight: 750;
+    line-height: 1.4;
+  }
+  .wuhan-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .count {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    white-space: nowrap;
+  }
+  .count strong {
+    color: var(--color-brand);
+    font-size: 1.7rem;
+    font-weight: 850;
+    line-height: 1;
+  }
+  .count span {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  .chevron {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--color-muted);
+    border-bottom: 2px solid var(--color-muted);
+    transform: rotate(45deg);
+    transition: transform 0.18s;
+    flex: 0 0 auto;
+  }
+  .disclosure-card[open] .chevron {
+    transform: rotate(-135deg);
+  }
+
+  /* 武汉卡高亮：置顶、加粗、换色、字号略大 */
+  .disclosure-card.is-wuhan {
+    border-color: rgba(211, 17, 69, 0.4);
+    background: linear-gradient(
+      180deg,
+      rgba(211, 17, 69, 0.05),
+      rgba(255, 255, 255, 0)
+    );
+  }
+  .disclosure-card.is-wuhan summary {
+    background: rgba(211, 17, 69, 0.05);
+  }
+  .disclosure-card.is-wuhan .title-text {
+    color: var(--color-brand);
+    font-size: 1.12rem;
+    font-weight: 850;
+  }
+  .disclosure-card.is-wuhan .count strong {
+    font-size: 1.9rem;
+  }
+
+  .card-body {
+    padding: 4px 22px 20px;
+    border-top: 1px dashed var(--color-line);
+  }
+  .desc {
+    margin: 16px 0 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+  .preview {
+    display: grid;
+    gap: 7px;
+    margin: 14px 0 0;
+    padding: 13px 16px;
+    border-left: 3px solid rgba(165, 145, 92, 0.5);
+    background: rgba(211, 202, 195, 0.14);
+    border-radius: 0 12px 12px 0;
+    list-style: none;
+  }
+  .preview li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-ink);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+  .preview li.is-wuhan {
+    color: var(--color-brand);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .preview .dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--color-brand);
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+    color: var(--color-brand);
+    font-size: 0.86rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .more:hover {
+    color: var(--color-brand-dark);
+  }
+  .more span {
+    font-size: 1rem;
+  }
+
+  .related {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    padding: 16px 18px;
+    border: 1px dashed var(--color-line);
+    border-radius: 16px;
+  }
+  .related-label {
+    flex: 0 0 auto;
+    padding-top: 6px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 750;
+  }
+  .related-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .related-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-charcoal);
+    font-size: 0.8rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .related-list a:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+  .related-list a span {
+    color: var(--color-brand);
+  }
+
+  .disclosure-note {
+    margin: 18px 0 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 620px) {
+    .disclosure {
+      margin-top: 34px;
+      padding-top: 26px;
+    }
+    .disclosure-card summary {
+      flex-wrap: wrap;
+      padding: 15px 16px;
+    }
+    .card-body {
+      padding: 4px 16px 18px;
+    }
+  }
+</style>

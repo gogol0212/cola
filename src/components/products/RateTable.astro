@@ -1,0 +1,181 @@
+---
+const { title = "参考费率表" } = Astro.props as { title?: string };
+
+// 有社保 · 首年（有等待期）标准体年交费率
+const ages = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
+const rates = [
+  { basicA: 1034, planD: 2433, planE: 1984, opt2: 44, opt3: 144, opt4: 62 },
+  { basicA: 1036, planD: 1789, planE: 1459, opt2: 41, opt3: 131, opt4: 48 },
+  { basicA: 466, planD: 934, planE: 761, opt2: 34, opt3: 63, opt4: 57 },
+  { basicA: 447, planD: 762, planE: 621, opt2: 46, opt3: 70, opt4: 55 },
+  { basicA: 428, planD: 696, planE: 568, opt2: 47, opt3: 73, opt4: 54 },
+  { basicA: 456, planD: 752, planE: 613, opt2: 49, opt3: 71, opt4: 58 },
+  { basicA: 475, planD: 784, planE: 640, opt2: 52, opt3: 67, opt4: 81 },
+  { basicA: 713, planD: 795, planE: 648, opt2: 77, opt3: 75, opt4: 108 },
+  { basicA: 874, planD: 913, planE: 745, opt2: 111, opt3: 92, opt4: 144 },
+  { basicA: 1207, planD: 1157, planE: 943, opt2: 158, opt3: 110, opt4: 153 },
+  { basicA: 1530, planD: 1755, planE: 1431, opt2: 256, opt3: 163, opt4: 169 },
+  { basicA: 2043, planD: 2455, planE: 2002, opt2: 377, opt3: 232, opt4: 303 },
+  { basicA: 2518, planD: 3188, planE: 2600, opt2: 514, opt3: 299, opt4: 495 },
+  { basicA: 3059, planD: 4930, planE: 4021, opt2: 678, opt3: 404, opt4: 667 },
+];
+const fmt = (n: number) => n.toLocaleString("zh-CN");
+---
+
+<div class="rate-card">
+  <div class="rate-head">
+    <span class="rate-badge">{title}</span>
+    <p class="rate-sub">有社保 · 首次投保（有等待期）· 标准体年交费率</p>
+  </div>
+
+  <div class="rate-wrap">
+    <table class="rate-table">
+      <thead>
+        <tr>
+          <th rowspan="2">年龄（周岁）</th>
+          <th rowspan="2">基本责任 A</th>
+          <th colspan="2">可选责任 1<br />扩展特需 / 国际部医疗费用补偿金</th>
+          <th rowspan="2">可选责任 2<br />院外特定药械费用补偿金</th>
+          <th rowspan="2">可选责任 3<br />院外一般药械及送药费用补偿金</th>
+          <th rowspan="2">可选责任 4<br />全球特药海外医疗费用补偿金</th>
+        </tr>
+        <tr>
+          <th>计划 D</th>
+          <th>计划 E</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          ages.map((age, i) => {
+            const r = rates[i];
+            return (
+              <tr>
+                <td class="age">{age}</td>
+                <td class="amount">{fmt(r.basicA)}</td>
+                <td>{fmt(r.planD)}</td>
+                <td>{fmt(r.planE)}</td>
+                <td>{fmt(r.opt2)}</td>
+                <td>{fmt(r.opt3)}</td>
+                <td>{fmt(r.opt4)}</td>
+              </tr>
+            );
+          })
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rate-notes">
+    <p>
+      注：1、上表为以公费医疗或基本医疗保险身份投保，有等待期情形下的标准体年交费率。2、以上产品为一年期不保证续保产品。3、计划
+      D、计划 E 适用于湖北、天津、河北、河南、山东、重庆、安徽、浙江。
+    </p>
+    <p>
+      本宣传资料所载内容仅供理解保险条款所用，并请同时参照相关的保险条款和保险计划建议书以作全面理解，另请详细阅读责任免除、解除合同、给付比例与给付条件的关系等重要事项。具体的保险责任及内容均以正式保险合同的保险条款为准。
+    </p>
+  </div>
+</div>
+
+<style>
+  .rate-card {
+    margin-top: 36px;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .rate-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 22px 26px;
+    background: rgba(211, 202, 195, 0.22);
+  }
+  .rate-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 18px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .rate-sub {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
+  .rate-wrap {
+    overflow-x: auto;
+  }
+  .rate-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 0.86rem;
+  }
+  .rate-table th {
+    padding: 13px 12px;
+    background: var(--color-charcoal);
+    color: #fff;
+    font-weight: 650;
+    line-height: 1.5;
+  }
+  .rate-table th[rowspan="1"],
+  .rate-table thead tr:first-child th:nth-child(3),
+  .rate-table thead tr:first-child th:nth-child(4) {
+    background: #4a5560;
+  }
+  .rate-table th[colspan] {
+    background: #4a5560;
+  }
+  .rate-table td {
+    padding: 12px 10px;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+  .rate-table tbody tr:nth-child(even) {
+    background: rgba(211, 202, 195, 0.14);
+  }
+  .rate-table tbody tr:hover {
+    background: rgba(165, 145, 92, 0.12);
+  }
+  .rate-table td.age {
+    color: var(--color-brand);
+    font-weight: 800;
+  }
+  .rate-table td.amount {
+    color: var(--color-ink);
+    font-weight: 750;
+  }
+  .rate-notes {
+    padding: 18px 26px 22px;
+    border-top: 1px solid var(--color-line);
+    background: rgba(246, 244, 243, 0.6);
+  }
+  .rate-notes p {
+    margin: 5px 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    text-align: justify;
+  }
+  @media (max-width: 760px) {
+    .rate-head {
+      padding: 18px 18px;
+    }
+    .rate-table {
+      min-width: 640px;
+      font-size: 0.8rem;
+    }
+    .rate-notes {
+      padding: 16px 18px 18px;
+    }
+  }
+</style>
