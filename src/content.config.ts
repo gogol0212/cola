@@ -36,6 +36,7 @@ const knowledge = defineCollection({
     coverImage:z.string().optional(),
     featured:z.boolean().default(false),
     status:z.enum(['draft','reviewed','published']).default('draft'),
+    publishedAt:z.coerce.date().optional(),
     updatedAt:z.coerce.date(),
     seoTitle:z.string(),
     seoDescription:z.string(),

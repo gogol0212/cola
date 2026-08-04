@@ -8,6 +8,14 @@ interface Props { title: string; description: string; image?: string; }
 const { title, description, image = '/assets/images/hero-bg.jpg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: '未来可乐团队',
+  alternateName: 'AIA HUBEI · 未来可乐团队',
+  url: Astro.site?.toString(),
+  logo: new URL('/assets/logo.png', Astro.site).toString(),
+};
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -25,7 +33,16 @@ const socialImage = new URL(image, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
     <title>{title}</title>
   </head>
-  <body><Header /><main><slot /></main><Footer /><Tracker /></body>
+  <body><Header /><main><slot /></main><Footer /><Tracker />
+    <script>
+      // 基础内容保护：仅针对图片，不影响正文阅读与复制
+      document.querySelectorAll('img').forEach((img) => {
+        img.setAttribute('draggable', 'false');
+        img.addEventListener('contextmenu', (e) => e.preventDefault());
+      });
+    </script>
+  </body>
 </html>

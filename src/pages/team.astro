@@ -30,8 +30,8 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
       <div class="hero-slogan"><b set:html={sloganHtml} /><span>{h.sloganEn}</span></div>
       <div class="hero-tags">{h.tags.map(tag => <span>{tag}</span>)}</div>
     </div>
-    <div class="hero-media">
-      <img src={h.image} loading="lazy" alt="未来可乐团队" />
+    <div class="hero-media no-select">
+      <img src={h.image} loading="lazy" alt="未来可乐团队" draggable="false" />
     </div>
   </div></section>
 
@@ -47,8 +47,8 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
   </div></section>
 
   <section class="section founder-band reveal" id="founder"><div class="container founder-grid">
-    <div class="founder-media">
-      <img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} />
+    <div class="founder-media no-select">
+      <img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} draggable="false" />
     </div>
     <div><div class="founder-name-row"><h2 class="section-title">{founder.name}</h2><img class="founder-logo" src="/assets/logo.png" alt="" aria-hidden="true" /></div><p class="founder-meta">{founder.school} · {founder.years} · {founder.role}</p><p class="founder-tagline">{founder.tagline}</p>
     {founder.paragraphs.map(p => <p class="founder-p" set:html={p.replace(/“可乐”/g, '<em class="cola-em">“可乐”</em>')} />)}
@@ -69,7 +69,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
     <div class="aia-track-wrap">
       <div class="aia-track" id="aiaTrack">
         {[...aiaMilestones, ...aiaMilestones].map((m, i) => <article class:list={['aia-slide', { featured: m.featured }]}>
-          <div class="aia-media"><img src={m.image} loading="lazy" width="1280" height="800" alt={`${m.year}，${m.title}`} /><span class="aia-year">{m.year}</span>{m.featured && <span class="aia-featured">我们的起点</span>}</div>
+          <div class="aia-media no-select"><img src={m.image} loading="lazy" width="1280" height="800" alt={`${m.year}，${m.title}`} draggable="false" /><span class="aia-year">{m.year}</span>{m.featured && <span class="aia-featured">我们的起点</span>}</div>
           <div class="aia-body"><b>{m.year}</b><h3>{m.title}</h3><p>{m.desc}</p></div>
         </article>)}
       </div>

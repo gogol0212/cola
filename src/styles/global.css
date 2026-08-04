@@ -4,7 +4,12 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--color-ink); background: var(--color-canvas); font-family: var(--font-sans); line-height: 1.7; }
 a { color: inherit; }
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+
+/* 重要展示区禁选：Hero、对比卡、关键图文模块 */
+.no-select { user-select: none; -webkit-user-select: none; }
+/* 正文保留可选中，仅取消图片拖拽 */
+.article-body { user-select: text; -webkit-user-select: text; }
 .container { width: min(calc(100% - 40px), var(--content)); margin-inline: auto; }
 .section { padding: clamp(72px, 9vw, 124px) 0; }
 .eyebrow { margin: 0 0 12px; color: var(--color-brand); font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }

@@ -9,3 +9,15 @@
 /admin/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store
+
+/cms/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/private/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/drafts/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store

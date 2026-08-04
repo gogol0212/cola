@@ -3,7 +3,7 @@ interface Props { name: string; school: string; role: string; years: string; ima
 const { name, school, role, years, image, tags = [] } = Astro.props;
 ---
 <article class="member-card">
-  <div class="photo"><img src={`/assets/images/${image}`} loading="lazy" width="600" alt={`${name}，未来可乐团队成员`} /></div>
+  <div class="photo"><img src={`/assets/images/${image}`} loading="lazy" width="600" alt={`${name}，未来可乐团队成员`} draggable="false" /></div>
   <div class="info">
     <h3>{name}</h3>
     <p class="school">{school}</p>

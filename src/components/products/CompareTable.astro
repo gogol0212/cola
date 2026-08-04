@@ -2,7 +2,7 @@
 type Row = { label: string; product: string; market: string };
 const { rows = [], productLabel = "本产品相关责任", marketLabel = "常见基础方案" } = Astro.props;
 ---
-<div class="compare-wrap">
+<div class="compare-wrap no-select">
   <table>
     <thead><tr><th>比较维度</th><th class="featured">{productLabel}</th><th>{marketLabel}</th></tr></thead>
     <tbody>{rows.map((row: Row) => <tr><th>{row.label}</th><td class="featured">{row.product}</td><td>{row.market}</td></tr>)}</tbody>

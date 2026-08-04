@@ -5,6 +5,7 @@ category: insurance-selection
 summary: 这是后台新增保险知识文章时可参考的草稿模板。
 featured: false
 status: draft
+publishedAt: 2026-08-02
 updatedAt: 2026-08-02
 seoTitle: 保险知识文章模板｜未来可乐团队
 seoDescription: 未来可乐团队保险知识文章后台模板。
