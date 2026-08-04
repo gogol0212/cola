@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="联系我们｜未来可乐团队" description="联系未来可乐团队。先添加方仲达的企业微信，进一步沟通保险规划与保障咨询。">
+  <section class="contact-hero">
+    <div class="container hero-inner">
+      <p class="eyebrow on-dark">Contact Us</p>
+      <h1>联系我们</h1>
+      <p class="hero-sub">先添加方仲达的企业微信，关于保障规划与保险咨询，可以直接在微信上沟通。</p>
+    </div>
+  </section>
+
+  <section class="section body"><div class="container">
+    <div class="qr-card reveal">
+      <div class="qr-media">
+        <img src="/assets/images/wechat-qr.png" width="600" height="600" alt="方仲达企业微信二维码" loading="eager" />
+        <span class="qr-hint">微信扫码添加</span>
+      </div>
+      <div class="qr-copy">
+        <p class="eyebrow">WeChat</p>
+        <h2>添加方仲达的企业微信</h2>
+        <p class="desc">保险规划、产品咨询、家庭保障与理赔协助，都可以通过微信与我们沟通。</p>
+        <ul class="tips">
+          <li>扫码后请备注「咨询方向」，我们会尽快回复。</li>
+          <li>涉及个人信息的规划沟通，建议通过微信一对一进行，更安全。</li>
+        </ul>
+        <p class="note">目前网站以内容展示为主，暂不提供在线客服。正式规划建议以微信沟通为准。</p>
+      </div>
+    </div>
+  </div></section>
+</BaseLayout>
+<style>
+  .contact-hero { min-height: 420px; display:grid; align-items:center; padding: 130px 0 84px; background: linear-gradient(120deg,rgba(51,61,71,.97),rgba(51,61,71,.82)),url('/assets/images/hero-bg.jpg') center/cover; color:white; }
+  .hero-inner { max-width: 720px; }
+  .contact-hero h1 { margin:0; font-size:clamp(2.8rem,6vw,4.6rem); line-height:1.06; letter-spacing:-.04em; font-weight:900; }
+  .contact-hero h1:after { content:''; display:block; width:56px; height:5px; margin:26px 0 0; background:var(--color-olive); }
+  .hero-sub { margin:26px 0 0; max-width:600px; color:rgba(255,255,255,.85); font-size:clamp(1rem,1.8vw,1.2rem); line-height:1.8; }
+  .eyebrow.on-dark { color:var(--color-olive); }
+  .body { background:white; }
+  .qr-card { display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(28px,5vw,72px); align-items:center; padding:clamp(30px,5vw,64px); border:1px solid var(--color-line); border-radius:var(--radius-lg); background:var(--color-canvas); }
+  .qr-media { position:relative; text-align:center; }
+  .qr-media img { width:min(100%,360px); margin-inline:auto; border-radius:var(--radius-md); border:1px solid var(--color-line); background:white; box-shadow:var(--shadow-card); }
+  .qr-hint { display:inline-block; margin-top:16px; padding:8px 18px; border-radius:999px; background:var(--color-olive); color:white; font-size:.82rem; font-weight:800; }
+  .qr-copy h2 { margin:0 0 16px; font-size:clamp(1.7rem,3.4vw,2.6rem); line-height:1.25; letter-spacing:-.02em; }
+  .qr-copy .desc { margin:0; color:var(--color-muted); font-size:1.05rem; line-height:1.85; }
+  .tips { margin:24px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
+  .tips li { position:relative; padding:12px 16px 12px 42px; border-radius:var(--radius-sm); background:white; border:1px solid var(--color-line); color:var(--color-charcoal); font-size:.92rem; line-height:1.6; }
+  .tips li:before { content:'✓'; position:absolute; left:16px; top:50%; transform:translateY(-50%); width:18px; height:18px; display:grid; place-items:center; border-radius:50%; background:var(--color-olive); color:white; font-size:.7rem; font-weight:800; }
+  .note { margin:26px 0 0; color:var(--color-muted); font-size:.8rem; line-height:1.7; }
+  .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity:1; transform:none; }
+  @media(prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } }
+  @media(max-width:720px){.contact-hero{min-height:auto;padding:96px 0 64px}.contact-hero h1{font-size:2.6rem}.qr-card{grid-template-columns:1fr;text-align:left}}
+</style>
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>

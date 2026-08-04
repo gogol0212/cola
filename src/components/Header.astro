@@ -1,10 +1,10 @@
 ---
 const links = [
   { href: '/', label: '首页' },
-  { href: '/team/', label: '可乐团队' },
+  { href: '/team/', label: '团队介绍' },
   { href: '/products/', label: '产品介绍' },
   { href: '/knowledge/', label: '保险知识' },
-  { href: '/#contact', label: '联系咨询' },
+  { href: '/join/', label: '加入可乐' },
 ];
 ---
 <header class="site-header">
@@ -14,7 +14,7 @@ const links = [
       <span><b>AIA HUBEI</b><small>未来可乐团队</small></span>
     </a>
     <nav aria-label="主导航">{links.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
-    <a class="contact" href="/#contact">预约咨询</a>
+    <a class="contact" href="/contact/">联系我们</a>
     <details class="mobile-menu"><summary aria-label="打开网站导航">菜单</summary><div>{links.map((link) => <a href={link.href}>{link.label}</a>)}</div></details>
   </div>
 </header>

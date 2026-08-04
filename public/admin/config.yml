@@ -265,6 +265,11 @@ collections:
               - { label: 专业经历, name: role, widget: string }
               - { label: 公司年限, name: years, widget: string }
               - { label: 照片路径, name: image, widget: string }
+              - label: 服务标签
+                name: tags
+                widget: list
+                label_singular: 标签
+                field: { label: 标签, name: item, widget: string }
       - label: 团队页面内容
         name: teamSite
         file: src/data/team-site.json
@@ -296,6 +301,22 @@ collections:
                 name: paragraphs
                 widget: list
                 field: { label: 段落, name: item, widget: text }
+          - label: 我们如何服务客户
+            name: services
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: lead, widget: text }
+              - label: 服务卡片
+                name: items
+                widget: list
+                label_singular: 卡片
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 说明, name: desc, widget: text }
           - label: 关于友邦·百年里程碑
             name: aia
             widget: object
@@ -337,6 +358,7 @@ collections:
               - { label: 角色, name: role, widget: string }
               - { label: 照片路径, name: image, widget: string }
               - { label: 一句话定位, name: tagline, widget: text }
+              - { label: “可乐”名字解释, name: cola, widget: text }
               - label: 经历段落
                 name: paragraphs
                 widget: list
@@ -530,6 +552,98 @@ collections:
                   - { label: 说明, name: desc, widget: string }
               - { label: 按钮文案, name: buttonText, widget: string }
               - { label: 按钮链接, name: buttonUrl, widget: string }
+      - label: 加入我们页面
+        name: joinPage
+        file: src/data/join.json
+        fields:
+          - label: Hero 区
+            name: hero
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 主标题, name: title, widget: string }
+              - { label: 副标题, name: subtitle, widget: text }
+              - { label: 主张, name: slogan, widget: text }
+              - { label: 按钮文案, name: ctaText, widget: string }
+              - { label: 按钮链接, name: ctaUrl, widget: string }
+          - label: 招募理念与适合人群
+            name: intro
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: lead, widget: text }
+              - label: 适合人群
+                name: fitItems
+                widget: list
+                field: { label: 条目, name: item, widget: text }
+          - label: 我们提供什么
+            name: offer
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: lead, widget: text }
+              - label: 提供内容卡片
+                name: items
+                widget: list
+                label_singular: 卡片
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 说明, name: desc, widget: text }
+              - { label: Be Best 计划标题, name: beBestTitle, widget: string }
+              - { label: Be Best 计划说明, name: beBestText, widget: text }
+          - label: 为什么是未来可乐团队
+            name: culture
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 引语, name: quote, widget: text }
+              - label: 文化关键词
+                name: items
+                widget: list
+                field: { label: 关键词, name: item, widget: string }
+          - label: 职业发展路径
+            name: path
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - label: 步骤
+                name: steps
+                widget: list
+                label_singular: 步骤
+                summary: "{{fields.num}} · {{fields.title}}"
+                fields:
+                  - { label: 序号, name: num, widget: string }
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 说明, name: desc, widget: text }
+          - label: 底部 CTA 与表单
+            name: cta
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: text, widget: text }
+              - { label: 按钮文案, name: buttonText, widget: string }
+              - label: 表单字段
+                name: fields
+                widget: list
+                label_singular: 字段
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: 标签, name: label, widget: string }
+                  - { label: 字段名, name: name, widget: string }
+                  - { label: 类型, name: type, widget: select, options: [text, textarea] }
+                  - { label: 占位提示, name: placeholder, widget: string }
 
   - name: settings
     label: 网站设置
