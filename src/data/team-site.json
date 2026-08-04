@@ -19,20 +19,24 @@
   },
   "aia": {
     "eyebrow": "About AIA",
-    "title": "百多年來全力支持您",
-    "subtitle": "从 1919 年上海的一间办公室起步，到今天覆盖亚太的保险集团——友邦的百年，始终专注于一件事：帮助人们拥有健康长久好生活。",
-    "note": "以下里程碑信息整理自友邦保险公开资料，其中 2010 年后内容参考友邦人寿官方里程碑。",
+    "title": "在你身边100多年",
+    "subtitle": "自 1919 年史带先生在上海创立友邦以来，我们始终坚持以专业与陪伴守护每一份对未来的承诺。百余年里，友邦与数代中国家庭并肩同行——我们，始终在你身边。",
+    "note": "以下里程碑信息整理自友邦保险官方「在你身边100多年」公开资料。",
     "milestones": [
-      { "year": "1919", "title": "创立", "desc": "集团始创人史戴先生于上海成立保险代理公司，奠定友邦集团于亚洲的根基。", "image": "/assets/images/milestones/1919.jpg" },
-      { "year": "1931", "title": "首次扩展", "desc": "INTASCO 在香港及新加坡成立分公司，业务版图首次跨越地域。", "image": "/assets/images/milestones/1931.jpg" },
-      { "year": "1947", "title": "迁移总部", "desc": "总部迁往香港，并更名为 American International Assurance Company（AIA）。", "image": "/assets/images/milestones/1947.jpg" },
-      { "year": "1992", "title": "重回中国内地", "desc": "通过上海分公司重启中国业务，成为首家在内地取得牌照的全外资寿险公司。", "image": "/assets/images/milestones/1992.jpg" },
-      { "year": "2010", "title": "香港上市", "desc": "友邦保险控股于香港联交所主板上市，是当时全球第三大的首次公开招股。", "image": "/assets/images/milestones/2010.jpg" },
-      { "year": "2014", "title": "携手托特纳姆热刺", "desc": "与托特纳姆热刺足球俱乐部签署重要合作伙伴协议。", "image": "/assets/images/milestones/2014.jpg" },
-      { "year": "2017", "title": "数字化平台", "desc": "推出个人移动健康管理平台，2021 年升级为全场景保险生活数字平台「友邦友享」。", "image": "/assets/images/milestones/2017.jpg" },
-      { "year": "2019", "title": "友邦百年华诞", "desc": "友邦迎来百年华诞，继续以「健康长久好生活」长期陪伴客户。", "image": "/assets/images/milestones/2019.jpg" },
+      { "year": "1919", "title": "在上海起步", "desc": "史带先生在上海创立向华人提供保险服务的外资机构，开启了友邦与中国的世纪之缘。", "image": "/assets/images/milestones/1919.jpg" },
+      { "year": "1992", "title": "重回中国内地", "desc": "重回中国内地，成为改革开放后最早一批获发个人人身保险业务营业执照的非本土保险机构之一。", "image": "/assets/images/milestones/1992.jpg" },
+      { "year": "1993", "title": "引入营销员制度", "desc": "率先引入营销员制度，将现代商业保险理念和制度植入中国内地寿险市场。", "image": "/assets/images/milestones/1993.jpg" },
+      { "year": "1998", "title": "迁回外滩友邦大厦", "desc": "友邦保险正式迁回外滩中山东一路17号“友邦大厦”。", "image": "/assets/images/milestones/1998.jpg" },
+      { "year": "2010", "title": "香港上市", "desc": "香港上市，是当时全球第三大首次公开发售（IPO）。", "image": "/assets/images/milestones/2010.jpg" },
+      { "year": "2014", "title": "携手托特纳姆热刺", "desc": "与托特纳姆热刺足球俱乐部签订重要伙伴协议。", "image": "/assets/images/milestones/2014.jpg" },
+      { "year": "2017", "title": "数字化健康管理", "desc": "推出个人移动健康管理平台。2021年推出全场景保险生活数字平台“友邦友享”。", "image": "/assets/images/milestones/2017.jpg" },
+      { "year": "2019", "title": "友邦百年华诞", "desc": "友邦迎来百年华诞。获批在天津市和河北省石家庄市开设营销服务部。2022年，天津、石家庄营销服务部分别获准改建升级为分公司和中心支公司。", "image": "/assets/images/milestones/2019.jpg" },
       { "year": "2020", "title": "首家外资独资", "desc": "友邦人寿成为中国内地首家外资独资人身保险公司。", "image": "/assets/images/milestones/2020.jpg" },
-      { "year": "2021", "title": "湖北分公司开业", "desc": "友邦人寿湖北分公司完成筹建获准开业，未来可乐团队也从这里出发。", "image": "/assets/images/milestones/2019.jpg" }
+      { "year": "2021", "title": "湖北分公司开业", "desc": "3月，友邦人寿四川分公司完成筹建获准开业。10月，友邦人寿湖北分公司完成筹建获准开业。未来可乐团队，就从这里出发。", "image": "/assets/images/milestones/2021.jpg", "featured": true },
+      { "year": "2022", "title": "友邦金融中心", "desc": "12月，友邦人寿成功投得上海北外滩地标地产项目，并于2023年初正式揭牌为“友邦金融中心”。这是友邦人寿成立以来进行的最大一次资产收购。", "image": "/assets/images/milestones/2022.jpg" },
+      { "year": "2023", "title": "河南 · 河北分公司", "desc": "4月，友邦河南分公司完成筹建获准开业；10月，石家庄中心支公司获准改建升级为河北分公司。", "image": "/assets/images/milestones/2023.jpg" },
+      { "year": "2024", "title": "山东分公司开业", "desc": "2024年度四季度友邦人寿获准获批于安徽、山东、重庆、浙江筹建分公司；12月，友邦人寿山东分公司完成筹建获准开业。", "image": "/assets/images/milestones/2024.jpg" },
+      { "year": "2025", "title": "皖渝浙分公司开业", "desc": "2月，友邦人寿安徽分公司、重庆分公司完成筹建获准开业；3月，友邦人寿浙江分公司完成筹建获准开业；12月，友邦保险资管获批开业。", "image": "/assets/images/milestones/2025.jpg" }
     ]
   },
   "stats": [
