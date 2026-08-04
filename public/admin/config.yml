@@ -265,6 +265,237 @@ collections:
               - { label: 专业经历, name: role, widget: string }
               - { label: 公司年限, name: years, widget: string }
               - { label: 照片路径, name: image, widget: string }
+      - label: 团队页面内容
+        name: teamSite
+        file: src/data/team-site.json
+        fields:
+          - label: 首页 Hero
+            name: hero
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 主标题, name: headline, widget: string }
+              - { label: 主标题强调词, name: headlineAccent, widget: string }
+              - { label: 副标题, name: subheadline, widget: text }
+              - label: 标签
+                name: tags
+                widget: list
+                field: { label: 标签, name: item, widget: string }
+          - label: 团队信念
+            name: belief
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - label: 段落
+                name: paragraphs
+                widget: list
+                field: { label: 段落, name: item, widget: text }
+          - label: 核心数据
+            name: stats
+            widget: list
+            label_singular: 数据项
+            summary: "{{fields.value}} · {{fields.label}}"
+            fields:
+              - { label: 数值, name: value, widget: string }
+              - { label: 标签, name: label, widget: string }
+              - { label: 说明, name: note, widget: string }
+          - label: 创始人
+            name: founder
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 姓名, name: name, widget: string }
+              - { label: 学校与学历, name: school, widget: string }
+              - { label: 入司年限, name: years, widget: string }
+              - { label: 角色, name: role, widget: string }
+              - { label: 照片路径, name: image, widget: string }
+              - { label: 一句话定位, name: tagline, widget: text }
+              - label: 经历段落
+                name: paragraphs
+                widget: list
+                field: { label: 段落, name: item, widget: text }
+              - label: 亮点
+                name: highlights
+                widget: list
+                summary: "{{fields.label}} · {{fields.value}}"
+                fields:
+                  - { label: 标签, name: label, widget: string }
+                  - { label: 数值, name: value, widget: string }
+          - label: 团队成员区块
+            name: members
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: lead, widget: text }
+          - label: 专业认可
+            name: recognition
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: lead, widget: text }
+              - label: 认可列表
+                name: items
+                widget: list
+                field: { label: 认可, name: item, widget: string }
+          - label: Be Best 人才计划
+            name: beBest
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 副标题, name: subtitle, widget: string }
+              - label: 津贴卡片
+                name: cards
+                widget: list
+                label_singular: 卡片
+                summary: "{{fields.period}} · {{fields.amount}}"
+                fields:
+                  - { label: 阶段, name: period, widget: string }
+                  - { label: 金额, name: amount, widget: string }
+                  - { label: 单位, name: unit, widget: string }
+                  - { label: 说明, name: desc, widget: text }
+              - label: 招募条件
+                name: conditions
+                widget: list
+                field: { label: 条件, name: item, widget: string }
+              - { label: 免责说明, name: note, widget: text }
+              - { label: CTA 文案, name: ctaText, widget: string }
+          - label: 未来企业家计划
+            name: entrepreneur
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 副标题, name: subtitle, widget: string }
+              - { label: 统一条件说明（如天生赢家测评）, name: assessment, widget: string }
+              - label: 三大计划
+                name: plans
+                widget: list
+                label_singular: 计划
+                summary: "{{fields.name}} · 津贴 {{fields.stipend}}"
+                fields:
+                  - { label: 计划名, name: name, widget: string }
+                  - { label: 定位, name: subname, widget: string }
+                  - { label: 津贴, name: stipend, widget: string }
+                  - { label: 单位, name: unit, widget: string }
+                  - { label: 首三月收入, name: first3m, widget: string }
+                  - { label: 首十二月收入, name: first12m, widget: string }
+                  - label: 招募条件
+                    name: conditions
+                    widget: list
+                    field: { label: 条件, name: item, widget: string }
+                  - { label: 是否重点推荐, name: featured, widget: boolean, default: false }
+              - label: 统一赋能体系
+                name: support
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - label: 板块
+                    name: blocks
+                    widget: list
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: 标题, name: title, widget: string }
+                      - label: 要点
+                        name: lines
+                        widget: list
+                        field: { label: 要点, name: item, widget: text }
+                  - { label: 免责说明, name: note, widget: text }
+          - label: 招募数据
+            name: recruitment
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 导语, name: lead, widget: text }
+              - { label: 申请人数, name: applied, widget: string }
+              - { label: 入职人数, name: joined, widget: string }
+              - { label: 录用率, name: acceptance, widget: string }
+              - label: 学历数据
+                name: education
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 大数字, name: big, widget: string }
+                  - { label: 大数字标签, name: bigLabel, widget: string }
+                  - label: 要点
+                    name: points
+                    widget: list
+                    field: { label: 要点, name: item, widget: string }
+              - label: 转型数据
+                name: transformation
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 大数字, name: big, widget: string }
+                  - { label: 大数字标签, name: bigLabel, widget: string }
+                  - label: 明细
+                    name: grid
+                    widget: list
+                    summary: "{{fields.label}} · {{fields.value}}"
+                    fields:
+                      - { label: 名称, name: label, widget: string }
+                      - { label: 数值, name: value, widget: string }
+              - label: 友榜 YOUNG
+                name: young
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 副标题, name: subtitle, widget: string }
+                  - label: 年龄分布
+                    name: ageBands
+                    widget: list
+                    summary: "{{fields.label}} · {{fields.percent}}"
+                    fields:
+                      - { label: 年龄段, name: label, widget: string }
+                      - { label: 人数, name: count, widget: string }
+                      - { label: 占比, name: percent, widget: string }
+                  - label: 指标
+                    name: metrics
+                    widget: list
+                    summary: "{{fields.label}} · {{fields.value}}"
+                    fields:
+                      - { label: 名称, name: label, widget: string }
+                      - { label: 数值, name: value, widget: string }
+              - label: 招募来源图表
+                name: sourceChart
+                widget: object
+                collapsed: true
+                fields:
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 副标题, name: subtitle, widget: string }
+                  - label: 行业数据
+                    name: items
+                    widget: list
+                    summary: "{{fields.label}} · {{fields.value}}"
+                    fields:
+                      - { label: 行业, name: label, widget: string }
+                      - { label: 占比, name: value, widget: string }
+          - label: 招募 CTA
+            name: cta
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: text, widget: text }
+              - { label: 按钮文案, name: buttonText, widget: string }
+              - { label: 按钮链接, name: buttonUrl, widget: string }
 
   - name: settings
     label: 网站设置
