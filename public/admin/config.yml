@@ -277,7 +277,8 @@ collections:
               - { label: 眉题, name: eyebrow, widget: string }
               - { label: 主标题, name: headline, widget: string }
               - { label: 主标题强调词, name: headlineAccent, widget: string }
-              - { label: 副标题, name: subheadline, widget: text }
+              - { label: 中文口号, name: slogan, widget: string }
+              - { label: 英文口号, name: sloganEn, widget: string }
               - label: 标签
                 name: tags
                 widget: list
@@ -333,6 +334,8 @@ collections:
               - { label: 眉题, name: eyebrow, widget: string }
               - { label: 标题, name: title, widget: string }
               - { label: 说明, name: lead, widget: text }
+              - { label: 虚位以待标题, name: vacancyTitle, widget: string }
+              - { label: 虚位以待副标题, name: vacancySub, widget: string }
           - label: 专业认可
             name: recognition
             widget: object
@@ -494,6 +497,15 @@ collections:
               - { label: 眉题, name: eyebrow, widget: string }
               - { label: 标题, name: title, widget: string }
               - { label: 说明, name: text, widget: text }
+              - label: 加入步骤
+                name: steps
+                widget: list
+                label_singular: 步骤
+                summary: "{{fields.num}} · {{fields.title}}"
+                fields:
+                  - { label: 序号, name: num, widget: string }
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 说明, name: desc, widget: string }
               - { label: 按钮文案, name: buttonText, widget: string }
               - { label: 按钮链接, name: buttonUrl, widget: string }
 

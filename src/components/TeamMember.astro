@@ -1,19 +1,26 @@
 ---
-interface Props { name: string; school: string; role: string; years: string; image: string; featured?: boolean; }
-const { name, school, role, years, image, featured = false } = Astro.props;
+interface Props { name: string; school: string; role: string; years: string; image: string; }
+const { name, school, role, years, image } = Astro.props;
 ---
-<article class:list={['member-card', { featured }]}>
-  <img src={`/assets/images/${image}`} loading="lazy" width="600" height="800" alt={`${name}，未来可乐团队成员`} />
-  <div class="content"><div class="name-row"><h3>{name}</h3><span>{years}</span></div><p>{school}</p><small>{role}</small></div>
+<article class="member-card">
+  <div class="photo"><img src={`/assets/images/${image}`} loading="lazy" width="600" height="750" alt={`${name}，未来可乐团队成员`} /></div>
+  <div class="info">
+    <h3>{name}</h3>
+    <p class="school">{school}</p>
+    <p class="role">{role}</p>
+    <span class="tenure">{years}</span>
+  </div>
 </article>
 <style>
-  .member-card { overflow: hidden; border: 1px solid var(--color-line); border-radius: var(--radius-md); background: white; }
-  img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; background: var(--color-canvas); filter: saturate(.9); }
-  .content { padding: 20px; }
-  .name-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-  h3 { margin: 0; font-size: 1.25rem; }
-  span { color: var(--color-brand); font-size: .72rem; font-weight: 750; }
-  p { margin: 7px 0 2px; font-size: .82rem; }
-  small { color: var(--color-muted); }
-  .featured { box-shadow: var(--shadow-card); }
+  .member-card { position: relative; overflow: hidden; border: 1px solid var(--color-line); border-radius: var(--radius-md); background: white; transition: transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s, border-color .4s; }
+  .member-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(25,31,40,.14); border-color: rgba(165,145,92,.55); }
+  .member-card:before { content:''; position:absolute; inset:0; z-index:2; pointer-events:none; border-radius:inherit; box-shadow:inset 0 0 0 1px transparent; }
+  .photo { overflow: hidden; background: var(--color-canvas); }
+  img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; filter: saturate(.92); transition: transform .7s cubic-bezier(.2,.7,.3,1); }
+  .member-card:hover img { transform: scale(1.05); }
+  .info { padding: 22px 20px 24px; text-align: center; }
+  h3 { margin: 0 0 6px; font-size: 1.3rem; letter-spacing: .02em; }
+  .school { margin: 0 0 5px; color: var(--color-olive); font-size: .9rem; font-weight: 750; }
+  .role { margin: 0 0 16px; color: var(--color-muted); font-size: .84rem; line-height: 1.5; min-height: 2.5em; }
+  .tenure { display: inline-block; padding: 5px 14px; border-radius: 999px; background: var(--color-canvas); color: var(--color-dark-green); font-size: .74rem; font-weight: 750; border: 1px solid rgba(104,101,90,.25); }
 </style>
