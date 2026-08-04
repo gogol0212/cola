@@ -277,6 +277,7 @@ collections:
               - { label: 眉题, name: eyebrow, widget: string }
               - { label: 主标题, name: headline, widget: string }
               - { label: 主标题强调词, name: headlineAccent, widget: string }
+              - { label: 副标题, name: subheadline, widget: string }
               - { label: 中文口号, name: slogan, widget: string }
               - { label: 英文口号, name: sloganEn, widget: string }
               - label: 标签
@@ -294,6 +295,25 @@ collections:
                 name: paragraphs
                 widget: list
                 field: { label: 段落, name: item, widget: text }
+          - label: 关于友邦·百年里程碑
+            name: aia
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 副标题, name: subtitle, widget: text }
+              - { label: 数据来源说明, name: note, widget: text }
+              - label: 里程碑
+                name: milestones
+                widget: list
+                label_singular: 里程碑
+                summary: "{{fields.year}} · {{fields.title}}"
+                fields:
+                  - { label: 年份, name: year, widget: string }
+                  - { label: 标题, name: title, widget: string }
+                  - { label: 说明, name: desc, widget: text }
+                  - { label: 图片, name: image, widget: image }
           - label: 核心数据
             name: stats
             widget: list

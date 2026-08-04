@@ -7,6 +7,7 @@ import siteData from '../data/team-site.json';
 const teamMembers = teamData.members;
 const h = siteData.hero;
 const belief = siteData.belief;
+const aia = siteData.aia;
 const stats = siteData.stats;
 const founder = siteData.founder;
 const recognition = siteData.recognition;
@@ -16,7 +17,7 @@ const recruitment = siteData.recruitment;
 const cta = siteData.cta;
 const maxSource = Math.max(...recruitment.sourceChart.items.map(i => parseFloat(i.value)));
 const anchors = [
-  ['#vision','愿景与优势'],['#founder','创始人'],['#people','团队介绍'],
+  ['#vision','愿景与优势'],['#aia','友邦百年'],['#founder','创始人'],['#people','团队介绍'],
   ['#plans','人才计划'],['#entrepreneur','企业家计划'],['#data','招募数据'],['#join','加入我们'],
 ];
 const heroHtml = h.headline.replace(h.headlineAccent, `<em>${h.headlineAccent}</em>`);
@@ -25,7 +26,8 @@ const heroHtml = h.headline.replace(h.headlineAccent, `<em>${h.headlineAccent}</
   <section class="team-hero" id="vision"><div class="container">
     <p class="eyebrow on-dark">{h.eyebrow}</p>
     <h1 set:html={heroHtml} />
-    <p class="hero-slogan"><b>{h.slogan}</b><span>{h.sloganEn}</span></p>
+    <p class="hero-sub">{h.subheadline}</p>
+    <div class="hero-slogan"><b>{h.slogan}</b><span>{h.sloganEn}</span></div>
     <div class="hero-tags">{h.tags.map(tag => <span>{tag}</span>)}</div>
   </div></section>
 
@@ -33,12 +35,26 @@ const heroHtml = h.headline.replace(h.headlineAccent, `<em>${h.headlineAccent}</
 
   <section class="numbers"><div class="container number-grid">{stats.map(s => <article><b data-count={s.value} >{s.value}</b><span>{s.label}</span><small>{s.note}</small></article>)}</div></section>
 
-  <section class="section belief reveal"><div class="container belief-grid"><div><p class="eyebrow">{belief.eyebrow}</p><h2 class="section-title">{belief.title}</h2></div><div>{belief.paragraphs.map(p => <p>{p}</p>)}</div></div></section>
+  <section class="section aia reveal" id="aia"><div class="container">
+    <header class="aia-head"><div><p class="eyebrow">{aia.eyebrow}</p><h2 class="section-title">{aia.title}</h2></div><p class="aia-sub">{aia.subtitle}</p></header>
+    <div class="aia-track-wrap">
+      <div class="aia-track" id="aiaTrack">
+        {aia.milestones.map((m, i) => <article class="aia-slide">
+          <div class="aia-media"><img src={m.image} loading="lazy" width="1280" height="800" alt={`${m.year}，${m.title}`} /><span class="aia-year">{m.year}</span></div>
+          <div class="aia-body"><b>{m.year}</b><h3>{m.title}</h3><p>{m.desc}</p></div>
+        </article>)}
+      </div>
+    </div>
+    <div class="aia-progress" aria-hidden="true"><div class="aia-progress-bar" id="aiaProgressBar"></div></div>
+    <p class="aia-note">{aia.note}</p>
+  </div></section>
+
+  <section class="section belief reveal"><div class="container belief-grid"><div><p class="eyebrow">{belief.eyebrow}</p><h2 class="section-title" set:html={belief.title.split(' · ').map((s,i) => `<span class="title-seg">${s}</span>${i<2?' · ':''}`).join('')} /></div><div>{belief.paragraphs.map(p => <p>{p}</p>)}</div></div></section>
 
   <section class="section founder-band reveal" id="founder"><div class="container founder-grid">
     <div class="founder-media"><img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} /></div>
     <div><p class="eyebrow">{founder.eyebrow}</p><h2 class="section-title">{founder.name}</h2><p class="founder-meta">{founder.school} · {founder.years} · {founder.role}</p><p class="founder-tagline">{founder.tagline}</p>
-    {founder.paragraphs.map(p => <p class="founder-p">{p}</p>)}
+    {founder.paragraphs.map(p => <p class="founder-p" set:html={p.replace(/“可乐”/g, '<em class="cola-em">“可乐”</em>')} />)}
     <div class="founder-highlights">{founder.highlights.map(item => <div class="fh-card"><span>{item.label}</span><b>{item.value}</b></div>)}</div>
     </div>
   </div></section>
@@ -93,7 +109,7 @@ const heroHtml = h.headline.replace(h.headlineAccent, `<em>${h.headlineAccent}</
   <section class="section join" id="join"><div class="container">
     <div class="join-card reveal">
       <p class="eyebrow on-dark">{cta.eyebrow}</p>
-      <h2 set:html={cta.title.replace('，<br />', '<br />')} />
+      <h2 set:html={cta.title} />
       <p class="join-text">{cta.text}</p>
       <div class="join-steps">{cta.steps.map(step => <div class="join-step"><b>{step.num}</b><span>{step.title}</span><small>{step.desc}</small></div>)}</div>
       <a class="button join-btn" href={cta.buttonUrl} target="_blank" rel="noopener noreferrer">{cta.buttonText}<span class="btn-arrow">→</span></a>
@@ -144,25 +160,44 @@ const heroHtml = h.headline.replace(h.headlineAccent, `<em>${h.headlineAccent}</
   }, { passive: true });
 </script>
 <style>
-  .team-hero { min-height: 660px; display:grid; align-items:end; padding: 120px 0 100px; background: linear-gradient(120deg,rgba(51,61,71,.97),rgba(51,61,71,.78)),url('/assets/images/hero-bg.jpg') center/cover; color:white; }
-  .team-hero h1 { margin:0; font-size:clamp(2.6rem,6vw,5rem); line-height:1.18; letter-spacing:-.04em; max-width: 900px; }
-  .team-hero h1 em { font-style:normal; color:var(--color-olive); }
-  .team-hero h1:after { content:''; display:block; width:64px; height:5px; margin:30px 0 0; background:var(--color-olive); }
+  .team-hero { min-height: 640px; display:grid; align-items:end; padding: 130px 0 96px; background: linear-gradient(120deg,rgba(51,61,71,.97),rgba(51,61,71,.78)),url('/assets/images/hero-bg.jpg') center/cover; color:white; }
+  .team-hero h1 { margin:0; font-size:clamp(3rem,7vw,5.6rem); line-height:1.06; letter-spacing:-.04em; font-weight:900; }
+  .team-hero h1 :global(em) { font-style:normal; color:var(--color-olive); display:inline-block; }
+  .team-hero h1:after { content:''; display:block; width:56px; height:5px; margin:26px 0 0; background:var(--color-olive); }
   .eyebrow.on-dark { color:var(--color-olive); }
-  .hero-slogan { margin:30px 0 0; display:grid; gap:6px; }
-  .hero-slogan b { font-size:1.3rem; letter-spacing:.12em; font-weight:700; }
-  .hero-slogan span { color:rgba(255,255,255,.65); font-size:.82rem; letter-spacing:.14em; text-transform:uppercase; }
+  .hero-sub { margin:26px 0 0; max-width:640px; color:rgba(255,255,255,.82); font-size:clamp(1rem,1.8vw,1.22rem); line-height:1.75; text-wrap:balance; }
+  .hero-slogan { margin:32px 0 0; padding-top:26px; border-top:1px solid rgba(255,255,255,.22); display:grid; gap:6px; }
+  .hero-slogan b { font-size:1.25rem; letter-spacing:.12em; font-weight:700; white-space:nowrap; }
+  .hero-slogan b:last-child { display:none; }
+  .hero-slogan span { color:rgba(255,255,255,.62); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }.hero-tags span { padding:8px 14px; border:1px solid rgba(255,255,255,.28); border-radius:999px; font-size:.82rem; }
   .chapter-nav { position:sticky; z-index:30; top:64px; border-top:1px solid var(--color-line); border-bottom:1px solid var(--color-line); background:rgba(255,255,255,.94); backdrop-filter:blur(16px); }
   .chapter-nav .container { display:flex; gap:8px; overflow-x:auto; padding-top:10px; padding-bottom:10px; }
   .chapter-nav a { flex:0 0 auto; padding:8px 13px; border-radius:999px; color:var(--color-muted); font-size:.78rem; font-weight:750; text-decoration:none; }
   .chapter-nav a:hover { background:rgba(165,145,92,.13); color:var(--color-ink); }
   .numbers { background:var(--color-olive); color:white; }.number-grid { display:grid; grid-template-columns:repeat(4,1fr); }.number-grid article { display:grid; padding:34px 5%; border-right:1px solid rgba(255,255,255,.25); }.number-grid article:last-child{border-right:none}.number-grid b{font-size:2rem;letter-spacing:-.02em}.number-grid span{opacity:.94;font-weight:700}.number-grid small{opacity:.62;font-size:.78rem}
-  .belief { background:white; }.belief-grid { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:center; }.belief-grid>div:last-child { color:var(--color-muted); font-size:1.08rem; }.belief-grid p+p{margin-top:1.2em}
+  .belief { background:white; }.belief-grid { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:center; }.belief-grid>div:last-child { color:var(--color-muted); font-size:1.08rem; }.belief-grid p+p{margin-top:1.2em}.title-seg{white-space:nowrap;display:inline-block}:global(.title-seg){white-space:nowrap;display:inline-block}
+  .aia { background:var(--color-canvas); }.aia-head { display:grid; grid-template-columns:1.2fr 1fr; gap:6vw; align-items:end; }.aia-sub { margin:0; color:var(--color-muted); font-size:1.02rem; line-height:1.85; text-wrap:balance; }
+  .aia-track-wrap { margin-top:52px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:rgba(165,145,92,.5) transparent; }
+  .aia-track { display:flex; gap:22px; width:max-content; padding-bottom:8px; }
+  .aia-slide { flex:0 0 min(340px, 78vw); scroll-snap-align:start; overflow:hidden; border:1px solid var(--color-line); border-radius:var(--radius-md); background:white; transition:transform .35s, box-shadow .35s; }
+  .aia-slide:hover { transform:translateY(-6px); box-shadow:var(--shadow-card); }
+  .aia-media { position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--color-charcoal); }
+  .aia-media img { width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.2,.7,.3,1); }
+  .aia-slide:hover .aia-media img { transform:scale(1.05); }
+  .aia-year { position:absolute; top:16px; left:16px; padding:8px 16px; border-radius:999px; background:rgba(51,61,71,.82); color:white; font-size:1.1rem; font-weight:800; letter-spacing:.04em; backdrop-filter:blur(6px); }
+  .aia-body { padding:24px 24px 28px; }
+  .aia-body b { display:block; color:var(--color-brand); font-size:2.4rem; line-height:1; letter-spacing:-.02em; }
+  .aia-body h3 { margin:10px 0 8px; font-size:1.2rem; }
+  .aia-body p { margin:0; color:var(--color-muted); font-size:.88rem; line-height:1.7; text-wrap:balance; }
+  .aia-progress { margin-top:26px; height:3px; border-radius:999px; background:rgba(51,61,71,.12); overflow:hidden; }
+  .aia-progress-bar { height:100%; width:0; background:linear-gradient(90deg,var(--color-olive),var(--color-brand)); transition:width .2s linear; }
+  .aia-note { margin:14px 0 0; color:var(--color-muted); font-size:.76rem; }
   .founder-band { background:var(--color-canvas); }.founder-grid { display:grid; grid-template-columns:.7fr 1.3fr; gap:6vw; align-items:start; }.founder-media { position:relative; }.founder-media:before { content:''; position:absolute; top:22px; left:-22px; width:100%; height:100%; border:2px solid rgba(165,145,92,.55); border-radius:var(--radius-md); }.founder-media img { position:relative; max-height:540px; width:100%; object-fit:contain; object-position:top; border-radius:var(--radius-md); background:white; border:1px solid var(--color-line); box-shadow:var(--shadow-card); }
   .founder-meta { margin:10px 0 0; color:var(--color-brand); font-weight:750; font-size:.9rem; }
   .founder-tagline { margin:18px 0 0; font-size:1.25rem; font-weight:700; line-height:1.5; color:var(--color-charcoal); }
   .founder-p { margin:14px 0 0; color:var(--color-muted); line-height:1.9; }
+  .founder-p :global(.cola-em) { font-style:normal; color:var(--color-brand); font-weight:800; font-size:1.12em; letter-spacing:.02em; }
   .founder-highlights { display:flex; gap:14px; margin-top:26px; }.fh-card { flex:1; padding:18px 20px; background:white; border:1px solid var(--color-line); border-radius:var(--radius-md); }.fh-card span{display:block;color:var(--color-muted);font-size:.78rem;font-weight:700}.fh-card b{display:block;margin-top:6px;font-size:1.05rem;line-height:1.5}
   .members { background:white; }.members-head { max-width:680px; }.members-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:22px; margin-top:52px; }
   .vacancy { margin-top:26px; display:grid; grid-template-columns:auto 1fr auto; gap:22px; align-items:center; padding:26px 30px; border:2px dashed rgba(165,145,92,.6); border-radius:var(--radius-md); background:rgba(165,145,92,.05); text-decoration:none; transition:background .3s, transform .3s; }
