@@ -280,6 +280,7 @@ collections:
               - { label: 副标题, name: subheadline, widget: string }
               - { label: 中文口号, name: slogan, widget: string }
               - { label: 英文口号, name: sloganEn, widget: string }
+              - { label: Hero 团队合照, name: image, widget: image }
               - label: 标签
                 name: tags
                 widget: list
