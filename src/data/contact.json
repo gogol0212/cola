@@ -10,10 +10,10 @@
   },
   "card": {
     "eyebrow": "WeChat",
-    "title": "添加方仲达的企业微信",
+    "title": "添加方仲达的微信",
     "desc": "保险规划、产品咨询、家庭保障与理赔协助，都可以通过微信与我们沟通。",
-    "qrImage": "/assets/images/wechat-qr.png",
-    "qrAlt": "方仲达企业微信二维码",
+    "qrImage": "/assets/images/uploads/图片_20260226100556_159_146.jpg",
+    "qrAlt": "方仲达微信二维码",
     "qrHint": "微信扫码添加",
     "tips": [
       "扫码后请备注「咨询方向」，我们会尽快回复。",
