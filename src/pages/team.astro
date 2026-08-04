@@ -81,7 +81,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.05 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   const counters = new IntersectionObserver((entries) => {

@@ -11,25 +11,24 @@ const links = [
   <div class="inner container">
     <a class="brand" href="/" aria-label="返回首页">
       <img src="/assets/logo.png" width="44" height="44" alt="未来可乐团队标志" />
-      <span><b>AIA HUBEI</b><small>未来可乐团队</small></span>
+      <span class="brand-text">AIA HUBEI<br /><em>未来可乐团队</em></span>
     </a>
     <nav aria-label="主导航">{links.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
     <a class="contact" href="/contact/">联系我们</a>
-    <details class="mobile-menu"><summary aria-label="打开网站导航">菜单</summary><div>{links.map((link) => <a href={link.href}>{link.label}</a>)}</div></details>
+    <details class="mobile-menu"><summary aria-label="打开网站导航">菜单</summary><div>{links.map((link) => <a href={link.href}>{link.label}</a>)}<a class="contact-link" href="/contact/">联系我们</a></div></details>
   </div>
 </header>
 <style>
   .site-header { position: sticky; z-index: 50; top: 0; border-bottom: 1px solid rgba(54,61,71,.08); background: rgba(255,255,255,.9); backdrop-filter: blur(18px); }
   .inner { min-height: 76px; display: flex; align-items: center; gap: 28px; }
-  .brand { display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-right: auto; text-decoration: none; }
   .brand img { border-radius: 10px; }
-  .brand span { display: grid; line-height: 1.25; }
-  .brand b { font-size: 1rem; }
-  .brand small { color: var(--color-muted); font-size: .72rem; }
+  .brand-text { font-size: 1.16rem; font-weight: 900; line-height: 1.22; color: var(--color-charcoal); }
+  .brand-text em { font-style: normal; font-weight: 800; color: var(--color-brand); }
   nav { display: flex; gap: 28px; }
   nav a { color: var(--color-muted); font-size: .92rem; font-weight: 650; text-decoration: none; }
   nav a:hover { color: var(--color-brand); }
-  .contact { padding: 9px 17px; border-radius: 999px; background: var(--color-brand); color: white; font-size: .88rem; font-weight: 750; text-decoration: none; }
+  .contact { padding: 8px 16px; border-radius: 999px; background: var(--color-brand); color: white; font-size: .86rem; font-weight: 750; text-decoration: none; }
   .mobile-menu{display:none}
-  @media (max-width: 760px) { .inner { min-height: 66px; } nav,.contact { display: none; } .brand small { display: none; }.mobile-menu{position:relative;display:block}.mobile-menu summary{min-height:44px;padding:9px 14px;border:1px solid var(--color-line);border-radius:999px;list-style:none;font-size:.82rem;font-weight:750;cursor:pointer}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu div{position:absolute;top:52px;right:0;display:grid;width:190px;padding:9px;border:1px solid var(--color-line);border-radius:18px;background:#fff;box-shadow:var(--shadow-card)}.mobile-menu a{padding:10px 12px;border-radius:10px;color:var(--color-muted);font-size:.86rem;text-decoration:none}.mobile-menu a:hover{background:rgba(165,145,92,.1);color:var(--color-ink)} }
+  @media (max-width: 760px) { .inner { min-height: 66px; } nav,.contact { display: none; }.mobile-menu{position:relative;display:block}.mobile-menu summary{min-height:44px;padding:9px 14px;border:1px solid var(--color-line);border-radius:999px;list-style:none;font-size:.82rem;font-weight:750;cursor:pointer}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu div{position:absolute;top:52px;right:0;display:grid;width:190px;padding:9px;border:1px solid var(--color-line);border-radius:18px;background:#fff;box-shadow:var(--shadow-card)}.mobile-menu a{padding:10px 12px;border-radius:10px;color:var(--color-muted);font-size:.86rem;text-decoration:none}.mobile-menu a:hover{background:rgba(165,145,92,.1);color:var(--color-ink)}.mobile-menu .contact-link{margin-top:4px;padding:10px 12px;border-radius:10px;background:var(--color-brand);color:white;font-weight:750}.mobile-menu .contact-link:hover{background:var(--color-brand-dark);color:white} }
 </style>

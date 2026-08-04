@@ -1,0 +1,113 @@
+---
+type CoverageItem = { item: string; amount: string; desc?: string };
+const { coverageData = [] } = Astro.props as { coverageData?: CoverageItem[] };
+---
+
+<div class="coverage">
+  {
+    coverageData.map((row, index) => (
+      <article class="coverage-item">
+        <div class="coverage-idx">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+        </div>
+        <div class="coverage-main">
+          <h3>{row.item}</h3>
+          {row.desc && <p>{row.desc}</p>}
+        </div>
+        <div class="coverage-amount">
+          <>
+            <strong>{row.amount}</strong>
+            <small>保额 / 给付限额</small>
+          </>
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .coverage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .coverage-item {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 22px 24px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .coverage-idx span {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(211, 17, 69, 0.08);
+    color: var(--color-brand);
+    font-size: 0.85rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+  }
+  .coverage-main h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+  .coverage-main p {
+    margin: 6px 0 0;
+    color: var(--color-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .coverage-amount {
+    display: grid;
+    justify-items: end;
+    gap: 2px;
+    padding-left: 18px;
+    border-left: 1px dashed var(--color-line);
+  }
+  .coverage-amount strong {
+    color: var(--color-brand);
+    font-size: 1.6rem;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+  .coverage-amount small {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+  @media (max-width: 900px) {
+    .coverage {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .coverage {
+      margin-top: 26px;
+      gap: 12px;
+    }
+    .coverage-item {
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+    .coverage-idx span {
+      width: 32px;
+      height: 32px;
+    }
+    .coverage-amount {
+      grid-column: 2;
+      justify-items: start;
+      padding: 10px 0 0;
+      border-left: 0;
+      border-top: 1px dashed var(--color-line);
+    }
+  }
+</style>

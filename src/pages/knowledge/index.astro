@@ -12,7 +12,7 @@ const topics = [
 ];
 ---
 <BaseLayout title="保险知识｜AIA HUBEI 未来可乐团队" description="用清晰、可信的方式解释医保政策、保险产品差异、理赔逻辑与常见健康知识。">
-  <section class="knowledge-hero"><div class="container"><p class="eyebrow">Insurance knowledge</p><h1>把复杂的保险和医疗知识，<br />讲到真正能用。</h1><p>不堆术语，也不只给结论。从政策、条款和生活场景出发，帮助家庭理解每一个选择背后的差异。</p></div></section>
+  <section class="knowledge-hero"><div class="container"><p class="eyebrow">Insurance knowledge</p><h1>把复杂的保险和医疗知识<br />讲到真正能用</h1><p>不堆术语，也不只给结论。从政策、条款和生活场景出发，帮助家庭理解每一个选择背后的差异。</p></div></section>
   <section class="section"><div class="container"><div class="topic-tabs"><span>全部</span><span>医保政策</span><span>保险选购</span><span>医疗与理赔</span><span>健康知识</span></div><div class="knowledge-grid">{topics.map(topic=><article class:list={['knowledge-card',topic.featured&&'featured']}><span>{topic.label}</span><h2>{topic.title}</h2><p>{topic.text}</p>{topic.href ? <a href={topic.href}>阅读全文 <b aria-hidden="true">→</b></a> : <small>内容筹备中</small>}</article>)}</div></div></section>
 </BaseLayout>
 <style>

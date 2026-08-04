@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "managerVersion": "5.12.0",
+  "skills": {
+    "blog-workflow": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:26.991Z",
+      "location": "project"
+    },
+    "comprehensive-feature-builder": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.002Z",
+      "location": "project"
+    },
+    "iamhumans": {
+      "version": "2.7.0",
+      "installedAt": "2026-08-03T15:24:27.024Z",
+      "location": "project"
+    },
+    "mermaid-validator": {
+      "version": "2.0.0",
+      "installedAt": "2026-08-03T15:24:27.053Z",
+      "location": "project"
+    },
+    "nano-brain": {
+      "version": "5.0.0",
+      "installedAt": "2026-08-03T15:24:27.067Z",
+      "location": "project"
+    },
+    "pdf": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.257Z",
+      "location": "project"
+    },
+    "rtk": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.279Z",
+      "location": "project"
+    },
+    "rtk-setup": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.290Z",
+      "location": "project"
+    },
+    "security-workflow": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.301Z",
+      "location": "project"
+    },
+    "skill-creator": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.412Z",
+      "location": "project"
+    },
+    "skill-manager": {
+      "version": "1.0.2",
+      "installedAt": "2026-08-03T15:24:27.426Z",
+      "location": "project"
+    },
+    "sync-skill-to-manager": {
+      "version": "2.0.0",
+      "installedAt": "2026-08-03T15:24:27.440Z",
+      "location": "project"
+    },
+    "ui-ux-pro-max": {
+      "version": "1.0.0",
+      "installedAt": "2026-08-03T15:24:27.565Z",
+      "location": "project"
+    }
+  }
+}
