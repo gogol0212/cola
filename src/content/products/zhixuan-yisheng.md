@@ -1,5 +1,5 @@
 ---
-title: 智选逸生医疗保险
+title: 智选逸生
 slug: zhixuan-yisheng
 category: medical
 summary: 五大保障覆盖一般/重疾医疗、质子重离子、CAR-T与住院津贴，四项可选责任按需组合
