@@ -41,7 +41,7 @@ const scenarioItems = data.cases.map(item => ({
   } : undefined,
 }));
 ---
-<BaseLayout title={data.seoTitle} description={data.seoDescription}>
+<BaseLayout title={data.seoTitle} description={data.seoDescription} image={data.heroImage ?? '/assets/images/hero-bg.jpg'}>
   <ProductHero title={data.title} summary={data.summary} audience={data.audience} tags={tags} outline={outline} image={data.heroImage ?? '/assets/images/hero-bg.jpg'} imagePosition={data.heroImagePosition ?? 'center'} />
   <nav class="chapter-nav" aria-label="页面章节"><div class="container"><a href="#features">产品特色</a><a href="#costs">费用一览</a><a href="#coverage">责任一览</a><a href="#comparison">对比口径</a><a href="#scenarios">案例分析</a><a href="#claims">真实理赔</a><a href="#knowledge">相关科普</a><a href="#faq">Q&A</a><a href="#consult">联系方式</a></div></nav>
 

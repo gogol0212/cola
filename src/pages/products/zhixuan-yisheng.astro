@@ -21,6 +21,10 @@ const [productEntry] = await getCollection(
 );
 const heroImage = productEntry?.data.heroImage || "/assets/images/hero-bg.jpg";
 const heroImagePosition = productEntry?.data.heroImagePosition || "center";
+const heroTitle = productEntry?.data.title || "友邦智选逸生医疗保险";
+const heroSummary = productEntry?.data.summary || "五大保障覆盖一般/重疾医疗与高端治疗，四项可选责任按需组合，用清晰的方式梳理医保、免赔额、赔付比例与累计限额如何组成一份医疗保障。";
+const pageTitle = productEntry?.data.seoTitle || "友邦智选逸生医疗保险保障说明｜方仲达";
+const pageDescription = productEntry?.data.seoDescription || "从一般/重大疾病医疗、质子重离子、CAR-T、院外药械与特需国际部责任出发，理解智选逸生医疗险的责任结构、费率与测算逻辑。";
 
 const audience = [
   "有医保或社保的成人",
@@ -662,12 +666,13 @@ const faqs = [
 ---
 
 <BaseLayout
-  title="友邦智选逸生医疗保险保障说明｜方仲达"
-  description="从一般/重大疾病医疗、质子重离子、CAR-T、院外药械与特需国际部责任出发，理解智选逸生医疗险的责任结构、费率与测算逻辑。"
+  title={pageTitle}
+  description={pageDescription}
+  image={heroImage}
 >
   <ProductHero
-    title="友邦智选逸生医疗保险"
-    summary="五大保障覆盖一般/重疾医疗与高端治疗，四项可选责任按需组合，用清晰的方式梳理医保、免赔额、赔付比例与累计限额如何组成一份医疗保障。"
+    title={heroTitle}
+    summary={heroSummary}
     audience={audience}
     tags={["医疗保障", "重大疾病", "成人"]}
     outline={outline}

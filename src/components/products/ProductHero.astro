@@ -1,10 +1,10 @@
 ---
-const { title, summary, audience = [], image, tags = [], outline = [], imagePosition = "center" } = Astro.props;
+const { title, summary, audience = [], image, tags = [], outline = [], imagePosition = "center", eyebrow = "" } = Astro.props;
 ---
 <section class="product-hero">
   <div class="container product-hero__grid">
     <div class="product-hero__copy">
-      <p class="eyebrow">儿童保险 · Product Guide</p>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h1>{title}</h1>
       <p class="product-hero__summary">{summary}</p>
       {tags.length > 0 && <div class="product-hero__tags" aria-label="产品需求标签">{tags.map((tag:string) => <span>{tag}</span>)}</div>}
