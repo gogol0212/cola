@@ -59,10 +59,9 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
 
   <section class="section founder-band reveal" id="founder"><div class="container founder-grid">
     <div class="founder-media">
-      <img class="founder-logo" src="/assets/logo.png" alt="" aria-hidden="true" />
       <img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} />
     </div>
-    <div><p class="eyebrow">{founder.eyebrow}</p><h2 class="section-title">{founder.name}</h2><p class="founder-meta">{founder.school} · {founder.years} · {founder.role}</p><p class="founder-tagline">{founder.tagline}</p>
+    <div><div class="founder-name-row"><h2 class="section-title">{founder.name}</h2><img class="founder-logo" src="/assets/logo.png" alt="" aria-hidden="true" /></div><p class="founder-meta">{founder.school} · {founder.years} · {founder.role}</p><p class="founder-tagline">{founder.tagline}</p>
     {founder.paragraphs.map(p => <p class="founder-p" set:html={p.replace(/“可乐”/g, '<em class="cola-em">“可乐”</em>')} />)}
     <div class="founder-highlights">{founder.highlights.map(item => <div class="fh-card"><span>{item.label}</span><b class:list={['fh-value',{ big:item.value === '10年+' }]}>{item.value}</b></div>)}</div>
     </div>
@@ -146,7 +145,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
       const tick = (now) => {
         const p = Math.min((now - start) / dur, 1);
         const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased).toLocaleString() + suffix;
+        el.textContent = Math.round(target * eased) + suffix;
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -198,7 +197,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
   .hero-sub { margin:26px 0 0; max-width:560px; color:rgba(255,255,255,.85); font-size:clamp(1rem,1.8vw,1.22rem); line-height:1.75; text-wrap:balance; }
   .hero-slogan { margin:34px 0 0; padding-top:26px; border-top:1px solid rgba(255,255,255,.22); display:grid; gap:6px; }
   .hero-slogan b { font-size:1.3rem; letter-spacing:.12em; font-weight:700; white-space:nowrap; }
-  .hero-slogan b :global(em) { font-style:normal; color:var(--color-brand); font-weight:900; }
+  .hero-slogan b :global(em) { font-style:normal; color:var(--color-olive); font-weight:900; }
   .hero-slogan span { color:rgba(255,255,255,.62); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }.hero-tags span { padding:8px 14px; border:1px solid rgba(255,255,255,.28); border-radius:999px; font-size:.82rem; }
   .hero-media { position:relative; }
@@ -226,8 +225,9 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
   .aia-progress { margin-top:26px; height:3px; border-radius:999px; background:rgba(51,61,71,.12); overflow:hidden; }
   .aia-progress-bar { height:100%; width:0; background:linear-gradient(90deg,var(--color-olive),var(--color-brand)); transition:width .2s linear; }
   .aia-note { margin:14px 0 0; color:var(--color-muted); font-size:.76rem; }
-  .founder-band { background:var(--color-canvas); }.founder-grid { display:grid; grid-template-columns:.7fr 1.3fr; gap:6vw; align-items:start; }.founder-media { position:relative; }.founder-media:before { content:''; position:absolute; top:22px; left:-22px; width:100%; height:100%; border:2px solid rgba(165,145,92,.55); border-radius:var(--radius-md); }.founder-media img:not(.founder-logo) { position:relative; max-height:540px; width:100%; object-fit:contain; object-position:top; border-radius:var(--radius-md); background:white; border:1px solid var(--color-line); box-shadow:var(--shadow-card); }
-  .founder-logo { position:absolute; z-index:2; top:-30px; right:-30px; width:130px; opacity:.1; pointer-events:none; }
+  .founder-band { background:var(--color-canvas); }.founder-grid { display:grid; grid-template-columns:.7fr 1.3fr; gap:6vw; align-items:start; }.founder-media { position:relative; }.founder-media:before { content:''; position:absolute; top:22px; left:-22px; width:100%; height:100%; border:2px solid rgba(165,145,92,.55); border-radius:var(--radius-md); }  .founder-media img { position:relative; max-height:540px; width:100%; object-fit:contain; object-position:top; border-radius:var(--radius-md); background:white; border:1px solid var(--color-line); box-shadow:var(--shadow-card); }
+  .founder-name-row { position:relative; }
+  .founder-name-row .founder-logo { position:absolute; z-index:2; top:50%; right:0; transform:translateY(-50%); width:140px; opacity:.1; pointer-events:none; }
   .founder-meta { margin:10px 0 0; color:var(--color-olive); font-weight:750; font-size:.9rem; }
   .founder-tagline { margin:18px 0 0; font-size:1.25rem; font-weight:700; line-height:1.5; color:var(--color-charcoal); }
   .founder-p { margin:14px 0 0; color:var(--color-muted); line-height:1.9; }
@@ -281,6 +281,6 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
   @media(prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } .rs-fill{transition:none} }
   @media(max-width:1100px){.members-grid{grid-template-columns:repeat(4,1fr)}}
   @media(max-width:980px){.members-grid{grid-template-columns:repeat(3,1fr)}.entrepreneur-grid,.bebest-grid,.join-steps{grid-template-columns:1fr}.r-grid,.r-young,.support-grid{grid-template-columns:1fr}.join-steps{max-width:420px;margin-inline:auto}.hero-grid{grid-template-columns:1fr;align-items:start}.hero-media{max-width:560px;margin-top:6px}.hero-media:before{inset:12px -12px -12px 12px}}
-  @media(max-width:720px){.belief-grid,.recognition-grid,.founder-grid{grid-template-columns:1fr}.number-grid{grid-template-columns:1fr 1fr}.members-grid{grid-template-columns:1fr 1fr}.join-card .button{justify-self:center}.founder-media img{max-height:420px}.chapter-nav{top:56px}.vacancy{grid-template-columns:auto 1fr}.vacancy-arrow{grid-column:1/-1;justify-self:start}.r-hero-stats{grid-template-columns:1fr}.founder-logo{top:-20px;right:-10px;width:90px}}
+  @media(max-width:720px){.belief-grid,.recognition-grid,.founder-grid{grid-template-columns:1fr}.number-grid{grid-template-columns:1fr 1fr}.members-grid{grid-template-columns:1fr 1fr}.join-card .button{justify-self:center}.founder-media img{max-height:420px}.chapter-nav{top:56px}.vacancy{grid-template-columns:auto 1fr}.vacancy-arrow{grid-column:1/-1;justify-self:start}.r-hero-stats{grid-template-columns:1fr}.founder-name-row .founder-logo{width:90px}}
   @media(max-width:480px){.team-hero{min-height:auto;padding:96px 0 72px}.team-hero h1{font-size:2.6rem}.members-grid{grid-template-columns:1fr}.number-grid article{padding:24px 10px}.number-grid b{font-size:1.6rem}.number-grid span{font-size:.75rem}.rs-bar{grid-template-columns:90px 1fr 50px}}
 </style>
