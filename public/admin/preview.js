@@ -1,13 +1,15 @@
 /* 产品后台实时预览模板
- * 由 Decap CMS 预览面板加载：index.html 中先加载 react.min.js / react-dom.min.js 再加载本文件。
+ * 由 Decap CMS 预览面板加载。
+ * 不加载外部 React：Decap CMS 3.15.1 内部打包 React 19，并通过 window.h 暴露内部 createElement，
+ * 直接使用即可避免 React 双实例冲突（React 18 UMD 元素无法被 React 19 reconciler 识别，报 #525）。
  * 渲染 products 集合的核心模块：Hero、费用、责任一览、产品比较、FAQ、CTA。
- * 数据通过 entry.getIn(['data', '字段名']) 读取（Immutable Map）。
+ * 数据通过 entry.get('data') 读取（Immutable Map），用 val()/toArray() 兼容普通数组。
  */
 (function () {
-  if (!window.CMS || !window.React) return;
+  if (!window.CMS) return;
 
-  var React = window.React;
-  var h = React.createElement;
+  var h = window.h || (window.React && window.React.createElement);
+  if (!h) return;
 
   // ---- 品牌色（与站点保持一致：AIA 品牌规范）----
   var BRAND = '#d31145';
