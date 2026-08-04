@@ -14,8 +14,6 @@ audiences:
   - child
 heroImage: /assets/images/uploads/zhixuanyisheng.png
 heroImagePosition: center
-wealthCashflows: []
-claimCases: []
 featured: false
 status: published
 sortOrder: 20

@@ -8,7 +8,8 @@ const productLineLabels: Record<string, string> = { health:'健康保障', accid
 const audienceLabels: Record<string, string> = { adult:'成人', child:'儿童' };
 const productLineFilters = [['all','全部类别'], ...Object.entries(productLineLabels)];
 const audienceFilters = [['all','全部人群'], ...Object.entries(audienceLabels)];
-const products = (await getCollection('products', ({ data }) => data.status !== 'draft')).sort((a,b) => a.data.sortOrder - b.data.sortOrder);
+const customPages = ['youtongxing', 'zhixuan-yisheng'];
+const products = (await getCollection('products', ({ data }) => data.status !== 'draft' && customPages.includes(data.slug))).sort((a,b) => a.data.sortOrder - b.data.sortOrder);
 const total = products.length + officialCatalog.products.length;
 ---
 <BaseLayout title="保险产品介绍｜方仲达" description="按友邦官方保障类别和成人、儿童人群筛选保险产品介绍。">
