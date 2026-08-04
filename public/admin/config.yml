@@ -167,7 +167,33 @@ collections:
           - { label: 意外 / 医疗, value: medical }
           - { label: 重疾, value: critical }
           - { label: 财富 / 养老, value: wealth }
-      - { label: 封面图片, name: heroImage, widget: image, required: false }
+      - {
+          label: 封面图片,
+          name: heroImage,
+          widget: image,
+          required: false,
+          hint: "最佳尺寸：桌面版 4:5 竖版（如 1000×1250px），移动版 16:11（如 1600×1100px）。建议按 4:5 竖版为主、图片四周留白，上传后用下方「封面图片显示区域」微调。",
+        }
+      - {
+          label: 封面图片显示区域,
+          name: heroImagePosition,
+          widget: select,
+          required: false,
+          default: center,
+          hint: "上传的封面图若重点内容不在中心，可通过此选项调整 hero 区显示的区域。",
+          options:
+            [
+              { label: 居中（默认）, value: center },
+              { label: 顶部居中, value: "top center" },
+              { label: 底部居中, value: "bottom center" },
+              { label: 左上, value: "left top" },
+              { label: 左中, value: "left center" },
+              { label: 左下, value: "left bottom" },
+              { label: 右上, value: "right top" },
+              { label: 右中, value: "right center" },
+              { label: 右下, value: "right bottom" },
+            ],
+        }
       - label: 意外 / 医疗费用表
         name: medicalCosts
         widget: list

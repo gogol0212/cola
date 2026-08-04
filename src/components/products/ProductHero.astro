@@ -1,5 +1,5 @@
 ---
-const { title, summary, audience = [], image, tags = [], outline = [] } = Astro.props;
+const { title, summary, audience = [], image, tags = [], outline = [], imagePosition = "center" } = Astro.props;
 ---
 <section class="product-hero">
   <div class="container product-hero__grid">
@@ -15,7 +15,7 @@ const { title, summary, audience = [], image, tags = [], outline = [] } = Astro.
       {outline.length > 0 && <dl class="product-hero__outline">{outline.map((item:{label:string;value:string}) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
       <a class="button" href="#consult">预约一对一咨询</a>
     </div>
-    <figure><img src={image} alt={`${title}保障知识说明`} /></figure>
+    <figure><img src={image} alt={`${title}保障知识说明`} style={`object-position:${imagePosition}`} /></figure>
   </div>
 </section>
 

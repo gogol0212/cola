@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '访问统计（浏览器端）';
+const description = '本地浏览器端收集的访客行为统计：设备、路径、停留时长等。仅供本人查看，数据不出本地浏览器。';
+---
+<BaseLayout title={title} description={description}>
+  <div class="analytics">
+    <div class="container">
+      <p class="eyebrow">Local analytics</p>
+      <h1 class="page-title">访问统计</h1>
+      <p class="lead">以下数据来自本地浏览器 localStorage，仅本机可看，不向任何服务器发送。</p>
+
+      <div class="toolbar">
+        <div class="stats">
+          <div class="stat"><strong id="stat-sessions">-</strong><span>会话数</span></div>
+          <div class="stat"><strong id="stat-pages">-</strong><span>访问页面数</span></div>
+          <div class="stat"><strong id="stat-avg-stay">-</strong><span>平均停留(秒)</span></div>
+          <div class="stat"><strong id="stat-clicks">-</strong><span>总点击</span></div>
+        </div>
+        <div class="actions">
+          <button id="btn-export">导出 JSON</button>
+          <button id="btn-clear" class="danger">清空数据</button>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2>按页面访问</h2>
+        <table id="tbl-pages"><thead><tr><th>页面</th><th>次数</th><th>平均停留(秒)</th><th>平均滚动深度</th></tr></thead><tbody></tbody></table>
+      </section>
+
+      <section class="panel">
+        <h2>按设备 / 浏览器 / 系统</h2>
+        <div class="grid-3">
+          <div><h3>设备</h3><table class="mini" id="tbl-device"><tbody></tbody></table></div>
+          <div><h3>浏览器</h3><table class="mini" id="tbl-browser"><tbody></tbody></table></div>
+          <div><h3>操作系统</h3><table class="mini" id="tbl-os"><tbody></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>原始记录</h2>
+        <div class="raw-actions">
+          <input id="q" placeholder="搜索路径 / 设备 / 浏览器…" />
+        </div>
+        <table id="tbl-raw"><thead><tr><th>时间</th><th>页面</th><th>来源</th><th>设备</th><th>系统/浏览器</th><th>屏幕</th><th>停留(秒)</th><th>滚动</th><th>点击</th></tr></thead><tbody></tbody></table>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const KEY = "cola_analytics_visits_v1";
+  const list = (() => {
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]") || []; } catch (e) { return []; }
+  })();
+
+  const fmtTime = (t: number) => {
+    const d = new Date(t);
+    const p = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  };
+  const fmtDur = (s: number) => (s >= 60 ? Math.round(s / 60) + "分" + Math.round(s % 60) + "秒" : s + "秒");
+
+  // 汇总
+  document.getElementById("stat-sessions")!.textContent = String(new Set(list.map((v: any) => v.sessionId)).size);
+  document.getElementById("stat-pages")!.textContent = String(list.length);
+  const totalStay = list.reduce((s: number, v: any) => s + (v.stayMs || 0), 0);
+  document.getElementById("stat-avg-stay")!.textContent = list.length ? Math.round(totalStay / list.length / 1000).toString() : "0";
+  document.getElementById("stat-clicks")!.textContent = String(list.reduce((s: number, v: any) => s + (v.clicks || 0), 0));
+
+  // 按页面聚合
+  const pageMap: Record<string, { n: number; stay: number; scroll: number }> = {};
+  list.forEach((v: any) => {
+    if (!pageMap[v.path]) pageMap[v.path] = { n: 0, stay: 0, scroll: 0 };
+    pageMap[v.path].n++;
+    pageMap[v.path].stay += v.stayMs || 0;
+    pageMap[v.path].scroll += v.maxScroll || 0;
+  });
+  const pageTbody = document.querySelector("#tbl-pages tbody")!;
+  Object.entries(pageMap).sort((a, b) => b[1].n - a[1].n).forEach(([path, d]) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${path}</td><td>${d.n}</td><td>${Math.round(d.stay / d.n / 1000)}</td><td>${Math.round(d.scroll / d.n)}%</td>`;
+    pageTbody.appendChild(tr);
+  });
+
+  // 分类统计
+  const groupBy = (key: string) => {
+    const m: Record<string, number> = {};
+    list.forEach((v: any) => { const k = v[key] || "未知"; m[k] = (m[k] || 0) + 1; });
+    return Object.entries(m).sort((a, b) => b[1] - a[1]);
+  };
+  const fillMini = (sel: string, data: [string, number][]) => {
+    const tbody = document.querySelector(sel)!;
+    data.forEach(([k, n]) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${k}</td><td>${n}</td>`;
+      tbody.appendChild(tr);
+    });
+  };
+  fillMini("#tbl-device tbody", groupBy("device"));
+  fillMini("#tbl-browser tbody", groupBy("browser"));
+  fillMini("#tbl-os tbody", groupBy("os"));
+
+  // 原始记录
+  const renderRaw = (rows: any[]) => {
+    const tbody = document.querySelector("#tbl-raw tbody")!;
+    tbody.innerHTML = "";
+    rows.slice().reverse().slice(0, 500).forEach((v) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${fmtTime(v.visitAt)}</td><td>${v.path}</td><td>${v.referrer || "—"}</td>` +
+        `<td>${v.device}</td><td>${v.os} / ${v.browser}</td><td>${v.screen}</td>` +
+        `<td>${fmtDur(Math.round((v.stayMs || 0) / 1000))}</td><td>${v.maxScroll || 0}%</td><td>${v.clicks || 0}</td>`;
+      tbody.appendChild(tr);
+    });
+  };
+  renderRaw(list);
+
+  // 搜索过滤
+  const q = document.getElementById("q") as HTMLInputElement;
+  q.addEventListener("input", () => {
+    const kw = q.value.trim().toLowerCase();
+    if (!kw) return renderRaw(list);
+    renderRaw(list.filter((v: any) =>
+      (v.path || "").toLowerCase().includes(kw) || (v.device || "").toLowerCase().includes(kw) ||
+      (v.browser || "").toLowerCase().includes(kw) || (v.os || "").toLowerCase().includes(kw)
+    ));
+  });
+
+  // 导出
+  document.getElementById("btn-export")!.addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(list, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "cola-analytics-" + new Date().toISOString().slice(0, 10) + ".json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // 清空
+  document.getElementById("btn-clear")!.addEventListener("click", () => {
+    if (confirm("确认清空全部本地统计数据？此操作不可恢复。")) {
+      localStorage.removeItem(KEY);
+      location.reload();
+    }
+  });
+</script>
+
+<style>
+  .analytics{padding:clamp(40px,6vw,72px) 0 96px}
+  .page-title{margin:0 0 10px;font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-.03em}
+  .lead{margin:0 0 28px;color:var(--color-muted);max-width:680px}
+  .toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+  .stats{display:flex;gap:12px;flex-wrap:wrap}
+  .stat{min-width:110px;padding:18px 20px;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}
+  .stat strong{display:block;font-size:1.7rem;color:var(--color-brand)}
+  .stat span{color:var(--color-muted);font-size:.8rem}
+  .actions{display:flex;gap:10px}
+  .actions button{padding:10px 18px;border:1px solid var(--color-charcoal);border-radius:999px;background:white;cursor:pointer;font-weight:750;color:var(--color-charcoal)}
+  .actions button.danger{border-color:#b3402a;color:#b3402a}
+  .panel{margin-bottom:32px;padding:24px;border:1px solid var(--color-line);border-radius:var(--radius-md);background:white}
+  .panel h2{margin:0 0 16px;font-size:1.15rem}
+  .panel h3{margin:0 0 10px;font-size:.9rem;color:var(--color-muted)}
+  table{width:100%;border-collapse:collapse;font-size:.86rem}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--color-line);text-align:left;vertical-align:top}
+  th{background:var(--color-charcoal);color:#fff;font-weight:750}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .mini th,.mini td{padding:6px 10px}
+  .raw-actions{margin-bottom:12px}
+  .raw-actions input{width:100%;padding:10px 14px;border:1px solid var(--color-line);border-radius:8px;font-size:.9rem}
+  @media(max-width:760px){.grid-3{grid-template-columns:1fr}}
+</style>

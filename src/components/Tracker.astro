@@ -1,0 +1,115 @@
+---
+// 轻量访客行为收集：设备信息、浏览路径、停留时长、滚动深度、交互点击。
+// 数据仅存储在访客浏览器 localStorage（cola_analytics_*），无网络请求、无第三方。
+const { enabled = true } = Astro.props;
+---
+{enabled && <script>
+  (() => {
+    if (typeof localStorage === "undefined") return;
+    const SITE = "cola";
+    const KEY = "cola_analytics_visits_v1";
+
+    const ua = navigator.userAgent || "";
+    const device = /Mobi|Android|iPhone|iPad/i.test(ua)
+      ? "mobile"
+      : /Tablet|iPad/i.test(ua)
+        ? "tablet"
+        : "desktop";
+
+    const detectOS = () => {
+      if (/Windows/i.test(ua)) return "Windows";
+      if (/Mac OS X|Macintosh/i.test(ua)) return "macOS";
+      if (/Android/i.test(ua)) return "Android";
+      if (/iPhone|iPad|iOS/i.test(ua)) return "iOS";
+      if (/Linux/i.test(ua)) return "Linux";
+      return "其他";
+    };
+
+    const detectBrowser = () => {
+      if (/Edg\//i.test(ua)) return "Edge";
+      if (/OPR\/|Opera/i.test(ua)) return "Opera";
+      if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) return "Chrome";
+      if (/Firefox\//i.test(ua)) return "Firefox";
+      if (/Safari\//i.test(ua) && !/Chrome/i.test(ua)) return "Safari";
+      return "其他";
+    };
+
+    const screen = window.screen || {};
+    const lang = (navigator.language || "zh-CN").toLowerCase();
+
+    const sessionId = (() => {
+      let id = sessionStorage.getItem("cola_session_id");
+      if (!id) {
+        id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        sessionStorage.setItem("cola_session_id", id);
+      }
+      return id;
+    })();
+
+    const entry = {
+      sessionId,
+      visitAt: Date.now(),
+      path: location.pathname + location.search,
+      referrer: document.referrer || "",
+      title: document.title,
+      device,
+      os: detectOS(),
+      browser: detectBrowser(),
+      screen: screen.width + "×" + screen.height,
+      lang,
+      stayMs: 0,
+      maxScroll: 0,
+      clicks: 0,
+    };
+
+    const STAY_KEY = "cola_stay_" + sessionId;
+    const savedStay = parseInt(sessionStorage.getItem(STAY_KEY) || "0", 10);
+    entry.stayMs = savedStay || 0;
+
+    // 停留时长（每 5 秒累加一次，关闭页面前不丢失）
+    const ticker = setInterval(() => {
+      entry.stayMs += 5000;
+      sessionStorage.setItem(STAY_KEY, String(entry.stayMs));
+      persist();
+    }, 5000);
+
+    // 滚动深度
+    const scrollHandler = () => {
+      const doc = document.documentElement;
+      const total = doc.scrollHeight - window.innerHeight;
+      const pct = total > 0 ? Math.round((window.scrollY / total) * 100) : 0;
+      if (pct > entry.maxScroll) {
+        entry.maxScroll = pct;
+        persist();
+      }
+    };
+    window.addEventListener("scroll", scrollHandler, { passive: true });
+
+    // 点击计数
+    document.addEventListener("click", () => {
+      entry.clicks++;
+      persist();
+    });
+
+    function persist() {
+      try {
+        let list: any[] = [];
+        try { list = JSON.parse(localStorage.getItem(KEY) || "[]") || []; } catch (e) { list = []; }
+        const idx = list.findIndex((visit) => visit.sessionId === sessionId);
+        if (idx >= 0) list[idx] = Object.assign({}, list[idx], entry);
+        else list.push(Object.assign({}, entry));
+        // 上限保留 2000 条，防止无限增长
+        if (list.length > 2000) list = list.slice(list.length - 2000);
+        localStorage.setItem(KEY, JSON.stringify(list));
+      } catch (e) {
+        /* 忽略存储配额/隐私模式错误 */
+      }
+    }
+
+    // 页面离开前最后持久化一次
+    const flush = () => { persist(); clearInterval(ticker); };
+    window.addEventListener("pagehide", flush);
+
+    persist();
+  })();
+</script>}

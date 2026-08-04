@@ -13,6 +13,7 @@ audiences:
   - adult
   - child
 heroImage: /assets/images/uploads/img_3999.png
+heroImagePosition: center
 featured: false
 status: published
 sortOrder: 20

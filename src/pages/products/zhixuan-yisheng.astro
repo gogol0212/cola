@@ -13,6 +13,14 @@ import KnowledgeBlock from "../../components/products/KnowledgeBlock.astro";
 import FAQ from "../../components/products/FAQ.astro";
 import QRCodeBox from "../../components/products/QRCodeBox.astro";
 import ProductMeta from "../../components/products/ProductMeta.astro";
+import { getCollection } from "astro:content";
+
+const [productEntry] = await getCollection(
+  "products",
+  ({ data }) => data.slug === "zhixuan-yisheng",
+);
+const heroImage = productEntry?.data.heroImage || "/assets/images/hero-bg.jpg";
+const heroImagePosition = productEntry?.data.heroImagePosition || "center";
 
 const audience = [
   "有医保或社保的成人",
@@ -663,7 +671,8 @@ const faqs = [
     audience={audience}
     tags={["医疗保障", "重大疾病", "成人"]}
     outline={outline}
-    image="/assets/images/hero-bg.jpg"
+    image={heroImage}
+    imagePosition={heroImagePosition}
   />
 
   <nav class="chapter-nav" aria-label="页面章节">

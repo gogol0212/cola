@@ -35,6 +35,7 @@ const products = defineCollection({
     criticalPremiums: z.array(z.object({ tier:z.string(), coverage:z.string(), premium:z.string(), riders:z.string(), note:z.string() })).default([]),
     wealthCashflows: z.array(z.object({ age:z.string(), premiumCoverage:z.string(), payoutAge:z.string(), benefit:z.string(), note:z.string() })).default([]),
     heroImage: z.string().optional(),
+    heroImagePosition: z.string().default('center'),
     featured: z.boolean().default(false),
     status: z.enum(['draft', 'reviewed', 'published']).default('draft'),
     sortOrder: z.number().int().default(100),
