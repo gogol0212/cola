@@ -644,6 +644,42 @@ collections:
                   - { label: 字段名, name: name, widget: string }
                   - { label: 类型, name: type, widget: select, options: [text, textarea] }
                   - { label: 占位提示, name: placeholder, widget: string }
+      - label: 联系我们页面
+        name: contactPage
+        file: src/data/contact.json
+        fields:
+          - label: SEO
+            name: seo
+            widget: object
+            collapsed: true
+            fields:
+              - { label: SEO标题, name: title, widget: string }
+              - { label: SEO描述, name: description, widget: text }
+          - label: Hero 区
+            name: hero
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 主标题, name: title, widget: string }
+              - { label: 副标题, name: subtitle, widget: text }
+          - label: 二维码卡片
+            name: card
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 眉题, name: eyebrow, widget: string }
+              - { label: 标题, name: title, widget: string }
+              - { label: 说明, name: desc, widget: text }
+              - { label: 微信二维码图片, name: qrImage, widget: image }
+              - { label: 图片替代文本, name: qrAlt, widget: string }
+              - { label: 扫码提示角标, name: qrHint, widget: string }
+              - label: 提示列表
+                name: tips
+                widget: list
+                label_singular: 提示
+                field: { label: 提示, name: item, widget: text }
+              - { label: 底部说明, name: note, widget: text }
 
   - name: settings
     label: 网站设置

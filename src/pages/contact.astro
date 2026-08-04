@@ -1,30 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import contactData from '../data/contact.json';
+const { hero, seo, card } = contactData;
 ---
-<BaseLayout title="联系我们｜未来可乐团队" description="联系未来可乐团队。先添加方仲达的企业微信，进一步沟通保险规划与保障咨询。">
+<BaseLayout title={seo.title} description={seo.description}>
   <section class="contact-hero">
     <div class="container hero-inner">
-      <p class="eyebrow on-dark">Contact Us</p>
-      <h1>联系我们</h1>
-      <p class="hero-sub">先添加方仲达的企业微信，关于保障规划与保险咨询，可以直接在微信上沟通。</p>
+      <p class="eyebrow on-dark">{hero.eyebrow}</p>
+      <h1>{hero.title}</h1>
+      <p class="hero-sub">{hero.subtitle}</p>
     </div>
   </section>
 
   <section class="section body"><div class="container">
     <div class="qr-card reveal">
       <div class="qr-media">
-        <img src="/assets/images/wechat-qr.png" width="600" height="600" alt="方仲达企业微信二维码" loading="eager" />
-        <span class="qr-hint">微信扫码添加</span>
+        <img src={card.qrImage} width="600" height="600" alt={card.qrAlt} loading="eager" />
+        <span class="qr-hint">{card.qrHint}</span>
       </div>
       <div class="qr-copy">
-        <p class="eyebrow">WeChat</p>
-        <h2>添加方仲达的企业微信</h2>
-        <p class="desc">保险规划、产品咨询、家庭保障与理赔协助，都可以通过微信与我们沟通。</p>
+        <p class="eyebrow">{card.eyebrow}</p>
+        <h2>{card.title}</h2>
+        <p class="desc">{card.desc}</p>
         <ul class="tips">
-          <li>扫码后请备注「咨询方向」，我们会尽快回复。</li>
-          <li>涉及个人信息的规划沟通，建议通过微信一对一进行，更安全。</li>
+          {card.tips.map(tip => <li>{tip}</li>)}
         </ul>
-        <p class="note">目前网站以内容展示为主，暂不提供在线客服。正式规划建议以微信沟通为准。</p>
+        <p class="note">{card.note}</p>
       </div>
     </div>
   </div></section>
