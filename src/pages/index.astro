@@ -30,7 +30,7 @@ const teamStats = [
 <BaseLayout title="未来可乐团队｜先看清家庭，再谈保障" description="我们不急着推荐产品，而是先梳理家庭成员、医保基础、责任阶段、预算边界和长期规划，再一起选择合适的保障方案。">
   <section class="home-hero no-select">
     <div class="home-hero__media">
-      <img src="/assets/images/AIA%20Tower.webp" alt="友邦大楼" class="home-hero__image" width="1218" height="1280" loading="eager" fetchpriority="high" />
+      <img src="/assets/images/AIA%20Tower.webp" alt="友邦大楼" class="home-hero__image" width="1218" height="1280" loading="eager" fetchpriority="high" decoding="async" />
     </div>
 
     <div class="home-hero__content">
@@ -410,18 +410,23 @@ const teamStats = [
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+  @media (max-width: 1023px) and (min-width: 641px) {
+    .scenario-grid, .featured-grid, .process-grid { grid-template-columns: 1fr 1fr; }
+    .cta-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 960px) {
     .home-hero { grid-template-columns: 1fr; min-height: auto; }
-    .home-hero__media { min-height: 360px; order: 2; }
-    .home-hero__image { min-height: 360px; object-position: center top; }
+    .home-hero__media { min-height: 0; order: 2; }
+    .home-hero__image { height: auto; min-height: 0; aspect-ratio: 4 / 3; object-position: center top; }
     .home-hero__media::after { display: none; }
-    .home-hero__content { min-height: auto; order: 1; padding: 72px 24px 48px; }
+    .home-hero__content { min-height: auto; order: 1; padding: calc(56px + env(safe-area-inset-top)) 24px 48px; }
     .home-hero__inner { margin: 0 auto; width: min(100%, 640px); }
     .home-hero__title { font-size: clamp(42px, 11vw, 58px); }
     .home-hero__description { font-size: 16px; line-height: 1.85; }
   }
   @media (max-width: 640px) {
-    .home-hero__content { padding: 56px 20px 40px; }
+    .home-hero__content { padding: calc(48px + env(safe-area-inset-top)) 20px 40px; }
+    .home-hero__image { aspect-ratio: 16 / 10; }
     .scenario-grid, .featured-grid, .cta-grid, .process-grid { grid-template-columns: 1fr; }
     .why-stats { grid-template-columns: 1fr; }
   }

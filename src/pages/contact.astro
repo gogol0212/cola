@@ -15,7 +15,7 @@ const { hero, seo, card } = contactData;
   <section class="section body"><div class="container">
     <div class="qr-card reveal">
       <div class="qr-media">
-        <img src={card.qrImage} width="600" height="600" alt={card.qrAlt} loading="eager" />
+        <img src={card.qrImage} width="600" height="600" alt={card.qrAlt} loading="eager" decoding="async" />
         <span class="qr-hint">{card.qrHint}</span>
       </div>
       <div class="qr-copy">

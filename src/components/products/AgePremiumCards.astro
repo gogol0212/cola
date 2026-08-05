@@ -32,7 +32,7 @@ const showImage = displayMode !== 'structured' && image;
 
 {showImage && <picture class="premium-image no-select">
   {imageMobile && <source media="(max-width: 760px)" srcset={imageMobile} />}
-  <img src={image} alt={imageAlt} loading="lazy" draggable="false" />
+  <img src={image} alt={imageAlt} loading="lazy" decoding="async" draggable="false" />
 </picture>}
 
 <style>

@@ -1,23 +1,42 @@
 @import './tokens.css';
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--color-ink); background: var(--color-canvas); font-family: var(--font-sans); line-height: 1.7; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 防止子元素溢出撑出横向滚动；内部滚动容器不受影响 */
+html, body { overflow-x: clip; }
+body { margin: 0; color: var(--color-ink); background: var(--color-canvas); font-family: var(--font-sans); line-height: 1.7; min-height: 100dvh; -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
-img { display: block; max-width: 100%; -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+img { display: block; max-width: 100%; height: auto; -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+button, input, select, textarea { font: inherit; }
+button { touch-action: manipulation; }
 
 /* 重要展示区禁选：Hero、对比卡、关键图文模块 */
 .no-select { user-select: none; -webkit-user-select: none; }
 /* 正文保留可选中，仅取消图片拖拽 */
 .article-body { user-select: text; -webkit-user-select: text; }
+
 .container { width: min(calc(100% - 40px), var(--content)); margin-inline: auto; }
 .section { padding: clamp(72px, 9vw, 124px) 0; }
 .eyebrow { margin: 0 0 12px; color: var(--color-brand); font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-.section-title { margin: 0; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; word-break: keep-all; }
+/* 标题允许折行，避免手机端溢出 */
+.section-title { margin: 0; font-size: clamp(1.9rem, 3.6vw, 3.6rem); line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
 .section-lead { max-width: 720px; margin: 20px 0 0; color: var(--color-muted); font-size: clamp(1rem, 2vw, 1.2rem); }
 .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 0 22px; border-radius: 999px; background: var(--color-brand); color: white; font-weight: 750; text-decoration: none; }
 .button:hover { background: var(--color-brand-dark); }
 .button.secondary { background: transparent; color: var(--color-ink); border: 1px solid rgba(54,61,71,.25); }
 .card { border: 1px solid rgba(54,61,71,.08); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-card); }
-@media (max-width: 640px) { .container { width: min(calc(100% - 28px), var(--content)); } .section { padding: 64px 0; } }
+
+/* iPad / 手机刘海与底部安全区 */
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+@media (max-width: 1023px) {
+  .container { width: min(calc(100% - 32px), var(--content)); }
+}
+@media (max-width: 639px) {
+  .container { width: min(calc(100% - 28px), var(--content)); }
+  .section { padding: 64px 0; }
+  .section-title { font-size: 2rem; }
+  .button { min-height: 46px; padding: 0 18px; }
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

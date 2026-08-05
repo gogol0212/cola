@@ -6,16 +6,26 @@ const links = [
   { href: '/knowledge/', label: '保险知识' },
   { href: '/join/', label: '加入可乐' },
 ];
+const serviceLinks = [
+  { href: '/products/youtongxing/', label: '友童行·儿童保障' },
+  { href: '/products/zhixuan-yisheng/', label: '智选逸生·医疗' },
+  { href: '/knowledge/medical-insurance-comparison/', label: '医疗险对比解读' },
+];
 ---
 <header class="site-header">
   <div class="inner container">
     <a class="brand" href="/" aria-label="返回首页">
-      <img src="/assets/logo.png" width="44" height="44" alt="未来可乐团队标志" />
+      <img src="/assets/logo.png" width="44" height="44" alt="未来可乐团队标志" decoding="async" />
       <span class="brand-text">AIA HUBEI<br /><em>未来可乐团队</em></span>
     </a>
     <nav aria-label="主导航">{links.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
     <a class="contact" href="/contact/">联系我们</a>
-    <details class="mobile-menu"><summary aria-label="打开网站导航">菜单</summary><div>{links.map((link) => <a href={link.href}>{link.label}</a>)}<a class="contact-link" href="/contact/">联系我们</a></div></details>
+    <details class="mobile-menu"><summary aria-label="打开网站导航"><span class="hamburger" aria-hidden="true"></span><span class="menu-label">菜单</span></summary><div class="drawer"><div class="drawer-inner">
+      <nav class="drawer-main" aria-label="移动端主导航">{links.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
+      <p class="drawer-label">热门内容</p>
+      <nav class="drawer-sub" aria-label="热门内容">{serviceLinks.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
+      <a class="contact-link" href="/contact/">联系我们</a>
+    </div></div></details>
   </div>
 </header>
 <style>
@@ -30,5 +40,25 @@ const links = [
   nav a:hover { color: var(--color-brand); }
   .contact { padding: 8px 16px; border-radius: 999px; background: var(--color-brand); color: white; font-size: .86rem; font-weight: 750; text-decoration: none; }
   .mobile-menu{display:none}
-  @media (max-width: 760px) { .inner { min-height: 66px; } nav,.contact { display: none; }.mobile-menu{position:relative;display:block}.mobile-menu summary{min-height:44px;padding:9px 14px;border:1px solid var(--color-line);border-radius:999px;list-style:none;font-size:.82rem;font-weight:750;cursor:pointer}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu div{position:absolute;top:52px;right:0;display:grid;width:190px;padding:9px;border:1px solid var(--color-line);border-radius:18px;background:#fff;box-shadow:var(--shadow-card)}.mobile-menu a{padding:10px 12px;border-radius:10px;color:var(--color-muted);font-size:.86rem;text-decoration:none}.mobile-menu a:hover{background:rgba(165,145,92,.1);color:var(--color-ink)}.mobile-menu .contact-link{margin-top:4px;padding:10px 12px;border-radius:10px;background:var(--color-brand);color:white;font-weight:750}.mobile-menu .contact-link:hover{background:var(--color-brand-dark);color:white} }
+  @media (max-width: 760px) {
+    .inner { min-height: 66px; padding-top: env(safe-area-inset-top); }
+    nav,.contact { display: none; }
+    .mobile-menu{position:relative;display:block;flex:0 0 auto}
+    .mobile-menu summary{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;border:1px solid var(--color-line);border-radius:999px;list-style:none;font-size:.82rem;font-weight:750;cursor:pointer;background:rgba(255,255,255,.6)}
+    .mobile-menu summary::-webkit-details-marker{display:none}
+    .hamburger{position:relative;display:inline-block;width:16px;height:12px}
+    .hamburger:before,.hamburger:after,.hamburger span{content:'';position:absolute;left:0;width:16px;height:2px;border-radius:2px;background:var(--color-charcoal);transition:transform .2s,top .2s,opacity .2s}
+    .hamburger:before{top:0}
+    .hamburger:after{top:5px}
+    .hamburger span{top:10px;width:12px}
+    .drawer{position:absolute;top:calc(100% + 10px);right:0;width:min(86vw,340px);border:1px solid var(--color-line);border-radius:20px;background:#fff;box-shadow:0 24px 60px rgba(25,31,40,.16)}
+    .drawer-inner{padding:12px}
+    .drawer-main{display:grid}
+    .drawer-main a,.drawer-sub a{min-height:46px;display:flex;align-items:center;padding:0 14px;border-radius:12px;color:var(--color-charcoal);font-size:.95rem;font-weight:700;text-decoration:none}
+    .drawer-main a:hover,.drawer-sub a:hover{background:rgba(165,145,92,.1)}
+    .drawer-label{margin:14px 14px 6px;color:var(--color-muted);font-size:.72rem;font-weight:800;letter-spacing:.1em}
+    .drawer-sub a{font-size:.88rem;font-weight:650;color:var(--color-muted)}
+    .contact-link{display:flex;align-items:center;justify-content:center;min-height:46px;margin-top:12px;border-radius:14px;background:var(--color-brand);color:white;font-weight:800;text-decoration:none}
+    .contact-link:hover{background:var(--color-brand-dark)}
+  }
 </style>

@@ -21,7 +21,7 @@ const { items = [] } = Astro.props as { items?: CaseItem[] };
   {items.map((item, index) => <article class:list={['case-card', item.settlement && 'is-flippable']} data-case-card>
     <div class="case-inner">
       <section class="case-face case-front" aria-label={`${item.title} 情景`}>
-        {item.image && <img src={item.image} alt="" loading="lazy" draggable="false" />}
+        {item.image && <img src={item.image} alt="" loading="lazy" decoding="async" draggable="false" />}
         <div class="case-copy"><span class="kicker">{item.kicker}</span><h3>{item.title}</h3><p>{item.scenario}</p><aside><b>如何看这份保障</b>{item.analysis}</aside>
           {item.settlement && <button class="flip-button" type="button" aria-expanded="false" aria-controls={`case-result-${index}`}>查看理赔测算 <span aria-hidden="true">→</span></button>}
         </div>

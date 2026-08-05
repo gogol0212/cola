@@ -31,7 +31,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
       <div class="hero-tags">{h.tags.map(tag => <span>{tag}</span>)}</div>
     </div>
     <div class="hero-media no-select">
-      <img src={h.image} loading="lazy" alt="未来可乐团队" draggable="false" />
+      <img src={h.image} loading="lazy" decoding="async" alt="未来可乐团队" draggable="false" />
     </div>
   </div></section>
 
@@ -48,7 +48,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
 
   <section class="section founder-band reveal" id="founder"><div class="container founder-grid">
     <div class="founder-media no-select">
-      <img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} draggable="false" />
+      <img src={founder.image} loading="lazy" width="817" height="1090" alt={`${founder.name}，未来可乐团队创始人`} decoding="async" draggable="false" />
     </div>
     <div><div class="founder-name-row"><h2 class="section-title">{founder.name}</h2><img class="founder-logo" src="/assets/logo.png" alt="" aria-hidden="true" /></div><p class="founder-meta">{founder.school} · {founder.years} · {founder.role}</p><p class="founder-tagline">{founder.tagline}</p>
     {founder.paragraphs.map(p => <p class="founder-p" set:html={p.replace(/“可乐”/g, '<em class="cola-em">“可乐”</em>')} />)}
@@ -69,7 +69,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
     <div class="aia-track-wrap">
       <div class="aia-track" id="aiaTrack">
         {[...aiaMilestones, ...aiaMilestones].map((m, i) => <article class:list={['aia-slide', { featured: m.featured }]}>
-          <div class="aia-media no-select"><img src={m.image} loading="lazy" width="1280" height="800" alt={`${m.year}，${m.title}`} draggable="false" /><span class="aia-year">{m.year}</span>{m.featured && <span class="aia-featured">我们的起点</span>}</div>
+          <div class="aia-media no-select"><img src={m.image} loading="lazy" width="1280" height="800" alt={`${m.year}，${m.title}`} decoding="async" draggable="false" /><span class="aia-year">{m.year}</span>{m.featured && <span class="aia-featured">我们的起点</span>}</div>
           <div class="aia-body"><b>{m.year}</b><h3>{m.title}</h3><p>{m.desc}</p></div>
         </article>)}
       </div>
@@ -192,7 +192,7 @@ const sloganHtml = h.slogan.replace('可乐', '<em>可乐</em>');
   .reveal.in { opacity:1; transform:none; }
   @media(prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } }
   @media(max-width:1100px){.members-grid{grid-template-columns:repeat(4,1fr)}}
-  @media(max-width:980px){.members-grid{grid-template-columns:repeat(3,1fr)}.services-grid{grid-template-columns:1fr 1fr}.hero-grid{grid-template-columns:1fr;align-items:start}.hero-media{max-width:560px;margin-top:6px}.hero-media:before{inset:12px -12px -12px 12px}}
+  @media(max-width:980px){.members-grid{grid-template-columns:repeat(3,1fr)}.services-grid{grid-template-columns:1fr 1fr}.hero-grid{grid-template-columns:1fr;align-items:start}.hero-media{max-width:560px;margin-top:6px;overflow:hidden}.hero-media:before{inset:12px -12px -12px 12px}}
   @media(max-width:720px){.belief-grid,.recognition-grid,.founder-grid{grid-template-columns:1fr}.number-grid{grid-template-columns:1fr 1fr}.members-grid{grid-template-columns:1fr 1fr}.founder-media img{max-height:420px}.chapter-nav{top:56px}.founder-name-row .founder-logo{width:90px}.services-grid{grid-template-columns:1fr}.aia-head{grid-template-columns:1fr;gap:18px}.aia-slide{flex-basis:82vw}.aia-media{aspect-ratio:16/10}}
   @media(max-width:480px){.team-hero{min-height:auto;padding:96px 0 72px}.team-hero h1{font-size:2.6rem}.members-grid{grid-template-columns:1fr}.number-grid article{padding:24px 10px}.number-grid b{font-size:1.6rem}.number-grid span{font-size:.75rem}}
 </style>

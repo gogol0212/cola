@@ -4,7 +4,7 @@ const productLineLabels: Record<string,string> = { health:'健康保障', accide
 const audienceLabels: Record<string,string> = { adult:'成人', child:'儿童' };
 ---
 <a class:list={['product-card',{'official-card':external}]} data-lines={productLines.join(' ')} data-audiences={audiences.join(' ')} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
-  <div class:list={['product-card__image',{'official-mark':external}]}>{image ? <img src={image} alt="" /> : <span>{external ? <>AIA<br />官方资料</> : productLines.map((line:string) => productLineLabels[line]).join(' · ')}</span>}</div>
+  <div class:list={['product-card__image',{'official-mark':external}]}>{image ? <img src={image} alt="" loading="lazy" decoding="async" /> : <span>{external ? <>AIA<br />官方资料</> : productLines.map((line:string) => productLineLabels[line]).join(' · ')}</span>}</div>
   <div class="product-card__body"><span>{external ? '友邦官网产品索引' : '本站深度解读'}</span><h3>{title}</h3><p>{summary}</p><div class="tag-list">{productLines.map((line:string) => <em>{productLineLabels[line]}</em>)}{audiences.map((audience:string) => <em>{audienceLabels[audience]}</em>)}</div><b>{external ? '前往友邦官网核验 ↗' : '阅读完整指南 →'}</b></div>
 </a>
 <style>

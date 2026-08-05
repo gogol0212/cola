@@ -13,7 +13,7 @@
   <div class="container legal"><span>© 未来可乐团队。本站原创内容、图表与页面设计未经许可不得转载或商用。</span><span>网站内容仅供保险知识交流，具体保障以正式合同条款为准。</span></div>
 </footer>
 <style>
-  footer { padding: 72px 0 26px; background: #252b33; color: white; }
+  footer { padding: 72px 0 calc(26px + env(safe-area-inset-bottom)); background: #252b33; color: white; }
   .grid { max-width: 1180px; }
   h2 { max-width: 720px; margin: 0; font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.15; letter-spacing: -.04em; }
   .lead { max-width: 640px; margin: 18px 0 0; color: rgba(255,255,255,.7); font-size: 1rem; line-height: 1.85; }
