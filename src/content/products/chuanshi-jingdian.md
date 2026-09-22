@@ -12,8 +12,8 @@ productLines:
   - wealth
 audiences:
   - adult
-image: /assets/images/products/chuanshi-jingdian/hero.svg
-displayMode: contain
+image: /assets/images/products/chuanshi-jingdian/hero-official.jpg
+displayMode: cover
 imagePosition: center
 mobileImagePosition: center
 featured: true

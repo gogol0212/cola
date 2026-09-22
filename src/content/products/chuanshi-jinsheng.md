@@ -13,8 +13,8 @@ productLines:
 audiences:
   - adult
   - child
-image: /assets/images/products/chuanshi-jinsheng/hero.svg
-displayMode: contain
+image: /assets/images/products/chuanshi-jinsheng/hero-official.jpg
+displayMode: cover
 imagePosition: center
 mobileImagePosition: center
 featured: true
