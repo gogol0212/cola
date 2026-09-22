@@ -4,7 +4,7 @@
  * 直接使用即可避免 React 双实例冲突（React 18 UMD 元素无法被 React 19 reconciler 识别，报 #525）。
  *
  * products 集合在阶段 3 起瘦身为「元数据仅用」：产品详情页由前端定制生成（友童行 / 智选逸生），
- * 后台仅维护 title/slug/category/summary/audience/productLines/heroImage/status/SEO 等字段，
+ * 后台仅维护 title/slug/category/summary/audience/productLines/image/status/SEO 等字段，
  * 用于产品列表、上下架与 SEO 管理。本预览对应展示这些字段。
  */
 (function () {
@@ -57,7 +57,7 @@
     var title = val(d, 'title') || '（未填写产品名称）';
     var status = val(d, 'status') || 'draft';
     var statusColor = status === 'published' ? BRAND : status === 'reviewed' ? OLIVE : MUTED;
-    var image = props.getAsset && val(d, 'heroImage') ? props.getAsset(val(d, 'heroImage')) : null;
+    var image = props.getAsset && val(d, 'image') ? props.getAsset(val(d, 'image')) : null;
 
     return h('div', { style: { fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif', background: BG, minHeight: '100%', padding: '24px 16px 40px' } },
       h('div', { style: { maxWidth: 640, margin: '0 auto' } },
@@ -66,8 +66,8 @@
           h('span', { style: { color: MUTED, fontSize: 12 } }, '后台仅维护产品元数据，详情页由前端定制生成')),
         h('div', { style: { display: 'flex', gap: 20, alignItems: 'flex-start', background: '#fff', border: '1px solid ' + LINE, borderRadius: 16, padding: 20 } },
           image
-            ? h('img', { src: image.toString(), style: { flex: '0 0 120px', width: 120, aspectRatio: '4/5', objectFit: 'cover', borderRadius: 10 } })
-            : h('div', { style: { flex: '0 0 120px', height: 150, display: 'grid', placeItems: 'center', background: 'rgba(211,17,69,.08)', color: BRAND, fontSize: 12, fontWeight: 800, borderRadius: 10 } }, '无封面'),
+            ? h('img', { src: image.toString(), style: { flex: '0 0 150px', width: 150, aspectRatio: '16/9', objectFit: 'cover', borderRadius: 10 } })
+            : h('div', { style: { flex: '0 0 150px', height: 90, display: 'grid', placeItems: 'center', background: 'rgba(211,17,69,.08)', color: BRAND, fontSize: 12, fontWeight: 800, borderRadius: 10 } }, '无封面'),
           h('div', { style: { flex: 1 } },
             h('h1', { style: { fontSize: 28, fontWeight: 800, margin: '0 0 8px', color: INK } }, title),
             h('p', { style: { color: MUTED, fontSize: 13, margin: '0 0 12px', lineHeight: 1.6 } }, val(d, 'summary') || '（未填写一句话定位）'),

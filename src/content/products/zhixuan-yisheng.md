@@ -12,8 +12,10 @@ productLines:
 audiences:
   - adult
   - child
-heroImage: /assets/images/uploads/zhixuanyisheng.png
-heroImagePosition: center
+image: /assets/images/uploads/zhixuanyisheng.png
+displayMode: contain
+imagePosition: center
+mobileImagePosition: center
 featured: false
 status: published
 sortOrder: 20

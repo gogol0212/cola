@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" role="img" aria-label="友邦传世经典乐享2026终身寿险（分红型）">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#333D47"/>
+      <stop offset="0.55" stop-color="#3C4854"/>
+      <stop offset="1" stop-color="#2A323B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+  <rect x="0" y="0" width="12" height="1500" fill="#A5915C"/>
+  <circle cx="1090" cy="150" r="14" fill="#D31145"/>
+
+  <g font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, sans-serif">
+    <text x="110" y="250" fill="#A5915C" font-size="34" font-weight="700" letter-spacing="10">传世系列 · 高净值传承</text>
+    <text x="110" y="470" fill="#FFFFFF" font-size="104" font-weight="800" letter-spacing="2">传世经典乐享</text>
+    <text x="110" y="600" fill="#FFFFFF" font-size="104" font-weight="800" letter-spacing="2">2026</text>
+    <text x="110" y="700" fill="#D3CAC3" font-size="44" font-weight="600" letter-spacing="4">分红型 · 增额终身寿险</text>
+
+    <text x="110" y="828" fill="#D3CAC3" font-size="34" font-weight="400">保额随增额红利长期增长</text>
+    <text x="110" y="880" fill="#D3CAC3" font-size="34" font-weight="400">确定的身故 / 全残保障与长期现金价值</text>
+
+    <g font-size="30" font-weight="700">
+      <rect x="110" y="980" width="300" height="74" rx="37" fill="none" stroke="#A5915C" stroke-width="2"/>
+      <text x="260" y="1028" fill="#C7BB9D" text-anchor="middle">增额红利</text>
+
+      <rect x="440" y="980" width="330" height="74" rx="37" fill="none" stroke="#A5915C" stroke-width="2"/>
+      <text x="605" y="1028" fill="#C7BB9D" text-anchor="middle">责任免除仅三项</text>
+
+      <rect x="800" y="980" width="300" height="74" rx="37" fill="none" stroke="#A5915C" stroke-width="2"/>
+      <text x="950" y="1028" fill="#C7BB9D" text-anchor="middle">保险金信托</text>
+    </g>
+
+    <line x1="110" y1="1320" x2="1090" y2="1320" stroke="#5B636B" stroke-width="2"/>
+    <text x="110" y="1390" fill="#A4A19B" font-size="30" letter-spacing="2">AIA 友邦人寿 · 未来可乐团队</text>
+    <text x="1090" y="1390" fill="#A4A19B" font-size="26" text-anchor="end">保障知识说明 · 以保险合同为准</text>
+  </g>
+</svg>

@@ -1,0 +1,475 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductHero from "../../components/products/ProductHero.astro";
+import ProductFeatures from "../../components/products/ProductFeatures.astro";
+import CoverageOverview from "../../components/products/CoverageOverview.astro";
+import CompareTable from "../../components/products/CompareTable.astro";
+import CaseStudy from "../../components/products/CaseStudy.astro";
+import KnowledgeBlock from "../../components/products/KnowledgeBlock.astro";
+import FAQ from "../../components/products/FAQ.astro";
+import QRCodeBox from "../../components/products/QRCodeBox.astro";
+import ProductMeta from "../../components/products/ProductMeta.astro";
+import { getCollection } from "astro:content";
+
+const [productEntry] = await getCollection(
+  "products",
+  ({ data }) => data.slug === "chuanshi-jinsheng",
+);
+const productImage = productEntry?.data.image || "/assets/images/hero-bg.jpg";
+const productImagePosition = productEntry?.data.imagePosition || "center";
+const productMobileImagePosition = productEntry?.data.mobileImagePosition;
+const productDisplayMode = productEntry?.data.displayMode;
+
+const heroTitle = productEntry?.data.title || "传世金生2026荣耀版";
+const heroSummary =
+  productEntry?.data.summary ||
+  "分红型年金保险，第 5 个保单年度起领取、65 岁起翻倍，锁定长期生存现金流并可进入万能账户复利。";
+const pageTitle =
+  productEntry?.data.seoTitle || "友邦传世金生2026荣耀版年金保险（分红型）保障说明｜方仲达";
+const pageDescription =
+  productEntry?.data.seoDescription ||
+  "从年金起领时间、65 岁起翻倍、105 岁满期返还与万能账户复利出发，理解传世金生2026荣耀版的保证利益、分红口径与领取逻辑。";
+
+const audience = productEntry?.data.audience || [
+  "为孩子规划长期成长与教育现金流安排的父母",
+  "关注养老与终身现金流的人",
+  "希望兼顾保证利益与分红增值的客户",
+];
+const outline = [
+  { label: "保障方向", value: "年金保险 · 分红型" },
+  { label: "领取口径", value: "第 5 年度起领，65 岁翻倍" },
+  { label: "阅读重点", value: "保证年金、分红、万能账户" },
+];
+
+const features = [
+  {
+    eyebrow: "01 · 第 5 年度起领",
+    title: "领取时点写入合同",
+    text: "以 4 岁被保险人、6 年缴为例，第 5 个保单年度（约 9 岁）起每年领取年金。领取时点与金额在合同约定，形成长期、确定的现金流安排。",
+  },
+  {
+    eyebrow: "02 · 65 岁翻倍",
+    title: "65 岁起保证年金翻倍",
+    text: "保证年金在 65 岁起翻倍给付（示例约由 2.83 万/年提升至 5.67 万/年）。相比平准领取的产品，更偏向中后期的养老现金流。",
+  },
+  {
+    eyebrow: "03 · 满期返还",
+    title: "105 岁满期返还已交保费",
+    text: "被保险人生存至 105 岁满期，返还合同约定的已交保险费；年金领取与满期金共同构成长期生存利益。",
+  },
+  {
+    eyebrow: "04 · 万能复利",
+    title: "年金与红利可进入万能账户",
+    text: "可搭配友邦增利宝（2025）万能型账户，最低保证年利率 1.0%、演示结算利率 3%，按月结息、复利累积；结算利率为非保证利益。",
+  },
+];
+
+type Chip = { label: string; value: string; tone?: "brand" | "olive" };
+type Group = {
+  title: string;
+  chips: Chip[];
+  headers: string[];
+  rows: (
+    | string
+    | { text: string; tone?: "brand" | "olive"; muted?: boolean }
+  )[][];
+  note?: string;
+};
+type Tab = {
+  id: string;
+  tab: string;
+  heading: string;
+  intro?: string;
+  groups: Group[];
+  footnotes?: string[];
+};
+
+const coverageMeta: Chip[] = [
+  { label: "投保年龄", value: "以条款为准" },
+  { label: "保险期间", value: "至 105 岁" },
+  { label: "交费方式", value: "6 年缴（示例）" },
+  { label: "起领时间", value: "第 5 个保单年度" },
+  { label: "满期", value: "105 岁返还已交保费" },
+];
+const coverageTabs: Tab[] = [
+  {
+    id: "annuity",
+    tab: "年金给付与利益结构",
+    heading: "年金给付与利益结构",
+    intro:
+      "先看产品要素与年金给付规则，再看累计领取演示与万能账户示例。含红利列均为非保证利益，实际以正式建议书与保险合同为准。",
+    groups: [
+      {
+        title: "产品要素（示例：4 岁女孩 · 6 年缴 · 累计约 210 万）",
+        chips: [
+          { label: "示例投入", value: "约210万" },
+          { label: "交费", value: "6年缴" },
+          { label: "期间", value: "至105岁", tone: "olive" },
+        ],
+        headers: ["要素", "说明"],
+        rows: [
+          ["产品名称", "友邦传世金生 2026 荣耀版年金保险（分红型）"],
+          ["被保险人", "以保险合同载明为准"],
+          ["保险期间", "至被保险人 105 岁"],
+          ["示例缴费", "6 年缴，年缴约 35.01 万，累计约 210 万"],
+          ["年金起领", "第 5 个保单年度起（示例约 9 岁）"],
+          ["满期给付", "105 岁满期返还已交保险费"],
+        ],
+      },
+      {
+        title: "年金给付规则",
+        chips: [
+          { label: "起领", value: "第 5 年度" },
+          { label: "65 岁起", value: "翻倍", tone: "brand" },
+        ],
+        headers: ["项目", "规则说明"],
+        rows: [
+          ["起领时间", "第 5 个保单年度（示例约 9 岁）"],
+          ["领取方式", "每年给付年金，领取时点与金额写入合同"],
+          ["65 岁起", "保证年金翻倍给付"],
+          ["满期金", "被保险人生存至 105 岁，返还已交保险费"],
+          ["分红", "分红型，红利为非保证利益"],
+          ["万能账户", "年金与红利可进入友邦增利宝（2025）万能型账户"],
+        ],
+      },
+      {
+        title: "累计领取演示（示例：4 岁女孩 · 6 年缴）",
+        chips: [
+          { label: "95 岁保证", value: "334.4万" },
+          { label: "含红利演示", value: "570.5万", tone: "olive" },
+        ],
+        headers: ["达到年龄", "保证累计已领", "含红利演示累计已领"],
+        rows: [
+          ["65 岁", "164.3 万", { text: "315.8 万", tone: "brand" }],
+          ["75 岁", "221.0 万", { text: "402.1 万", tone: "brand" }],
+          ["85 岁", "277.7 万", { text: "487.0 万", tone: "brand" }],
+          ["95 岁", "334.4 万", { text: "570.5 万", tone: "brand" }],
+        ],
+        note: "含红利列为非保证利益，某些年度红利可能为零；以上为示范口径，实际以正式建议书及保险合同为准。",
+      },
+      {
+        title: "万能账户（参考：友邦增利宝 2025 万能型）",
+        chips: [
+          { label: "最低保证", value: "1.0%/年" },
+          { label: "演示结算", value: "3%", tone: "olive" },
+        ],
+        headers: ["项目", "说明"],
+        rows: [
+          ["账户名称", "友邦增利宝（2025）万能型"],
+          ["最低保证年利率", "1.0%"],
+          ["演示结算利率", { text: "3%（非保证）", tone: "olive" }],
+          ["结息方式", "按月结息、复利累积"],
+          ["说明", "年金与红利可转入万能账户复利累积"],
+        ],
+        note: "万能账户结算利率为非保证利益，最低保证利率之上的收益不保证。",
+      },
+    ],
+    footnotes: [
+      "累计领取、红利与万能账户金额均为演示口径，基于公司精算假设，不代表未来实际收益。",
+      "领取规则、开始领取年龄、满期返还与万能账户规则因产品版本、地区与个人情况而异，以正式保险合同与保险公司披露为准。",
+    ],
+  },
+];
+
+const compareRows = [
+  {
+    label: "每年领取",
+    product:
+      "9–64 岁约 2.83 万/年；65 岁起约 5.67 万/年（翻倍），偏向养老期现金流",
+    market: "9–105 岁约 3.22 万/年，平准领取、不翻倍",
+  },
+  {
+    label: "累计保证领取",
+    product: "到 85 岁约 277.7 万、到 95 岁约 334.4 万",
+    market: "到 85 岁约 247.9 万、到 95 岁约 280.1 万",
+  },
+  {
+    label: "万能账户",
+    product: "友邦增利宝（2025）万能型：最低保证年利率 1.0%、演示结算利率 3%，按月结息复利",
+    market: "无独立万能账户，生存金可储存生息／抵交保费／购买交清保额",
+  },
+  {
+    label: "保证 IRR（65 / 85 岁）",
+    product: "约 1.15% / 1.33%（叠加红利与万能复利后更高）",
+    market: "约 1.49% / 1.53%",
+  },
+  {
+    label: "长期定位",
+    product: "65 岁起翻倍，越长寿现金流越充裕",
+    market: "平准领取，早期领取略高",
+  },
+];
+
+const cases = [
+  {
+    kicker: "示例 01 · 累计领取",
+    title: "保证口径下，谁领得更多",
+    scenario:
+      "同为 4 岁女孩、9 岁起领、保至 105 岁：一款 9–64 岁约 2.83 万/年、65 岁起翻倍约 5.67 万/年；另一款每年平准约 3.22 万/年。",
+    analysis:
+      "保证口径下，平准产品每年多领约 0.39 万，累计到 65 岁约多 19 万；但 65 岁起本产品年金翻倍，约 74 岁追平、75 岁反超，到 85 岁累计约多 30 万、95 岁约多 54 万——越长寿，差距越大。",
+  },
+  {
+    kicker: "示例 02 · 分红",
+    title: "红利演示怎么看",
+    scenario:
+      "分红型年金在保证年金之外，非保证红利有机会提升长期领取水平。",
+    analysis:
+      "以示范口径，含红利演示累计领取到 95 岁约 570.5 万，比保证部分的约 334.4 万多约 236 万。红利为非保证利益，某些年度红利可能为零，不能当作确定收益来规划刚性支出。",
+  },
+  {
+    kicker: "示例 03 · 万能账户",
+    title: "万能账户的作用",
+    scenario:
+      "年金与红利若暂时不用，可进入万能账户复利累积，兼顾领取灵活性与长期增值。",
+    analysis:
+      "友邦增利宝（2025）万能型最低保证年利率 1.0%、演示结算利率 3%，按月结息复利。结算利率为非保证利益，最低保证利率之上的收益不保证；具体以账户条款与公司披露为准。",
+  },
+];
+
+const knowledgeItems = [
+  {
+    label: "年金险",
+    title: "把一笔钱变成长期现金流",
+    text: "年金险把一次或分期的投入，按合同约定转换成未来长期、按年给付的现金流，适合教育、养老等有明确时点的刚性支出安排。",
+  },
+  {
+    label: "保证与非保证",
+    title: "分红演示怎么看",
+    text: "写入合同的保证年金、满期返还与保证现金价值属于确定利益；红利属于非保证利益，某些年度可能为零。看演示时，应先看保证部分，再看非保证的增值空间。",
+  },
+  {
+    label: "万能账户",
+    title: "结算利率不保证，但有最低保证利率",
+    text: "万能账户通常设有最低保证利率，实际结算利率按月公布、可高可低且不保证。它提供的是复利累积与一定灵活性，而非固定收益。",
+  },
+];
+
+const faqs = [
+  {
+    question: "年金是保证领取的吗？",
+    answer:
+      "保证年金部分（起领时间、每年金额、65 岁起翻倍、105 岁满期返还已交保费）写入合同，属于确定利益；具体金额因投保年龄、性别、缴费方式与核保结果而异，以正式建议书与保险合同为准。",
+  },
+  {
+    question: "分红部分怎么算？",
+    answer:
+      "分红为非保证利益，取决于公司实际经营与红利分配政策，某些年度红利可能为零。页面含红利列均为演示值，基于公司精算假设，不代表未来实际收益。",
+  },
+  {
+    question: "万能账户的利率是保证的吗？",
+    answer:
+      "不是全保证。万能账户通常有最低保证年利率（本页参考口径为 1.0%），最低保证利率之上的结算利率为非保证利益，按月公布、可高可低，以账户条款与公司披露为准。",
+  },
+  {
+    question: "演示数字是最终结果吗？",
+    answer:
+      "不是。页面数字用于理解责任结构与利益演示口径，实际年金、红利、万能账户价值取决于投保信息、核保结果与公司实际经营，以正式建议书与保险合同为准。",
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} image={productImage}>
+  <ProductHero
+    title={heroTitle}
+    summary={heroSummary}
+    audience={audience}
+    tags={["享老保障", "年金保险", "分红型", "成人/儿童"]}
+    outline={outline}
+    image={productImage}
+    imagePosition={productImagePosition}
+    mobileImagePosition={productMobileImagePosition}
+    displayMode={productDisplayMode}
+  />
+
+  <nav class="chapter-nav" aria-label="页面章节">
+    <div class="container">
+      <a href="#features">产品特色</a><a href="#benefit">要素与利益</a><a
+        href="#comparison">对比口径</a
+      ><a href="#scenarios">场景示例</a><a href="#knowledge">相关科普</a><a
+        href="#faq">Q&A</a
+      ><a href="#consult">联系方式</a>
+    </div>
+  </nav>
+
+  <section class="section feature-section" id="features">
+    <div class="container">
+      <p class="eyebrow">Product features</p>
+      <h2 class="section-title">产品特色</h2>
+      <p class="section-lead">
+        第 5 个保单年度起领取、65 岁起翻倍、105 岁满期返还，并用万能账户陪伴长期复利。
+      </p>
+      <ProductFeatures items={features} />
+    </div>
+  </section>
+
+  <section class="section coverage-section" id="benefit">
+    <div class="container">
+      <p class="eyebrow">Elements & illustration</p>
+      <h2 class="section-title">要素与利益</h2>
+      <p class="section-lead">
+        从产品要素、年金给付规则，到累计领取演示与万能账户示例，把「保证」与「非保证」分开来看。
+      </p>
+      <CoverageOverview meta={coverageMeta} tabs={coverageTabs} />
+    </div>
+  </section>
+
+  <section class="section comparison-section" id="comparison">
+    <div class="container">
+      <p class="eyebrow">Comparison basis</p>
+      <h2 class="section-title">比较年金<br />先比保证，再比演示</h2>
+      <p class="section-lead">
+        以市场同类年金（保证利益）为参照，重点比较每年领取、累计保证领取与万能账户。这里仅作责任结构的客观比较，不构成对任一产品的优劣判定。
+      </p>
+      <CompareTable
+        rows={compareRows}
+        productLabel="友邦 传世金生2026荣耀版"
+        marketLabel="中信保诚 诚耀人生至臻版（保证利益）"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="scenarios">
+    <div class="container">
+      <p class="eyebrow">Scenario analysis</p>
+      <h2 class="section-title">把领取放回真实时间轴</h2>
+      <CaseStudy items={cases} />
+      <p class="legal-note">
+        以上均为责任理解示例，人物与金额不对应特定客户，红利与万能账户结算利率为非保证利益，实际以保险合同与公司披露为准。
+      </p>
+    </div>
+  </section>
+
+  <section class="section knowledge-section" id="knowledge">
+    <div class="container">
+      <KnowledgeBlock
+        title="年金险怎么看"
+        intro="年金险把一笔投入转换成长期现金流，但需要分清保证领取、非保证分红、万能账户结算利率与满期返还，才能判断它适不适合你的规划。"
+        items={knowledgeItems}
+        note="产品责任、领取规则、分红演示与万能账户规则存在版本及地区差异，请以正式保险合同和最新产品资料为准。"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container narrow">
+      <p class="eyebrow">Questions & answers</p>
+      <h2 class="section-title">常见问题</h2>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+
+  <section class="section meta-section">
+    <div class="container">
+      <ProductMeta
+        source="根据友邦传世金生 2026 荣耀版产品资料、利益演示与保险合同责任摘要整理。"
+        updatedAt="2026-09-23"
+        comparisonBasis="以市场同类年金（如中信保诚诚耀人生至臻版）的保证利益为参照，仅作知识比较，不构成对任一产品的优劣判定。"
+        disclaimer="本页面仅用于保险知识普及，不构成销售承诺、保险合同、利益保证或个性化投保建议。产品名称、保险责任、领取规则、满期返还、分红演示、万能账户结算利率及服务内容均以正式保险合同、最新产品资料和保险公司审核为准；分红与万能账户结算利率为非保证利益。"
+      />
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container">
+      <QRCodeBox
+        image="/assets/images/wechat-qr.png"
+        title="先把你家的现金流安排想清楚"
+        text="扫码添加方仲达，结合家庭结构、已有保单与预算做一对一梳理。"
+      />
+      <p class="original-note">
+        <b>原创声明：</b>本文为未来可乐团队原创整理，仅用于保险知识科普与保障规划参考。未经许可，请勿复制、转载或用于商业展业。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
+  }
+  .narrow {
+    max-width: 1000px;
+  }
+  .chapter-nav {
+    position: sticky;
+    z-index: 30;
+    top: 74px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+  }
+  .chapter-nav .container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .chapter-nav a {
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .chapter-nav a:hover {
+    background: rgba(165, 145, 92, 0.13);
+    color: var(--color-ink);
+  }
+  .feature-section {
+    background: var(--color-olive);
+    color: white;
+  }
+  .feature-section .eyebrow {
+    color: white;
+  }
+  .feature-section .section-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .comparison-section,
+  .coverage-section {
+    background: white;
+  }
+  .knowledge-section {
+    background: rgba(211, 202, 195, 0.24);
+  }
+  .legal-note {
+    margin-top: 20px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .meta-section {
+    padding-top: 10px;
+  }
+  .contact-section {
+    padding-top: 20px;
+  }
+  .original-note {
+    margin: 22px 0 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--color-brand);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(211, 202, 195, 0.2);
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+  @media (max-width: 760px) {
+    .chapter-nav {
+      top: 64px;
+    }
+    .chapter-nav .container {
+      padding-right: 18px;
+      padding-left: 18px;
+    }
+    .section {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+  }
+</style>

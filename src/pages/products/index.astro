@@ -8,7 +8,7 @@ const productLineLabels: Record<string, string> = { health:'健康保障', accid
 const audienceLabels: Record<string, string> = { adult:'成人', child:'儿童' };
 const productLineFilters = [['all','全部类别'], ...Object.entries(productLineLabels)];
 const audienceFilters = [['all','全部人群'], ...Object.entries(audienceLabels)];
-const customPages = ['youtongxing', 'zhixuan-yisheng'];
+const customPages = ['youtongxing', 'zhixuan-yisheng', 'chuanshi-jingdian', 'chuanshi-jinsheng'];
 const products = (await getCollection('products', ({ data }) => data.status !== 'draft' && customPages.includes(data.slug))).sort((a,b) => a.data.sortOrder - b.data.sortOrder);
 const total = products.length + officialCatalog.products.length;
 ---
@@ -21,7 +21,7 @@ const total = products.length + officialCatalog.products.length;
     <div class="filter-group"><span>适用人群</span><div class="filter-bar" role="group" aria-label="适用人群筛选">{audienceFilters.map(([value,label],index) => <button type="button" class:list={['filter-button',{active:index===0}]} data-filter-group="audience" data-filter={value} aria-pressed={index===0 ? 'true':'false'}>{label}</button>)}</div></div>
 
     <div class="product-grid" id="product-grid">
-      {products.map(product => <ProductCard title={product.data.title} summary={product.data.summary} href={`/products/${product.data.slug}/`} productLines={product.data.productLines} audiences={product.data.audiences} image={product.data.heroImage} />)}
+      {products.map(product => <ProductCard title={product.data.title} summary={product.data.summary} href={`/products/${product.data.slug}/`} productLines={product.data.productLines} audiences={product.data.audiences} image={product.data.image} imagePosition={product.data.imagePosition} mobileImagePosition={product.data.mobileImagePosition} />)}
       {officialCatalog.products.map(product => <ProductCard title={product.title} summary={product.summary} href={product.officialUrl} productLines={product.productLines} audiences={product.audiences} external />)}
     </div>
     <p class="empty-state" id="empty-state" hidden>暂未收录同时符合这两个条件的内容，您可以切换筛选或联系我们梳理需求。</p>

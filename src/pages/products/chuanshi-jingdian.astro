@@ -1,0 +1,473 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductHero from "../../components/products/ProductHero.astro";
+import ProductFeatures from "../../components/products/ProductFeatures.astro";
+import CoverageOverview from "../../components/products/CoverageOverview.astro";
+import CompareTable from "../../components/products/CompareTable.astro";
+import CaseStudy from "../../components/products/CaseStudy.astro";
+import KnowledgeBlock from "../../components/products/KnowledgeBlock.astro";
+import FAQ from "../../components/products/FAQ.astro";
+import QRCodeBox from "../../components/products/QRCodeBox.astro";
+import ProductMeta from "../../components/products/ProductMeta.astro";
+import { getCollection } from "astro:content";
+
+const [productEntry] = await getCollection(
+  "products",
+  ({ data }) => data.slug === "chuanshi-jingdian",
+);
+const productImage = productEntry?.data.image || "/assets/images/hero-bg.jpg";
+const productImagePosition = productEntry?.data.imagePosition || "center";
+const productMobileImagePosition = productEntry?.data.mobileImagePosition;
+const productDisplayMode = productEntry?.data.displayMode;
+
+const heroTitle = productEntry?.data.title || "传世经典乐享2026";
+const heroSummary =
+  productEntry?.data.summary ||
+  "分红型增额终身寿，确定的基本保额 + 非保证的增额红利，兼顾身故／全残保障与长期现金价值。";
+const pageTitle =
+  productEntry?.data.seoTitle || "友邦传世经典乐享2026终身寿险（分红型）保障说明｜方仲达";
+const pageDescription =
+  productEntry?.data.seoDescription ||
+  "从增额红利、责任免除、身故／全残保险金与现金价值出发，理解传世经典乐享2026的传承逻辑与利益演示口径。";
+
+const audience = productEntry?.data.audience || [
+  "关注家庭长期财富传承与确定保额的人",
+  "希望保障金额有机会随分红增长的高净值客户",
+  "经营企业、重视责任免除条款与定向传承安排的家庭支柱",
+];
+const outline = [
+  { label: "保障方向", value: "增额终身寿 · 分红型" },
+  { label: "给付口径", value: "身故 / 全残" },
+  { label: "阅读重点", value: "增额红利、责任免除、现金价值" },
+];
+
+const features = [
+  {
+    eyebrow: "01 · 增额红利",
+    title: "保额会「长大」的分红型终身寿",
+    text: "通过增额红利，身故保险金与现金价值有机会长期递增。以 53 岁男性、基本保额 500 万、5 年缴为例，红利演示身故保险金约由 53 岁的 506.0 万增长至 85 岁的 725.7 万。",
+  },
+  {
+    eyebrow: "02 · 三项免责",
+    title: "责任免除条款仅三项",
+    text: "本产品责任免除为三项（投保人故意杀害／伤害被保险人、被保险人故意犯罪或抗拒刑事强制措施、故意自伤及合同成立 2 年内自杀等情形），相较部分同类产品五项更窄；投保前建议逐条比对条款。",
+  },
+  {
+    eyebrow: "03 · 双重功能",
+    title: "保障与现金价值兼备",
+    text: "被保险人身故或全残时，按「基本保额、保证现金价值、累计已交保费×对应比例」三者取大，再加增额红利给付；保障之外，保单具备长期现金价值，可按规定办理保单贷款、减保等。",
+  },
+  {
+    eyebrow: "04 · 传承权益",
+    title: "对接保险金信托与专属服务",
+    text: "可对接保险金信托服务，让身故保险金按约定时间、份额与条件定向给到指定受益人；并附私人家医、致成长等增值服务，把定向传承与长期服务放在一起考虑。",
+  },
+];
+
+type Chip = { label: string; value: string; tone?: "brand" | "olive" };
+type Group = {
+  title: string;
+  chips: Chip[];
+  headers: string[];
+  rows: (
+    | string
+    | { text: string; tone?: "brand" | "olive"; muted?: boolean }
+  )[][];
+  note?: string;
+};
+type Tab = {
+  id: string;
+  tab: string;
+  heading: string;
+  intro?: string;
+  groups: Group[];
+  footnotes?: string[];
+};
+
+const coverageMeta: Chip[] = [
+  { label: "投保年龄", value: "以条款为准" },
+  { label: "保险期间", value: "终身" },
+  { label: "交费方式", value: "5 年缴（示例）" },
+  { label: "给付口径", value: "身故 / 全残" },
+  { label: "责任免除", value: "三项" },
+];
+const coverageTabs: Tab[] = [
+  {
+    id: "elements",
+    tab: "产品要素与保障责任",
+    heading: "产品要素与保障责任",
+    intro:
+      "先看产品要素与身故／全残保险金的给付口径，再看利益演示与现金价值示例。所有数字均为演示口径，实际以正式建议书与保险合同为准。",
+    groups: [
+      {
+        title: "产品要素（示例：53 岁男性 · 基本保额 500 万 · 5 年缴）",
+        chips: [
+          { label: "示例保额", value: "500万" },
+          { label: "示例缴费", value: "5年缴" },
+          { label: "保险期间", value: "终身", tone: "olive" },
+        ],
+        headers: ["要素", "说明"],
+        rows: [
+          ["产品名称", "友邦传世经典乐享 2026 终身寿险（分红型）"],
+          ["保险期间", "终身"],
+          ["示例保额", "基本保额 500 万元"],
+          ["示例缴费", "5 年缴，年缴 68.8 万元，累计 344 万元"],
+          ["责任免除", { text: "三项", tone: "brand" }],
+          ["增值服务", "保险金信托服务、私人家医、致成长等"],
+        ],
+      },
+      {
+        title: "身故 / 全残保险金给付口径",
+        chips: [
+          { label: "给付", value: "max(…)＋红利" },
+          { label: "比例", value: "140% / 120%" },
+        ],
+        headers: ["给付项目", "规则说明"],
+        rows: [
+          ["基本保额", "合同载明的基本保险金额"],
+          ["保证现金价值", "按合同保证现金价值表确定"],
+          ["累计已交保费 × 比例", "41–60 岁 140%；61 岁及以上 120%"],
+          ["增额红利", "以增加身故保险金的形式给付（非保证）"],
+          [
+            "给付公式",
+            {
+              text: "max（基本保额、保证现金价值、累计已交保费 × 对应比例）＋ 增额红利",
+              tone: "olive",
+            },
+          ],
+        ],
+      },
+      {
+        title: "利益演示（53 岁男性 · 基本保额 500 万 · 5 年缴）",
+        chips: [
+          { label: "85 岁红利演示", value: "725.7万", tone: "brand" },
+          { label: "相比固定保额", value: "+225.7万", tone: "olive" },
+        ],
+        headers: ["年龄", "保证身故金", "红利演示身故金", "总现金价值（红利演示）"],
+        rows: [
+          ["65 岁", "500 万", { text: "570.3 万", tone: "brand" }, "403.7 万"],
+          ["75 岁", "500 万", { text: "643.2 万", tone: "brand" }, "—"],
+          ["85 岁", "500 万", { text: "725.7 万", tone: "brand" }, "—"],
+          ["104 岁", "500 万", { text: "913.8 万", tone: "brand" }, "833.2 万（100 岁）"],
+        ],
+        note: "红利演示为非保证利益，某些年度红利可能为零；以上为估算示例，实际以正式建议书及保险合同为准。",
+      },
+      {
+        title: "现金价值（退保金）演示",
+        chips: [
+          { label: "保证口径", value: "100 岁 478.5 万" },
+          { label: "红利演示", value: "100 岁 833.2 万", tone: "olive" },
+        ],
+        headers: ["年龄", "保证口径", "红利演示"],
+        rows: [
+          ["60 岁", "329.5 万", "353.9 万"],
+          ["80 岁", "425.0 万", "580.6 万"],
+          ["100 岁", "478.5 万", "833.2 万"],
+        ],
+        note: "保单早期现金价值可能低于已交保费，提前退保可能产生损失。",
+      },
+    ],
+    footnotes: [
+      "利益演示基于公司精算假设，红利为非保证利益，某些年度红利可能为零，不代表未来实际收益。",
+      "投保年龄、保费、缴费方式、保额上限与核保结果因产品版本、地区与个人情况而异，均以正式保险合同与保险公司审核为准。",
+    ],
+  },
+];
+
+const compareRows = [
+  {
+    label: "保额是否增长",
+    product:
+      "是。分红型，通过增额红利让身故保额长期增长；红利演示 85 岁身故金约 725.7 万（基本保额 500 万）",
+    market: "市场同类多以固定保额为主，身故金为 500 万，不随分红增长",
+  },
+  {
+    label: "责任免除",
+    product: "三项（故意行为、故意犯罪／抗拒强制措施、故意自伤及 2 年内自杀等）",
+    market: "同类产品多为五项，常另含吸毒、酒后驾驶／无证驾驶等情形",
+  },
+  {
+    label: "长期金额",
+    product: "确定基本保额 + 非保证增额红利，长期金额有机会增长",
+    market: "确定基本保额，金额固定，不随分红变化",
+  },
+  {
+    label: "公司评级参考",
+    product: "友邦人寿 2025Q4 综合偿付能力 335.14%、风险综合评级 AAA",
+    market: "不同公司偿付能力与评级各异，需逐项核对公开披露",
+  },
+];
+
+const cases = [
+  {
+    kicker: "示例 01 · 增额红利",
+    title: "为什么关注「保额会增长」",
+    scenario:
+      "同为基本保额 500 万的终身寿，一款为固定保额，一款为分红型。以 53 岁男性、5 年缴为例，分红型产品的红利演示身故保险金随年龄递增。",
+    analysis:
+      "固定保额产品的身故金长期保持不变；分红型产品在确定的基本保额之外，叠加非保证的增额红利，红利演示下 85 岁身故金约 725.7 万，比 500 万高约 225.7 万。红利不确定，检验的是公司长期经营与历史兑现，而非某一年的演示值。",
+  },
+  {
+    kicker: "示例 02 · 责任免除",
+    title: "责任免除条款为什么值得逐条看",
+    scenario:
+      "企业主家庭常同时关注意外、债务隔离与传承安排，而不同终身寿产品的责任免除项数与范围并不相同。",
+    analysis:
+      "本产品责任免除为三项；部分同类产品为五项，并可能把部分极端情形纳入免责。投保前把免责条款与自身职业、生活习惯对齐，能减少未来可能的争议空间。",
+  },
+  {
+    kicker: "示例 03 · 现金价值",
+    title: "现金价值与提前退保的关系",
+    scenario:
+      "长期寿险前期费用较高，现金价值通常需要若干年才逐步接近累计已交保费。",
+    analysis:
+      "以示例测算，保证现金价值 60 岁约 329.5 万、80 岁约 425.0 万、100 岁约 478.5 万（红利演示口径更高）。若在保单早期退保，可能低于已交保费，应以长期持有作为规划前提。",
+  },
+];
+
+const knowledgeItems = [
+  {
+    label: "增额终身寿",
+    title: "保额为什么会「长大」",
+    text: "分红型增额终身寿把保额增长依托于增额红利：红利以增加保额的方式计入，使身故保险金与现金价值有机会逐年提升，用来对冲长期通胀对传承金额的稀释。",
+  },
+  {
+    label: "分红",
+    title: "确定与非保证怎么区分",
+    text: "写进合同的基本保额、保证现金价值与保证给付比例属于确定利益；增额红利属于非保证利益，某些年度红利可能为零，演示值基于公司精算假设，不代表未来实际收益。",
+  },
+  {
+    label: "责任免除",
+    title: "为什么投保前要逐条比对",
+    text: "责任免除决定哪些情形不赔。项数与范围因产品而异，对经营企业、经常出行或从事特定职业的客户，逐条比对能更清楚地判断产品是否匹配。",
+  },
+];
+
+const faqs = [
+  {
+    question: "分红是保证的吗？",
+    answer:
+      "不是。分红（含增额红利）为非保证利益，某些年度红利可能为零。写进合同的基本保额、保证现金价值与保证给付比例才是确定利益。页面演示基于公司精算假设，不代表未来实际收益，以保险合同与公司披露为准。",
+  },
+  {
+    question: "责任免除只有三项意味着什么？",
+    answer:
+      "意味着不赔的情形相对更少，但并非没有。三项免责主要涉及投保人故意行为、被保险人故意犯罪／抗拒刑事强制措施、以及故意自伤或合同成立 2 年内自杀等。所有情形仍以保险合同条款为准。",
+  },
+  {
+    question: "早期退保会有损失吗？",
+    answer:
+      "可能会有。长期寿险前期费用较高，现金价值通常需要若干年才逐步接近已交保费；提前退保可能产生损失，建议以长期持有为前提做规划。",
+  },
+  {
+    question: "页面上的演示数字是最终结果吗？",
+    answer:
+      "不是。页面数字用于理解责任结构与利益演示口径，实际保额、保费、红利与现金价值取决于投保年龄、性别、缴费方式、核保结果及公司实际经营，以正式建议书与保险合同为准。",
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} image={productImage}>
+  <ProductHero
+    title={heroTitle}
+    summary={heroSummary}
+    audience={audience}
+    tags={["传世系列", "增额终身寿", "分红型", "成人"]}
+    outline={outline}
+    image={productImage}
+    imagePosition={productImagePosition}
+    mobileImagePosition={productMobileImagePosition}
+    displayMode={productDisplayMode}
+  />
+
+  <nav class="chapter-nav" aria-label="页面章节">
+    <div class="container">
+      <a href="#features">产品特色</a><a href="#benefit">要素与利益</a><a
+        href="#comparison">对比口径</a
+      ><a href="#scenarios">场景示例</a><a href="#knowledge">相关科普</a><a
+        href="#faq">Q&A</a
+      ><a href="#consult">联系方式</a>
+    </div>
+  </nav>
+
+  <section class="section feature-section" id="features">
+    <div class="container">
+      <p class="eyebrow">Product features</p>
+      <h2 class="section-title">产品特色</h2>
+      <p class="section-lead">
+        确定的基本保额 + 非保证的增额红利，兼顾身故／全残保障、长期现金价值与定向传承权益。
+      </p>
+      <ProductFeatures items={features} />
+    </div>
+  </section>
+
+  <section class="section coverage-section" id="benefit">
+    <div class="container">
+      <p class="eyebrow">Elements & illustration</p>
+      <h2 class="section-title">要素与利益</h2>
+      <p class="section-lead">
+        从产品要素、身故／全残给付口径，到利益演示与现金价值示例，把「确定」与「非保证」分开来看。
+      </p>
+      <CoverageOverview meta={coverageMeta} tabs={coverageTabs} />
+    </div>
+  </section>
+
+  <section class="section comparison-section" id="comparison">
+    <div class="container">
+      <p class="eyebrow">Comparison basis</p>
+      <h2 class="section-title">比较终身寿<br />不只比较保费</h2>
+      <p class="section-lead">
+        以市场同类固定保额终身寿为参照，重点比较保额是否增长、责任免除与长期金额。这里仅作责任结构的客观比较，不构成对任一产品的优劣判定。
+      </p>
+      <CompareTable
+        rows={compareRows}
+        productLabel="友邦 传世经典乐享2026"
+        marketLabel="市场同类固定保额终身寿"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="scenarios">
+    <div class="container">
+      <p class="eyebrow">Scenario analysis</p>
+      <h2 class="section-title">把责任放回真实场景</h2>
+      <CaseStudy items={cases} />
+      <p class="legal-note">
+        以上均为责任理解示例，人物与金额不对应特定客户，红利为非保证利益，实际以保险合同与公司披露为准。
+      </p>
+    </div>
+  </section>
+
+  <section class="section knowledge-section" id="knowledge">
+    <div class="container">
+      <KnowledgeBlock
+        title="增额终身寿怎么看"
+        intro="增额终身寿把「确定的保障」和「非保证的增额红利」放在一起，理解分红口径、责任免除与现金价值，才能判断它适不适合你的传承安排。"
+        items={knowledgeItems}
+        note="产品责任、红利演示、给付比例与服务内容存在版本及地区差异，请以正式保险合同和最新产品资料为准。"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container narrow">
+      <p class="eyebrow">Questions & answers</p>
+      <h2 class="section-title">常见问题</h2>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+
+  <section class="section meta-section">
+    <div class="container">
+      <ProductMeta
+        source="根据友邦传世经典乐享 2026 产品资料、利益演示与保险合同责任摘要整理。"
+        updatedAt="2026-09-23"
+        comparisonBasis="以市场同类固定保额终身寿（如新传世荣耀、诚托未来）作责任结构参考，仅作知识比较，不构成对任一产品的优劣判定。"
+        disclaimer="本页面仅用于保险知识普及，不构成销售承诺、保险合同、利益保证或个性化投保建议。产品名称、保险责任、责任免除、给付比例、红利演示、现金价值及服务内容均以正式保险合同、最新产品资料和保险公司审核为准；分红为非保证利益。"
+      />
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container">
+      <QRCodeBox
+        image="/assets/images/wechat-qr.png"
+        title="先把你家的传承安排想清楚"
+        text="扫码添加方仲达，结合家庭结构、已有保单与预算做一对一梳理。"
+      />
+      <p class="original-note">
+        <b>原创声明：</b>本文为未来可乐团队原创整理，仅用于保险知识科普与保障规划参考。未经许可，请勿复制、转载或用于商业展业。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
+  }
+  .narrow {
+    max-width: 1000px;
+  }
+  .chapter-nav {
+    position: sticky;
+    z-index: 30;
+    top: 74px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+  }
+  .chapter-nav .container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .chapter-nav a {
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .chapter-nav a:hover {
+    background: rgba(165, 145, 92, 0.13);
+    color: var(--color-ink);
+  }
+  .feature-section {
+    background: var(--color-olive);
+    color: white;
+  }
+  .feature-section .eyebrow {
+    color: white;
+  }
+  .feature-section .section-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .comparison-section,
+  .coverage-section {
+    background: white;
+  }
+  .knowledge-section {
+    background: rgba(211, 202, 195, 0.24);
+  }
+  .legal-note {
+    margin-top: 20px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .meta-section {
+    padding-top: 10px;
+  }
+  .contact-section {
+    padding-top: 20px;
+  }
+  .original-note {
+    margin: 22px 0 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--color-brand);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(211, 202, 195, 0.2);
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+  @media (max-width: 760px) {
+    .chapter-nav {
+      top: 64px;
+    }
+    .chapter-nav .container {
+      padding-right: 18px;
+      padding-left: 18px;
+    }
+    .section {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+  }
+</style>

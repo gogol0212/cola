@@ -1,0 +1,61 @@
+---
+// 双模式切换 · 客户阅读版 / 顾问查询工具
+// 纯展示层，交互由 v2 页面内联脚本控制（默认「看懂保障」）。
+type Props = {
+  customerLabel?: string;
+  advisorLabel?: string;
+};
+const { customerLabel = "📖 看懂保障", advisorLabel = "🔍 展业查询" } = Astro.props as Props;
+---
+<nav class="mode-switch" aria-label="查看模式切换">
+  <div class="container mode-switch__inner">
+    <button type="button" class="mode-btn active" data-mode="customer" aria-pressed="true">{customerLabel}</button>
+    <button type="button" class="mode-btn" data-mode="advisor" aria-pressed="false">{advisorLabel}</button>
+  </div>
+</nav>
+
+<style>
+  .mode-switch {
+    position: sticky;
+    z-index: 40;
+    top: 74px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+  }
+  .mode-switch__inner {
+    display: flex;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .mode-btn {
+    flex: 1 1 auto;
+    max-width: 260px;
+    min-height: 46px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.94rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .mode-btn.active {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(211, 17, 69, 0.22);
+  }
+  @media (max-width: 760px) {
+    .mode-switch {
+      top: 64px;
+    }
+    .mode-btn {
+      max-width: none;
+    }
+  }
+</style>

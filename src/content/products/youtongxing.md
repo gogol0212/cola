@@ -12,7 +12,9 @@ productLines:
 audiences:
   - child
 featured: true
-heroImage: /assets/images/products/youtongxing/hero-youtongxing.webp
+image: /assets/images/products/youtongxing/hero-youtongxing.webp
+imagePosition: center
+mobileImagePosition: top center
 status: reviewed
 sortOrder: 10
 updatedAt: 2026-08-02

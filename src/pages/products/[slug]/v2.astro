@@ -1,0 +1,449 @@
+---
+// 产品详情页 v2 · 双模式产品详情系统
+// 路由：/products/[slug]/v2/
+// 客户阅读模式（默认）+ 顾问查询模式。数据全部来自 src/data/product-duty.ts。
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProductHero from "../../../components/products/ProductHero.astro";
+import ProductImage from "../../../components/products/ProductImage.astro";
+import ModeSwitch from "../../../components/products/ModeSwitch.astro";
+import GuardMap from "../../../components/products/GuardMap.astro";
+import AdvisorTool from "../../../components/products/AdvisorTool.astro";
+import FullDutyTables from "../../../components/products/FullDutyTables.astro";
+import CaseStudy from "../../../components/products/CaseStudy.astro";
+import QRCodeBox from "../../../components/products/QRCodeBox.astro";
+import RateTable from "../../../components/products/RateTable.astro";
+import PremiumCalculator from "../../../components/products/PremiumCalculator.astro";
+import AgePremiumCards from "../../../components/products/AgePremiumCards.astro";
+import { getCollection } from "astro:content";
+import { getProductDuty } from "../../../data/product-duty";
+
+export async function getStaticPaths() {
+  const products = await getCollection("products", ({ data }) => data.status !== "draft");
+  return products.map((p) => ({ params: { slug: p.data.slug }, props: { entry: p } }));
+}
+
+const { entry } = Astro.props;
+const slug = entry.data.slug;
+const duty = getProductDuty(slug);
+const productImage = entry.data.image || "/assets/images/hero-bg.jpg";
+const audience = entry.data.audience;
+
+// —— 官方清单入口（顾问模式），仅智选逸生有披露清单 ——
+const officialLinks =
+  slug === "zhixuan-yisheng"
+    ? [
+        { label: "恶性肿瘤特定药品（256种）", href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao#tabfilter-286ad5bcb5-item-6e96bec15a-tab" },
+        { label: "CAR-T 药品及认可医院（221家）", href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhidinglieibao" },
+        { label: "质子重离子医院（9家）", href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengyiliaojigou" },
+        { label: "直付住院优选医院 计划A/B/C/D（39家）", href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhifuzhuyuan#tabfilter-944b7720b6-item-46d1f9d3d5-tab" },
+        { label: "直付住院优选医院 计划E（25家）", href: "https://www.aia.com.cn/zh-cn/fuwu/yiyaopilu/zhixuanyishengzhifuzhuyuan#tabfilter-944b7720b6-item-98d1723613-tab" },
+      ]
+    : [];
+
+// —— 友童行费率演示数据 ——
+const youtongxingPremiumGroups = [
+  { ageRange: "3–5岁", tone: "blue", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "57元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "273元" }, total: "330元" },
+  { ageRange: "6–10岁", tone: "salmon", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "55元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "95元" }, total: "150元" },
+  { ageRange: "11–15岁", tone: "salmon", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "62元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "88元" }, total: "150元" },
+  { ageRange: "16–20岁", tone: "salmon", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "70元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "80元" }, total: "150元" },
+  { ageRange: "21–25岁", tone: "blue", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "74元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "56元" }, total: "130元" },
+  { ageRange: "26–30岁", tone: "blue", primary: { tag: "保意外门诊和住院", name: "友邦友童行意外伤害保险", price: "76元" }, rider: { tag: "保意外和疾病住院", name: "友邦附加友童行住院费用补偿医疗保险", price: "54元" }, total: "130元" },
+];
+
+const drugClassNames = Object.fromEntries((duty?.drugClasses ?? []).map((c) => [c.id, c.name]));
+const hospitalClassNames = Object.fromEntries((duty?.hospitalClasses ?? []).map((c) => [c.id, c.name]));
+---
+<BaseLayout
+  title={`${duty?.name ?? entry.data.title}｜保障地图与展业查询`}
+  description={`${duty?.heroSummary ?? entry.data.summary}｜客户阅读版 + 顾问展业查询工具。`}
+  image={productImage}
+>
+  <ProductHero
+    title={duty?.name ?? entry.data.title}
+    summary={duty?.heroSummary ?? entry.data.summary}
+    audience={audience}
+    tags={[]}
+    outline={[]}
+    image={productImage}
+    imagePosition={entry.data.imagePosition}
+    mobileImagePosition={entry.data.mobileImagePosition}
+    displayMode={entry.data.displayMode}
+  />
+
+  <ModeSwitch />
+
+  {
+    duty ? (
+      <>
+        {/* ============ 客户阅读模式 ============ */}
+        <div id="mode-customer" data-mode-panel>
+          <section class="section customer-audience">
+            <div class="container">
+              <p class="eyebrow">Who it's for</p>
+              <h2 class="section-title">适合谁</h2>
+              <ul class="audience-grid">
+                {audience.map((a) => <li>{a}</li>)}
+              </ul>
+            </div>
+          </section>
+
+          <section class="section customer-benefits">
+            <div class="container">
+              <p class="eyebrow">Core strengths</p>
+              <h2 class="section-title">核心优势</h2>
+              <div class="benefit-grid">
+                {duty.benefits.map((b) => (
+                  <article class="benefit-card">
+                    <span class="benefit-card__eyebrow">{b.eyebrow}</span>
+                    <h3>{b.title}</h3>
+                    <p>{b.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section class="section customer-guard" id="guard">
+            <div class="container">
+              <p class="eyebrow">Protection map</p>
+              <h2 class="section-title">保障地图</h2>
+              <p class="section-lead">先用一句话看懂每项责任「解决什么问题、核心数字是多少」，需要时再展开合同细节。</p>
+              <GuardMap responsibilities={duty.responsibilities} drugClassNames={drugClassNames} hospitalClassNames={hospitalClassNames} />
+            </div>
+          </section>
+
+          <section class="section customer-cases">
+            <div class="container">
+              <p class="eyebrow">Scenario analysis</p>
+              <h2 class="section-title">把条款放回真实生活场景</h2>
+              <CaseStudy items={duty.cases} />
+              <p class="legal-note">以上均为责任理解示例，人物与费用不对应特定客户，实际赔付以真实材料、保险合同和理赔审核为准。</p>
+            </div>
+          </section>
+
+          <section class="section customer-premium" id="premium">
+            <div class="container">
+              <p class="eyebrow">Premium overview</p>
+              <h2 class="section-title">费用测算</h2>
+              {
+                slug === "zhixuan-yisheng"
+                  ? (
+                    <>
+                      <p class="section-lead">选择投保年龄、社保状态、主险责任与可选责任，实时查看首年、续保与累计保费示例。</p>
+                      <RateTable />
+                      <PremiumCalculator />
+                    </>
+                  )
+                  : (
+                    <>
+                      <p class="section-lead">按年龄段查看主险、附加险与产品组合示例。费用会因投保年龄、地区、组合及最新费率而变化。</p>
+                      <AgePremiumCards groups={youtongxingPremiumGroups} />
+                    </>
+                  )
+              }
+            </div>
+          </section>
+
+          <section class="section customer-cta" id="advisor-entry">
+            <div class="container narrow">
+              <div class="advisor-cta">
+                <div>
+                  <p class="eyebrow">For advisors</p>
+                  <h3 class="advisor-cta__title">给顾问 / 展业伙伴</h3>
+                  <p>客户可能问到：恶性肿瘤特定药品 256 种有哪些？CAR-T 包含哪些药？指定医院有哪些？每项责任限额和赔付比例是多少？</p>
+                </div>
+                <button type="button" class="button" data-mode-switch-to="advisor">🔍 进入展业查询工具</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="section customer-consult">
+            <div class="container">
+              <QRCodeBox image={duty.consult.image} title={duty.consult.title} text={duty.consult.text} />
+            </div>
+          </section>
+        </div>
+
+        {/* ============ 顾问查询模式 ============ */}
+        <div id="mode-advisor" data-mode-panel hidden>
+          <section class="section advisor-tool-section" id="advisor-tool-section">
+            <div class="container">
+              <p class="eyebrow">Field query</p>
+              <h2 class="section-title">展业查询工具</h2>
+              <p class="section-lead">快速搜索药品、医院与责任明细，按分类筛选。适合展业现场为客户核对具体条目。</p>
+              <AdvisorTool
+                drugs={duty.drugs}
+                drugClasses={duty.drugClasses}
+                hospitals={duty.hospitals}
+                hospitalClasses={duty.hospitalClasses}
+                responsibilities={duty.responsibilities}
+              />
+              {duty.advisorNote && <p class="advisor-note">{duty.advisorNote}</p>}
+            </div>
+          </section>
+
+          <section class="section advisor-full-section" id="advisor-full">
+            <div class="container">
+              <p class="eyebrow">Full responsibility database</p>
+              <h2 class="section-title">完整责任数据库</h2>
+              <p class="section-lead">专业模式完整责任表格，桌面端为表格视图，手机端自动切换为责任卡片。</p>
+              <FullDutyTables sections={duty.full} />
+            </div>
+          </section>
+
+          {
+            officialLinks.length > 0 && (
+              <section class="section advisor-links-section">
+                <div class="container">
+                  <p class="eyebrow">Official disclosure</p>
+                  <h2 class="section-title">官方清单入口</h2>
+                  <div class="official-links">
+                    {officialLinks.map((l) => <a href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true">↗</span></a>)}
+                  </div>
+                  <p class="legal-note">清单随产品与监管要求更新，以友邦官网最新公布为准。</p>
+                </div>
+              </section>
+            )
+          }
+
+          <section class="section advisor-consult">
+            <div class="container">
+              <QRCodeBox image={duty.consult.image} title={duty.consult.title} text={duty.consult.text} />
+            </div>
+          </section>
+        </div>
+
+        <section class="section legal-section">
+          <div class="container">
+            <p class="legal-note">{duty.disclaimer}</p>
+            <p class="original-note"><b>原创声明：</b>本文为未来可乐团队原创整理，仅用于保险知识科普与保障规划参考。未经许可，请勿复制、转载或用于商业展业。</p>
+          </div>
+        </section>
+      </>
+    ) : (
+      <section class="section">
+        <div class="container">
+          <h2 class="section-title">该产品暂无责任数据</h2>
+          <p class="section-lead">请在 <code>src/data/product-duty.ts</code> 中为该产品补充 <code>ProductDutyData</code> 数据。</p>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<script>
+  const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-mode-panel]"));
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-mode]"));
+
+  const setMode = (mode: "customer" | "advisor") => {
+    panels.forEach((p) => {
+      const isCustomer = p.id === "mode-customer";
+      p.hidden = mode === "customer" ? !isCustomer : isCustomer;
+    });
+    buttons.forEach((b) => {
+      const active = b.dataset.mode === mode;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", String(active));
+    });
+    history.replaceState(null, "", mode === "advisor" ? "#advisor" : "#customer");
+  };
+
+  const fromHash = location.hash === "#advisor" ? "advisor" : "customer";
+
+  buttons.forEach((b) => b.addEventListener("click", () => setMode((b.dataset.mode as "customer" | "advisor"))));
+
+  document.querySelectorAll<HTMLElement>("[data-mode-switch-to]").forEach((el) => {
+    el.addEventListener("click", () => {
+      setMode((el.dataset.modeSwitchTo as "advisor" | "customer") || "advisor");
+      document.getElementById("advisor-tool-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  setMode(fromHash);
+</script>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
+  }
+  .narrow {
+    max-width: 1000px;
+  }
+  .legal-note {
+    margin-top: 20px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .legal-section {
+    padding-top: 10px;
+  }
+  .original-note {
+    margin: 22px 0 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--color-brand);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(211, 202, 195, 0.2);
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  /* 客户模式 */
+  .customer-benefits {
+    background: var(--color-olive);
+    color: #fff;
+  }
+  .customer-benefits .eyebrow {
+    color: #fff;
+  }
+  .customer-benefits .section-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 36px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .audience-grid li {
+    padding: 20px;
+    border: 1px solid var(--color-line);
+    border-radius: 18px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-size: 0.96rem;
+    font-weight: 750;
+  }
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 44px;
+  }
+  .benefit-card {
+    padding: 26px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .benefit-card__eyebrow {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+  .benefit-card h3 {
+    margin: 14px 0 10px;
+    font-size: 1.3rem;
+  }
+  .benefit-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  .customer-guard {
+    background: white;
+  }
+  .customer-cases {
+    background: white;
+  }
+  .customer-premium {
+    background: rgba(211, 202, 195, 0.24);
+  }
+  .customer-premium .section-title {
+    margin-bottom: 8px;
+  }
+
+  .advisor-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 34px 38px;
+    border-radius: 26px;
+    background: linear-gradient(145deg, #fff 0%, rgba(165, 145, 92, 0.16) 100%);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+  }
+  .advisor-cta p {
+    max-width: 560px;
+    margin: 8px 0 0;
+    color: var(--color-muted);
+    font-size: 0.94rem;
+    line-height: 1.75;
+  }
+  .advisor-cta__title {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  /* 顾问模式 */
+  .advisor-tool-section {
+    background: white;
+  }
+  .advisor-note {
+    margin: 22px 0 0;
+    padding: 16px 20px;
+    border-left: 3px solid var(--color-olive);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(165, 145, 92, 0.08);
+    color: var(--color-muted);
+    font-size: 0.84rem;
+    line-height: 1.7;
+  }
+  .advisor-full-section {
+    background: rgba(211, 202, 195, 0.24);
+  }
+  .advisor-links-section {
+    background: white;
+  }
+  .official-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .official-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 13px 20px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-charcoal);
+    font-size: 0.9rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .official-links a:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+  .official-links a span {
+    color: var(--color-brand);
+  }
+
+  @media (max-width: 900px) {
+    .audience-grid,
+    .benefit-grid {
+      grid-template-columns: 1fr;
+    }
+    .advisor-cta {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 26px 24px;
+    }
+  }
+  @media (max-width: 760px) {
+    .section {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+  }
+</style>

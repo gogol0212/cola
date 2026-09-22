@@ -1,0 +1,469 @@
+---
+// 展业查询工具 · 顾问模式
+// 移动端优先的快速查询：搜索 + 分类筛选，按 药品 / 医院 / 责任 分页签。
+import type { Drug, DrugClass, Hospital, HospitalClass, Responsibility } from "../../data/product-duty";
+
+type Props = {
+  drugs?: Drug[];
+  drugClasses?: DrugClass[];
+  hospitals?: Hospital[];
+  hospitalClasses?: HospitalClass[];
+  responsibilities?: Responsibility[];
+};
+
+const { drugs = [], drugClasses = [], hospitals = [], hospitalClasses = [], responsibilities = [] } = Astro.props as Props;
+
+const tabs = [
+  { id: "drugs", label: "药品", count: drugs.length, available: drugs.length > 0 },
+  { id: "hospitals", label: "医院", count: hospitals.length, available: hospitals.length > 0 },
+  { id: "duties", label: "责任", count: responsibilities.length, available: responsibilities.length > 0 },
+].filter((t) => t.available);
+
+const drugClassNames = Object.fromEntries(drugClasses.map((c) => [c.id, c.name]));
+const hospitalClassNames = Object.fromEntries(hospitalClasses.map((c) => [c.id, c.name]));
+
+// 用于搜索的可搜索字符串（小写）
+const drugSearch = (d: Drug) => `${d.name} ${d.brand ?? ""} ${d.purpose ?? ""} ${drugClassNames[d.category] ?? ""}`.toLowerCase();
+const hospitalSearch = (h: Hospital) => `${h.name} ${hospitalClassNames[h.category] ?? ""} ${h.city ?? ""}`.toLowerCase();
+const dutySearch = (r: Responsibility) => `${r.title} ${r.contract} ${r.problem} ${r.details.join(" ")}`.toLowerCase();
+---
+<div class="advisor-tool" id="advisor-tool" data-first-tab={tabs[0]?.id ?? "duties"}>
+  <div class="advisor-tool__tabs" role="tablist">
+    {
+      tabs.map((t, i) => (
+        <button type="button" class:list={["at-tab", i === 0 && "active"]} data-at-tab={t.id} role="tab" aria-selected={i === 0 ? "true" : "false"}>
+          {t.label}<span class="at-tab__count">{t.count}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="advisor-tool__search">
+    <span class="at-search-icon" aria-hidden="true">⌕</span>
+    <input type="search" class="at-input" id="at-search" placeholder="搜索：药品名称 / 肺癌 / CAR-T / 医院 / 责任关键词" autocomplete="off" />
+    {tabs.length > 1 && <span class="at-hint">按 Tab 切换</span>}
+  </div>
+
+  <div class="advisor-tool__filters" id="at-filters">
+    {
+      tabs.map((t) => {
+        const cats = t.id === "drugs" ? drugClasses : t.id === "hospitals" ? hospitalClasses : [];
+        return (
+          <div class="at-filter-panel" data-at-panel={t.id} hidden={t.id !== tabs[0]?.id}>
+            <div class="at-filter-chips">
+              <button type="button" class:list={["at-filter-chip", "active"]} data-at-filter="all" data-at-tab-owner={t.id}>全部</button>
+              {cats.map((c) => (
+                <button type="button" class="at-filter-chip" data-at-filter={c.id} data-at-tab-owner={t.id}>
+                  {c.name}<span class="at-chip-count">{c.count}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div class="advisor-tool__result-head" aria-live="polite">
+    <span class="at-result-count" id="at-result-count">0</span>
+    <span class="at-result-label">条结果</span>
+  </div>
+
+  <div class="advisor-tool__lists">
+    <ul class="at-list" data-at-list="drugs" hidden>
+      {drugs.map((d) => (
+        <li class="at-item" data-at-item data-search={drugSearch(d)} data-cat={d.category} data-tab="drugs">
+          <div class="at-item__main">
+            <strong>{d.name}</strong>
+            {d.brand && <em>{d.brand}</em>}
+          </div>
+          <div class="at-item__meta">
+            <span class="at-item__tag">{drugClassNames[d.category] ?? d.category}</span>
+            {d.purpose && <small>{d.purpose}</small>}
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <ul class="at-list" data-at-list="hospitals" hidden>
+      {hospitals.map((h) => (
+        <li class="at-item" data-at-item data-search={hospitalSearch(h)} data-cat={h.category} data-tab="hospitals">
+          <div class="at-item__main"><strong>{h.name}</strong>{h.city && <em>{h.city}</em>}</div>
+          <div class="at-item__meta"><span class="at-item__tag">{hospitalClassNames[h.category] ?? h.category}</span></div>
+        </li>
+      ))}
+    </ul>
+
+    <ul class="at-list" data-at-list="duties" hidden>
+      {responsibilities.map((r) => (
+        <li class="at-item at-item--duty" data-at-item data-search={dutySearch(r)} data-cat="all" data-tab="duties">
+          <details class="at-duty">
+            <summary>
+              <div class="at-item__main">
+                <strong>{r.title}</strong>
+                <em>{r.contract}</em>
+              </div>
+              <span class="at-duty__chev" aria-hidden="true" />
+            </summary>
+            <div class="at-duty__body">
+              <p class="at-duty__problem"><b>解决：</b>{r.problem}</p>
+              <div class="at-duty__chips">
+                {r.chips.map((c) => <span class:list={["at-duty-chip", c.tone === "brand" && "is-brand"]}>{c.label} <b>{c.value}</b></span>)}
+              </div>
+              <ul class="at-duty__list">{r.details.map((d) => <li>✓ {d}</li>)}</ul>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <p class="advisor-tool__empty" id="at-empty" hidden>没有匹配结果，换个关键词试试，例如「肺癌」「CAR-T」「武汉」。</p>
+</div>
+
+<script>
+  const root = document.getElementById("advisor-tool") as HTMLElement | null;
+  if (!root) throw new Error("advisor-tool not found");
+  const firstTab = root.dataset.firstTab ?? "duties";
+
+  const tabButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-at-tab]"));
+  const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-at-panel]"));
+  const lists = Array.from(root.querySelectorAll<HTMLElement>("[data-at-list]"));
+  const items = Array.from(root.querySelectorAll<HTMLElement>("[data-at-item]"));
+  const searchInput = root.querySelector<HTMLInputElement>("#at-search");
+  const resultCount = root.querySelector<HTMLElement>("#at-result-count");
+  const empty = root.querySelector<HTMLElement>("#at-empty");
+
+  const state = { tab: firstTab, query: "", filters: new Map<string, string>() };
+
+  const visibleCount = () =>
+    items.filter((it) => {
+      const hit = it.closest<HTMLElement>("[data-at-list]")?.hidden === false;
+      return hit && it.hidden === false;
+    }).length;
+
+  const apply = () => {
+    const q = state.query.trim().toLowerCase();
+    items.forEach((it) => {
+      const itemTab = it.dataset.tab ?? "";
+      const inTab = itemTab === state.tab;
+      const searchable = it.dataset.search ?? "";
+      const matchQ = !q || searchable.includes(q);
+      const activeFilter = state.filters.get(state.tab) ?? "all";
+      const matchF = activeFilter === "all" || it.dataset.cat === activeFilter;
+      it.hidden = !(inTab && matchQ && matchF);
+    });
+    if (resultCount) resultCount.textContent = String(visibleCount());
+    if (empty) empty.hidden = visibleCount() !== 0;
+  };
+
+  const switchTab = (tab: string) => {
+    state.tab = tab;
+    tabButtons.forEach((b) => {
+      const active = b.dataset.atTab === tab;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-selected", String(active));
+    });
+    panels.forEach((p) => (p.hidden = p.dataset.atPanel !== tab));
+    lists.forEach((l) => (l.hidden = l.dataset.atList !== tab));
+    // 切 Tab 重置该 Tab 的筛选
+    state.filters.set(tab, "all");
+    document.querySelectorAll<HTMLButtonElement>(`[data-at-filter][data-at-tab-owner="${tab}"]`).forEach((f) => {
+      const active = f.dataset.atFilter === "all";
+      f.classList.toggle("active", active);
+    });
+    if (searchInput) searchInput.value = state.query;
+    apply();
+  };
+
+  tabButtons.forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.atTab ?? "")));
+
+  document.querySelectorAll<HTMLButtonElement>("[data-at-filter]").forEach((f) => {
+    f.addEventListener("click", () => {
+      const owner = f.dataset.atTabOwner ?? state.tab;
+      state.filters.set(owner, f.dataset.atFilter ?? "all");
+      document.querySelectorAll<HTMLButtonElement>(`[data-at-filter][data-at-tab-owner="${owner}"]`).forEach((x) => {
+        x.classList.toggle("active", x === f);
+      });
+      apply();
+    });
+  });
+
+  searchInput?.addEventListener("input", () => {
+    state.query = searchInput.value;
+    apply();
+  });
+
+  switchTab(firstTab);
+</script>
+
+<style>
+  .advisor-tool {
+    margin-top: 8px;
+  }
+  .advisor-tool__tabs {
+    display: flex;
+    gap: 10px;
+  }
+  .at-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.94rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .at-tab.active {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #fff;
+  }
+  .at-tab__count {
+    display: inline-grid;
+    min-width: 22px;
+    height: 22px;
+    place-items: center;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(211, 17, 69, 0.1);
+    color: var(--color-brand);
+    font-size: 0.74rem;
+    font-weight: 850;
+  }
+  .at-tab.active .at-tab__count {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+  }
+
+  .advisor-tool__search {
+    position: relative;
+    margin-top: 18px;
+  }
+  .at-search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-muted);
+    font-size: 1.3rem;
+  }
+  .at-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 52px 0 46px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font: inherit;
+    font-size: 0.96rem;
+    color: var(--color-ink);
+  }
+  .at-input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgba(211, 17, 69, 0.12);
+  }
+  .at-hint {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-muted);
+    font-size: 0.74rem;
+    pointer-events: none;
+  }
+
+  .advisor-tool__filters {
+    margin-top: 16px;
+  }
+  .at-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .at-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+  .at-filter-chip.active {
+    border-color: var(--color-olive);
+    background: rgba(165, 145, 92, 0.14);
+    color: var(--color-dark-green);
+  }
+  .at-chip-count {
+    color: var(--color-olive);
+    font-weight: 850;
+  }
+
+  .advisor-tool__result-head {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 22px 0 10px;
+  }
+  .at-result-count {
+    color: var(--color-brand);
+    font-size: 1.5rem;
+    font-weight: 850;
+  }
+  .at-result-label {
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
+
+  .at-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .at-item {
+    padding: 15px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 16px;
+    background: var(--color-surface);
+  }
+  .at-item__main {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .at-item__main strong {
+    font-size: 0.98rem;
+    font-weight: 800;
+  }
+  .at-item__main em {
+    color: var(--color-muted);
+    font-style: normal;
+    font-size: 0.8rem;
+  }
+  .at-item__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 7px;
+  }
+  .at-item__tag {
+    flex: 0 0 auto;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(165, 145, 92, 0.14);
+    color: var(--color-dark-green);
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+  .at-item__meta small {
+    color: var(--color-muted);
+    font-size: 0.78rem;
+  }
+
+  .at-item--duty {
+    padding: 0;
+    overflow: hidden;
+  }
+  .at-duty summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .at-duty summary::-webkit-details-marker {
+    display: none;
+  }
+  .at-duty__chev {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--color-brand);
+    border-bottom: 2px solid var(--color-brand);
+    transform: rotate(45deg);
+    transition: transform 0.18s;
+  }
+  .at-duty[open] .at-duty__chev {
+    transform: rotate(-135deg);
+  }
+  .at-duty__body {
+    padding: 4px 18px 18px;
+    border-top: 1px dashed var(--color-line);
+  }
+  .at-duty__problem {
+    margin: 12px 0 0;
+    color: var(--color-ink);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .at-duty__problem b {
+    color: var(--color-olive);
+  }
+  .at-duty__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .at-duty-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(211, 202, 195, 0.3);
+    color: var(--color-muted);
+    font-size: 0.78rem;
+  }
+  .at-duty-chip b {
+    color: var(--color-ink);
+    font-weight: 850;
+  }
+  .at-duty-chip.is-brand b {
+    color: var(--color-brand);
+  }
+  .at-duty__list {
+    display: grid;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .at-duty__list li {
+    padding-left: 22px;
+    color: var(--color-ink);
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+  .at-duty__list li::before {
+    content: "✓";
+    position: absolute;
+    margin-left: -22px;
+    color: var(--color-olive);
+    font-weight: 850;
+  }
+
+  .advisor-tool__empty {
+    margin: 18px 0 0;
+    padding: 22px;
+    border: 1px dashed var(--color-line);
+    border-radius: 16px;
+    color: var(--color-muted);
+    text-align: center;
+    font-size: 0.88rem;
+  }
+</style>

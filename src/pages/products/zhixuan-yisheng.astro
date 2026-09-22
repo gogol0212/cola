@@ -19,8 +19,10 @@ const [productEntry] = await getCollection(
   "products",
   ({ data }) => data.slug === "zhixuan-yisheng",
 );
-const heroImage = productEntry?.data.heroImage || "/assets/images/hero-bg.jpg";
-const heroImagePosition = productEntry?.data.heroImagePosition || "center";
+const productImage = productEntry?.data.image || "/assets/images/hero-bg.jpg";
+const productImagePosition = productEntry?.data.imagePosition || "center";
+const productMobileImagePosition = productEntry?.data.mobileImagePosition;
+const productDisplayMode = productEntry?.data.displayMode;
 const heroTitle = productEntry?.data.title || "友邦智选逸生医疗保险";
 const heroSummary = productEntry?.data.summary || "五大保障覆盖一般/重疾医疗与高端治疗，四项可选责任按需组合，用清晰的方式梳理医保、免赔额、赔付比例与累计限额如何组成一份医疗保障。";
 const pageTitle = productEntry?.data.seoTitle || "友邦智选逸生医疗保险保障说明｜方仲达";
@@ -668,7 +670,7 @@ const faqs = [
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  image={heroImage}
+  image={productImage}
 >
   <ProductHero
     title={heroTitle}
@@ -676,8 +678,10 @@ const faqs = [
     audience={audience}
     tags={["医疗保障", "重大疾病", "成人"]}
     outline={outline}
-    image={heroImage}
-    imagePosition={heroImagePosition}
+    image={productImage}
+    imagePosition={productImagePosition}
+    mobileImagePosition={productMobileImagePosition}
+    displayMode={productDisplayMode}
   />
 
   <nav class="chapter-nav" aria-label="页面章节">

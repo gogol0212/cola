@@ -1,0 +1,75 @@
+---
+/** 统一产品图片组件
+ * 图片的 object-fit / object-position 完全由「产品配置 + 使用场景」驱动，不处理图例，不写图例 CSS。
+ * - variant="card"：列表卡片，填满容器，object-fit 依配置（默认 cover）。
+ * - variant="hero"：详情页主视觉，沿用自然高度（等价于 contain），不裁切。
+ * 任何产品新增只需提供：图片、焦点位置（桌面/移动端）+ 可选显示模式。
+ */
+type Props = {
+  image: string;
+  alt: string;
+  variant?: "card" | "hero";
+  /** 桌面端 object-fit；缺省时 card=cover，hero=contain */
+  fit?: "cover" | "contain";
+  /** 桌面端 object-position（焦点位置） */
+  position?: string;
+  /** 移动端 object-fit；缺省继承 fit */
+  mobileFit?: "cover" | "contain";
+  /** 移动端 object-position；缺省继承 position */
+  mobilePosition?: string;
+  loading?: "lazy" | "eager";
+};
+
+const {
+  image,
+  alt,
+  variant = "card",
+  fit = variant === "hero" ? "contain" : "cover",
+  position = "center",
+  mobileFit,
+  mobilePosition,
+  loading = "lazy",
+} = Astro.props;
+
+const mFit = mobileFit ?? fit;
+const mPos = mobilePosition ?? position;
+---
+
+<img
+  src={image}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+  draggable="false"
+  class:list={["product-image", variant === "card" ? "is-card" : "is-hero"]}
+  style={
+    {
+      "--pif": fit,
+      "--pip": position,
+      "--pif-m": mFit,
+      "--pip-m": mPos,
+    } as Record<string, string>
+  }
+/>
+
+<style>
+  .product-image {
+    display: block;
+    object-fit: var(--pif, cover);
+    object-position: var(--pip, center);
+  }
+  .is-card {
+    width: 100%;
+    height: 100%;
+  }
+  .is-hero {
+    width: 100%;
+    height: 100%;
+  }
+  @media (max-width: 800px) {
+    .product-image {
+      object-fit: var(--pif-m, var(--pif, cover));
+      object-position: var(--pip-m, var(--pip, center));
+    }
+  }
+</style>

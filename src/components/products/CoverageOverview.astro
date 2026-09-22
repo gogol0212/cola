@@ -39,102 +39,228 @@ const { meta = [], tabs = [] } = Astro.props as Props;
   }
 
   <div class="tab-bar" role="tablist" aria-label="责任分类">
+    <button
+      type="button"
+      role="tab"
+      class="tab-btn is-active"
+      data-tab-btn={tabs[0].id}
+      aria-selected="true"
+    >
+      {tabs[0].tab}
+    </button>
     {
-      tabs.map((t, i) => (
+      tabs.length > 1 && (
         <button
           type="button"
           role="tab"
-          class:list={["tab-btn", i === 0 && "is-active"]}
-          data-tab-btn={t.id}
-          aria-selected={i === 0}
+          class="tab-btn"
+          data-tab-btn="optional-all"
+          aria-selected="false"
         >
-          {t.tab}
+          {tabs.length - 1} 项可选责任
         </button>
-      ))
+      )
     }
   </div>
 
+  <section
+    class="tab-panel is-active"
+    data-tab-panel={tabs[0].id}
+    role="tabpanel"
+    aria-hidden="false"
+  >
+    <header class="panel-head">
+      <h3>{tabs[0].heading}</h3>
+      {tabs[0].intro && <p>{tabs[0].intro}</p>}
+    </header>
+
+    <div class="group-list">
+      {tabs[0].groups.map((g) => (
+        <article class="group-card">
+          <div class="group-head">
+            <h4>{g.title}</h4>
+            <div class="chip-row">
+              {g.chips.map((c) => (
+                <span
+                  class:list={[
+                    "chip",
+                    c.tone === "brand" && "is-brand",
+                    c.tone === "olive" && "is-olive",
+                  ]}
+                >
+                  <b>{c.label}</b>
+                  <strong>{c.value}</strong>
+                </span>
+              ))}
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  {g.headers.map((h) => (
+                    <th>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {g.rows.map((row) => (
+                  <tr>
+                    {row.map((cell) => (
+                      <td
+                        class:list={[
+                          typeof cell === "object" &&
+                            cell.tone === "brand" &&
+                            "is-brand",
+                          typeof cell === "object" &&
+                            cell.tone === "olive" &&
+                            "is-olive",
+                          typeof cell === "object" &&
+                            cell.muted &&
+                            "is-muted",
+                        ]}
+                      >
+                        {typeof cell === "object" ? cell.text : cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {g.note && <p class="group-note">{g.note}</p>}
+        </article>
+      ))}
+    </div>
+
+    {tabs[0].footnotes && (
+      <ol class="footnotes">
+        {tabs[0].footnotes.map((f) => (
+          <li>{f}</li>
+        ))}
+      </ol>
+    )}
+  </section>
+
   {
-    tabs.map((t, i) => (
+    tabs.length > 1 && (
       <section
-        class:list={["tab-panel", i === 0 && "is-active"]}
-        data-tab-panel={t.id}
+        class="tab-panel"
+        data-tab-panel="optional-all"
         role="tabpanel"
-        aria-hidden={i !== 0}
+        aria-hidden="true"
       >
         <header class="panel-head">
-          <h3>{t.heading}</h3>
-          {t.intro && <p>{t.intro}</p>}
+          <h3>{tabs.length - 1} 项可选责任 · 点击展开明细</h3>
+          <p>
+            折叠状态即可一览每项责任的名称与免赔额、赔付比例、累计给付限额；
+            点击任一项展开保障明细。可选责任按需组合，与基本责任A叠加生效。
+          </p>
         </header>
 
-        <div class="group-list">
-          {t.groups.map((g) => (
-            <article class="group-card">
-              <div class="group-head">
-                <h4>{g.title}</h4>
-                <div class="chip-row">
-                  {g.chips.map((c) => (
-                    <span
-                      class:list={[
-                        "chip",
-                        c.tone === "brand" && "is-brand",
-                        c.tone === "olive" && "is-olive",
-                      ]}
-                    >
-                      <b>{c.label}</b>
-                      <strong>{c.value}</strong>
-                    </span>
+        <div class="acc-list">
+          {tabs.slice(1).map((t) => (
+            <details class="acc-item">
+              <summary class="acc-head">
+                <div class="acc-sum">
+                  <h4 class="acc-title">{t.heading}</h4>
+                  <div class="chip-row">
+                    {t.groups
+                      .flatMap((g) => g.chips)
+                      .map((c) => (
+                        <span
+                          class:list={[
+                            "chip",
+                            c.tone === "brand" && "is-brand",
+                            c.tone === "olive" && "is-olive",
+                          ]}
+                        >
+                          <b>{c.label}</b>
+                          <strong>{c.value}</strong>
+                        </span>
+                      ))}
+                  </div>
+                  {t.intro && <p class="acc-intro">{t.intro}</p>}
+                </div>
+                <span class="acc-marker" aria-hidden="true">+</span>
+              </summary>
+              <div class="acc-body">
+                <div class="group-list">
+                  {t.groups.map((g) => (
+                    <article class="group-card">
+                      <div class="group-head">
+                        <h4>{g.title}</h4>
+                      </div>
+                      <ul class="row-list">
+                        {g.rows.map((row) => (
+                          <li class="rl-item">
+                            <strong class="rl-name">
+                              {typeof row[0] === "object" ? row[0].text : row[0]}
+                            </strong>
+                            {row[0] === "赔付比例" ? (
+                              <div class="rl-ratio">
+                                {row.slice(1).map((cell) => (
+                                  <p
+                                    class:list={[
+                                      "rl-ratio-note",
+                                      typeof cell === "object" &&
+                                        cell.tone === "olive" &&
+                                        "is-olive",
+                                    ]}
+                                  >
+                                    {typeof cell === "object"
+                                      ? cell.text
+                                      : cell}
+                                  </p>
+                                ))}
+                              </div>
+                            ) : (
+                              <dl class="rl-grid">
+                                {row.slice(1).map((cell, ci) => (
+                                  <div
+                                    class:list={[
+                                      "rl-cell",
+                                      typeof cell === "object" &&
+                                        cell.tone === "brand" &&
+                                        "is-brand",
+                                      typeof cell === "object" &&
+                                        cell.tone === "olive" &&
+                                        "is-olive",
+                                      typeof cell === "object" &&
+                                        cell.muted &&
+                                        "is-muted",
+                                    ]}
+                                  >
+                                    <dt>{g.headers[ci + 1]}</dt>
+                                    <dd>
+                                      {typeof cell === "object"
+                                        ? cell.text
+                                        : cell}
+                                    </dd>
+                                  </div>
+                                ))}
+                              </dl>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                      {g.note && <p class="group-note">{g.note}</p>}
+                    </article>
                   ))}
                 </div>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      {g.headers.map((h) => (
-                        <th>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {g.rows.map((row) => (
-                      <tr>
-                        {row.map((cell) => (
-                          <td
-                            class:list={[
-                              typeof cell === "object" &&
-                                cell.tone === "brand" &&
-                                "is-brand",
-                              typeof cell === "object" &&
-                                cell.tone === "olive" &&
-                                "is-olive",
-                              typeof cell === "object" &&
-                                cell.muted &&
-                                "is-muted",
-                            ]}
-                          >
-                            {typeof cell === "object" ? cell.text : cell}
-                          </td>
-                        ))}
-                      </tr>
+                {t.footnotes && (
+                  <ol class="footnotes">
+                    {t.footnotes.map((f) => (
+                      <li>{f}</li>
                     ))}
-                  </tbody>
-                </table>
+                  </ol>
+                )}
               </div>
-              {g.note && <p class="group-note">{g.note}</p>}
-            </article>
+            </details>
           ))}
         </div>
-
-        {t.footnotes && (
-          <ol class="footnotes">
-            {t.footnotes.map((f) => (
-              <li>{f}</li>
-            ))}
-          </ol>
-        )}
       </section>
-    ))
+    )
   }
 </div>
 
@@ -361,6 +487,137 @@ const { meta = [], tabs = [] } = Astro.props as Props;
     line-height: 1.7;
   }
 
+  /* 可选责任手风琴 */
+  .acc-list {
+    display: grid;
+    gap: 14px;
+  }
+  .acc-item {
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .acc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    list-style: none;
+    cursor: pointer;
+  }
+  .acc-head::-webkit-details-marker {
+    display: none;
+  }
+  .acc-title {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  .acc-intro {
+    max-width: 720px;
+    margin: 6px 0 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .acc-marker {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+  .acc-item[open] .acc-marker {
+    transform: rotate(45deg);
+  }
+  .acc-body {
+    padding: 4px 22px 20px;
+    border-top: 1px solid var(--color-line);
+  }
+  .acc-body .group-list {
+    padding-top: 16px;
+  }
+  .acc-body .footnotes {
+    margin-top: 14px;
+  }
+
+  /* 键值明细列表（替代可选责任宽表） */
+  .row-list {
+    margin: 0;
+    padding: 6px 22px 18px;
+    list-style: none;
+  }
+  .rl-item {
+    padding: 14px 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .rl-item:first-child {
+    border-top: 0;
+  }
+  .rl-name {
+    display: block;
+    color: var(--color-ink);
+    font-size: 0.95rem;
+  }
+  .rl-grid {
+    display: grid;
+    gap: 8px;
+    margin: 8px 0 0;
+  }
+  .rl-cell {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .rl-cell dt {
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+  .rl-cell dd {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .rl-cell.is-brand dd {
+    color: var(--color-brand);
+    font-weight: 800;
+  }
+  .rl-cell.is-olive dd {
+    color: var(--color-dark-green);
+    font-weight: 750;
+  }
+  .rl-cell.is-muted dd {
+    color: var(--color-muted);
+  }
+  .rl-ratio {
+    display: grid;
+    gap: 6px;
+    margin: 8px 0 0;
+  }
+  .rl-ratio-note {
+    margin: 0;
+    padding: 10px 14px;
+    border: 1px solid rgba(165, 145, 92, 0.3);
+    border-radius: 12px;
+    background: rgba(165, 145, 92, 0.1);
+    color: var(--color-dark-green);
+    font-size: 0.85rem;
+    font-weight: 650;
+    line-height: 1.6;
+  }
+
   .footnotes {
     margin: 18px 0 0;
     padding-left: 20px;
@@ -391,6 +648,22 @@ const { meta = [], tabs = [] } = Astro.props as Props;
     th,
     td {
       padding: 11px 14px;
+    }
+    .acc-head {
+      padding: 16px;
+    }
+    .acc-body {
+      padding: 4px 14px 16px;
+    }
+    .row-list {
+      padding: 4px 16px 14px;
+    }
+    .rl-cell {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .rl-cell dt {
+      margin-bottom: 1px;
     }
   }
 </style>

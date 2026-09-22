@@ -159,15 +159,23 @@ collections:
           hint: "如引用友邦官网资料，请填写对应公开页面。",
         }
       - {
-          label: 封面图片,
-          name: heroImage,
+          label: 产品主视觉（一张即可）,
+          name: image,
           widget: image,
           required: false,
-          hint: "最佳尺寸：桌面版 4:5 竖版（如 1000×1250px），移动版 16:11（如 1600×1100px）。建议按 4:5 竖版为主、图片四周留白。",
+          hint: "只需上传一张主视觉。列表卡片自动按 16:9（移动端 4:3）裁剪，详情页按 contain 完整显示，不裁切名称、卖点、人物与图标。",
         }
       - {
-          label: 封面图片显示区域,
-          name: heroImagePosition,
+          label: 详情页显示模式,
+          name: displayMode,
+          widget: select,
+          required: false,
+          options: [[cover, 填满裁剪], [contain, 完整显示（默认）]],
+          hint: "详情页主视觉默认 contain 完整显示；如需强调某一区域可改 cover。列表卡片固定 cover。",
+        }
+      - {
+          label: 图片焦点位置,
+          name: imagePosition,
           widget: select,
           required: false,
           default: center,
@@ -175,13 +183,28 @@ collections:
             [
               { label: 居中（默认）, value: center },
               { label: 顶部居中, value: "top center" },
+              { label: "顶部左侧", value: "top left" },
+              { label: "顶部右侧", value: "top right" },
               { label: 底部居中, value: "bottom center" },
-              { label: 左上, value: "left top" },
-              { label: 左中, value: "left center" },
-              { label: 左下, value: "left bottom" },
-              { label: 右上, value: "right top" },
-              { label: 右中, value: "right center" },
-              { label: 右下, value: "right bottom" },
+              { label: 中间偏左, value: "left center" },
+              { label: 中间偏右, value: "right center" },
+            ],
+        }
+      - {
+          label: 移动端图片焦点位置,
+          name: mobileImagePosition,
+          widget: select,
+          required: false,
+          default: center,
+          options:
+            [
+              { label: 居中（默认）, value: center },
+              { label: 顶部居中, value: "top center" },
+              { label: 顶部左侧, value: "top left" },
+              { label: 顶部右侧, value: "top right" },
+              { label: 底部居中, value: "bottom center" },
+              { label: 中间偏左, value: "left center" },
+              { label: 中间偏右, value: "right center" },
             ],
         }
       - { label: 是否精选, name: featured, widget: boolean, required: false, default: false }
